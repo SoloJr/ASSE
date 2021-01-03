@@ -9,5 +9,11 @@ namespace LibraryAdministration.Interfaces.Business
 {
     interface IDomainService : IService<Domain>
     {
+        /// <summary>
+        /// Gets all domains (including parents) of book.
+        /// </summary>
+        /// <param name="bookId">The book identifier.</param>
+        /// <returns></returns>
+        IEnumerable<Domain> GetAllDomainsOfBook(int bookId);
     }
 }

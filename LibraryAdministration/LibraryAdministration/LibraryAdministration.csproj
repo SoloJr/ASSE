@@ -134,6 +134,14 @@
     <Compile Include="Migrations\202101031753270_AddedFurtherTables.designer.cs">
       <DependentUpon>202101031753270_AddedFurtherTables.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\202101031901053_ChangedTypeOfFlag.cs" />
+    <Compile Include="Migrations\202101031901053_ChangedTypeOfFlag.designer.cs">
+      <DependentUpon>202101031901053_ChangedTypeOfFlag.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202101031909580_AddedDomainToBook.cs" />
+    <Compile Include="Migrations\202101031909580_AddedDomainToBook.designer.cs">
+      <DependentUpon>202101031909580_AddedDomainToBook.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Startup\Bindings.cs" />
     <Compile Include="Startup\Injector.cs" />
@@ -185,6 +193,12 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\202101031753270_AddedFurtherTables.resx">
       <DependentUpon>202101031753270_AddedFurtherTables.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202101031901053_ChangedTypeOfFlag.resx">
+      <DependentUpon>202101031901053_ChangedTypeOfFlag.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202101031909580_AddedDomainToBook.resx">
+      <DependentUpon>202101031909580_AddedDomainToBook.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>

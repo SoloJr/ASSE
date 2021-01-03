@@ -18,7 +18,6 @@ namespace LibraryAdministration.DomainModel
         [StringLength(30, MinimumLength = 3)]
         public string Name { get; set; }
 
-        
-        public int ParentId { get; set; }
+        public int? ParentId { get; set; }
     }
 }

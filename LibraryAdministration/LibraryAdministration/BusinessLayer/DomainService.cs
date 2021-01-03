@@ -18,5 +18,10 @@ namespace LibraryAdministration.BusinessLayer
         {
 
         }
+
+        public IEnumerable<Domain> GetAllDomainsOfBook(int bookId)
+        {
+            return null;
+        }
     }
 }
