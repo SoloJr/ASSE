@@ -84,8 +84,16 @@
     </ApplicationDefinition>
     <Compile Include="BusinessLayer\BaseService.cs" />
     <Compile Include="BusinessLayer\BookService.cs" />
+    <Compile Include="DataAccessLayer\AuthorRepository.cs" />
     <Compile Include="DataAccessLayer\BaseRepository.cs" />
+    <Compile Include="DataAccessLayer\BookPublisherRepository.cs" />
+    <Compile Include="DataAccessLayer\BookRentalRepository.cs" />
     <Compile Include="DataAccessLayer\BookRepository.cs" />
+    <Compile Include="DataAccessLayer\DomainRepository.cs" />
+    <Compile Include="DataAccessLayer\EmployeeRepository.cs" />
+    <Compile Include="DataAccessLayer\PersonalInfoRepository.cs" />
+    <Compile Include="DataAccessLayer\PublisherRepository.cs" />
+    <Compile Include="DataAccessLayer\ReaderRepository.cs" />
     <Compile Include="DomainModel\BookRental.cs" />
     <Compile Include="DomainModel\Employee.cs" />
     <Compile Include="DomainModel\PersonalInfo.cs" />
