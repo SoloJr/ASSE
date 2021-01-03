@@ -82,8 +82,16 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="BusinessLayer\AuthorService.cs" />
     <Compile Include="BusinessLayer\BaseService.cs" />
+    <Compile Include="BusinessLayer\BookPublisherService.cs" />
+    <Compile Include="BusinessLayer\BookRentalService.cs" />
     <Compile Include="BusinessLayer\BookService.cs" />
+    <Compile Include="BusinessLayer\DomainService.cs" />
+    <Compile Include="BusinessLayer\EmployeeService.cs" />
+    <Compile Include="BusinessLayer\PersonalInfoService.cs" />
+    <Compile Include="BusinessLayer\PublisherService.cs" />
+    <Compile Include="BusinessLayer\ReaderService.cs" />
     <Compile Include="DataAccessLayer\AuthorRepository.cs" />
     <Compile Include="DataAccessLayer\BaseRepository.cs" />
     <Compile Include="DataAccessLayer\BookPublisherRepository.cs" />
@@ -129,7 +137,15 @@
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Startup\Bindings.cs" />
     <Compile Include="Startup\Injector.cs" />
+    <Compile Include="Validators\AuthorValidator.cs" />
+    <Compile Include="Validators\BookPublisherValidator.cs" />
+    <Compile Include="Validators\BookRentalValidator.cs" />
     <Compile Include="Validators\BookValidator.cs" />
+    <Compile Include="Validators\DomainValidator.cs" />
+    <Compile Include="Validators\EmployeeValidator.cs" />
+    <Compile Include="Validators\PersonalInfoValidator.cs" />
+    <Compile Include="Validators\PublisherValidator.cs" />
+    <Compile Include="Validators\ReaderValidator.cs" />
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
