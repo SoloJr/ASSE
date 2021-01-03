@@ -14,6 +14,7 @@ namespace LibraryAdministration.DomainModel
         {
             this.Authors = new HashSet<Author>();
             this.Readers = new HashSet<Reader>();
+            this.Domains = new HashSet<Domain>();
         }
 
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
@@ -31,15 +32,12 @@ namespace LibraryAdministration.DomainModel
         [StringLength(20, MinimumLength = 3)]
         public string Language { get; set; }
 
-        public int BookDomainId { get; set; }
-
-        [ForeignKey("BookDomainId")]
-        public Domain Domain { get; set; }
-
         public List<BookPublisher> Publishers { get; set; }
 
         public virtual ICollection<Author> Authors { get; set; }
 
         public virtual ICollection<Reader> Readers { get; set; }
+
+        public virtual ICollection<Domain> Domains { get; set; }
     }
 }

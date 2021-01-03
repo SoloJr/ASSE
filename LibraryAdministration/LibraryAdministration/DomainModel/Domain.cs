@@ -10,6 +10,11 @@ namespace LibraryAdministration.DomainModel
 {
     public class Domain
     {
+        public Domain()
+        {
+            this.Books = new HashSet<Book>();
+        }
+
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         [Key]
         public int Id { get; set; }
@@ -19,5 +24,7 @@ namespace LibraryAdministration.DomainModel
         public string Name { get; set; }
 
         public int? ParentId { get; set; }
+
+        public virtual ICollection<Book> Books { get; set; }
     }
 }

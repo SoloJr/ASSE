@@ -142,6 +142,14 @@
     <Compile Include="Migrations\202101031909580_AddedDomainToBook.designer.cs">
       <DependentUpon>202101031909580_AddedDomainToBook.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\202101031919307_RemovedDomainFromBook.cs" />
+    <Compile Include="Migrations\202101031919307_RemovedDomainFromBook.designer.cs">
+      <DependentUpon>202101031919307_RemovedDomainFromBook.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202101031921030_AddedNtoMBookDomain.cs" />
+    <Compile Include="Migrations\202101031921030_AddedNtoMBookDomain.designer.cs">
+      <DependentUpon>202101031921030_AddedNtoMBookDomain.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Startup\Bindings.cs" />
     <Compile Include="Startup\Injector.cs" />
@@ -199,6 +207,12 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\202101031909580_AddedDomainToBook.resx">
       <DependentUpon>202101031909580_AddedDomainToBook.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202101031919307_RemovedDomainFromBook.resx">
+      <DependentUpon>202101031919307_RemovedDomainFromBook.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202101031921030_AddedNtoMBookDomain.resx">
+      <DependentUpon>202101031921030_AddedNtoMBookDomain.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
