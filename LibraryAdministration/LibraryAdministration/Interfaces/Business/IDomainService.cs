@@ -7,7 +7,7 @@ using LibraryAdministration.DomainModel;
 
 namespace LibraryAdministration.Interfaces.Business
 {
-    interface IDomainService : IService<Domain>
+    public interface IDomainService : IService<Domain>
     {
         /// <summary>
         /// Gets all domains (including parents) of book.

@@ -7,7 +7,7 @@ using FluentValidation.Results;
 
 namespace LibraryAdministration.Interfaces.Business
 {
-    interface IService<T>
+    public interface IService<T>
         where T : class
     {
         ValidationResult Insert(T entity);

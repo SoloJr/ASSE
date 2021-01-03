@@ -10,7 +10,7 @@ using Ninject.Modules;
 
 namespace LibraryAdministration.Startup
 {
-    class Injector
+    public class Injector
     {
         private static IKernel _kernel;
         public static IKernel Kernel
