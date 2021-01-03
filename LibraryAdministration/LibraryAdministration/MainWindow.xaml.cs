@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
@@ -12,7 +13,9 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
-using log4net;
+using LibraryAdministration.Startup;
+using Ninject;
+using Ninject.Extensions.Logging;
 
 namespace LibraryAdministration
 {
@@ -21,12 +24,13 @@ namespace LibraryAdministration
     /// </summary>
     public partial class MainWindow : Window
     {
-        private static readonly ILog log = LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
-
         public MainWindow()
         {
-            log4net.Config.XmlConfigurator.Configure();
-            log.Info("Entered in Main Window");
+            var kernel = Injector.Kernel;
+
+            var loggerFactory = kernel.Get<ILoggerFactory>();
+            var logger = loggerFactory.GetCurrentClassLogger();
+            logger.Info("Entered in Main Window - new version - log4net with ninject");
             InitializeComponent();
         }
     }
