@@ -13,6 +13,7 @@ namespace LibraryAdministration.DomainModel
         public Book()
         {
             this.Authors = new HashSet<Author>();
+            this.Readers = new HashSet<Reader>();
         }
 
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
@@ -33,5 +34,7 @@ namespace LibraryAdministration.DomainModel
         public List<BookPublisher> Publishers { get; set; }
 
         public virtual ICollection<Author> Authors { get; set; }
+
+        public virtual ICollection<Reader> Readers { get; set; }
     }
 }

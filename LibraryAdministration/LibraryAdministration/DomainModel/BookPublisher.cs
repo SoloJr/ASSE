@@ -23,6 +23,9 @@ namespace LibraryAdministration.DomainModel
         [Required]
         public DateTime ReleaseDate { get; set; }
 
+        [Required]
+        public int Count { get; set; }
+
         public int BookId { get; set; }
 
         [ForeignKey("BookId")]

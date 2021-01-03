@@ -34,13 +34,14 @@ namespace LibraryAdministration
             var logger = loggerFactory.GetCurrentClassLogger();
             logger.Info("Entered in Main Window - new version - log4net with ninject");
 
-            var bookService = kernel.Get<IBookService>();
+            /*var bookService = kernel.Get<IBookService>();
 
             var result = bookService.Insert(new Book()
             {
                 Language = "Romanian",
-                
-            });
+                Name = "Amintiri din Copilarie",
+                Year = 1885
+            });*/
 
 
             InitializeComponent();
