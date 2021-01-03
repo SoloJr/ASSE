@@ -13,6 +13,8 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using LibraryAdministration.DomainModel;
+using LibraryAdministration.Interfaces.Business;
 using LibraryAdministration.Startup;
 using Ninject;
 using Ninject.Extensions.Logging;
@@ -31,6 +33,16 @@ namespace LibraryAdministration
             var loggerFactory = kernel.Get<ILoggerFactory>();
             var logger = loggerFactory.GetCurrentClassLogger();
             logger.Info("Entered in Main Window - new version - log4net with ninject");
+
+            var bookService = kernel.Get<IBookService>();
+
+            var result = bookService.Insert(new Book()
+            {
+                Language = "Romanian",
+                
+            });
+
+
             InitializeComponent();
         }
     }

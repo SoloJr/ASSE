@@ -82,9 +82,22 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="BusinessLayer\BaseService.cs" />
+    <Compile Include="BusinessLayer\BookService.cs" />
+    <Compile Include="DataAccessLayer\BaseRepository.cs" />
+    <Compile Include="DataAccessLayer\BookRepository.cs" />
+    <Compile Include="Interfaces\Business\IBookService.cs" />
+    <Compile Include="Interfaces\Business\IService.cs" />
+    <Compile Include="Interfaces\DataAccess\IBookRepository.cs" />
+    <Compile Include="Interfaces\DataAccess\IRepository.cs" />
+    <Compile Include="Migrations\202101030938461_InitialCreate.cs" />
+    <Compile Include="Migrations\202101030938461_InitialCreate.designer.cs">
+      <DependentUpon>202101030938461_InitialCreate.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Startup\Bindings.cs" />
     <Compile Include="Startup\Injector.cs" />
-    <Compile Include="Test\Test.cs" />
+    <Compile Include="Validators\BookValidator.cs" />
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -119,6 +132,9 @@
       <DependentUpon>Settings.settings</DependentUpon>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
+    <EmbeddedResource Include="Migrations\202101030938461_InitialCreate.resx">
+      <DependentUpon>202101030938461_InitialCreate.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
