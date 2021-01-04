@@ -10,7 +10,7 @@ using LibraryAdministration.Interfaces.DataAccess;
 
 namespace LibraryAdministration.BusinessLayer
 {
-    abstract class BaseService<T, U> : IService<T>
+    public abstract class BaseService<T, U> : IService<T>
         where T : class
         where U : IRepository<T>
     {

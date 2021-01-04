@@ -26,11 +26,11 @@ namespace LibraryAdministration.Startup
             }
         }
 
-        public static void Inject()
+        public static void Inject(NinjectModule bindings)
         {
             log4net.Config.XmlConfigurator.Configure();
             var settings = new NinjectSettings { LoadExtensions = false };
-            _kernel = new StandardKernel(settings, new INinjectModule[] { new Log4NetModule(), new Bindings() });
+            _kernel = new StandardKernel(settings, new INinjectModule[] { new Log4NetModule(), bindings });
             _kernel.Load(Assembly.GetExecutingAssembly());
         }
 

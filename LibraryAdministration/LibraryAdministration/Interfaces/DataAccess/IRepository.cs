@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace LibraryAdministration.Interfaces.DataAccess
 {
-    interface IRepository<T>
+    public interface IRepository<T>
     {
         void Insert(T entity);
 

@@ -17,7 +17,7 @@ namespace LibraryAdministration
 
         protected override void OnStartup(StartupEventArgs e)
         {
-            Injector.Inject();
+            Injector.Inject(new Bindings());
             base.OnStartup(e);
         }
     }

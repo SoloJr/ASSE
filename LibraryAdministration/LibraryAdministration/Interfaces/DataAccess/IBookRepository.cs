@@ -7,7 +7,7 @@ using LibraryAdministration.DomainModel;
 
 namespace LibraryAdministration.Interfaces.DataAccess
 {
-    interface IBookRepository : IRepository<Book>
+    public interface IBookRepository : IRepository<Book>
     {
     }
 }

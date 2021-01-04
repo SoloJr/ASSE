@@ -12,7 +12,7 @@ using LibraryAdministration.Validators;
 
 namespace LibraryAdministration.BusinessLayer
 {
-    class BookService : BaseService<Book, IBookRepository>, IBookService
+    public class BookService : BaseService<Book, IBookRepository>, IBookService
     {
         public BookService()
             : base(Injector.Get<IBookRepository>(), new BookValidator())
