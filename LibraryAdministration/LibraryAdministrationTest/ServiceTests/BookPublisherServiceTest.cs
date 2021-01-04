@@ -8,36 +8,43 @@ using LibraryAdministration.Interfaces.Business;
 using LibraryAdministration.Startup;
 using LibraryAdministrationTest.Mocks;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using Moq;
 using Ninject;
 
 namespace LibraryAdministrationTest.ServiceTests
 {
     [TestClass]
-    public class DomainServiceTests
+    public class BookPublisherServiceTest
     {
-        private Domain _domain;
+        private BookPublisher _bookPublisher;
 
         [TestInitialize]
         public void Init()
         {
             Injector.Inject(new MockBindings());
-            _domain = new Domain
+            _bookPublisher = new BookPublisher
             {
-                Name = "Beletristica",
-                Id = 1,
-                EntireDomainId = null,
-                ParentId = null
+                BookId = 1,
+                Count = 10,
+                Pages = 200,
+                Publisher = new Publisher
+                {
+                    Name = "Editura 2000",
+                    FoundingDate = new DateTime(2000, 1, 1),
+                    Headquarter = "Bucuresti",
+                    Id = 1
+                },
+                ReleaseDate = DateTime.MaxValue,
+                Type = BookType.Ebook
             };
         }
 
         [TestMethod]
-        public void TestInsertDomain()
+        public void TestInsertBookPublisher()
         {
             var kernel = Injector.Kernel;
-            var service = kernel.Get<IDomainService>();
+            var service = kernel.Get<IBookPublisherService>();
 
-            var result = service.Insert(_domain);
+            var result = service.Insert(_bookPublisher);
 
             Assert.IsNotNull(result);
             Assert.IsTrue(result.IsValid);
@@ -45,12 +52,12 @@ namespace LibraryAdministrationTest.ServiceTests
         }
 
         [TestMethod]
-        public void TestUpdateDomain()
+        public void TestUpdateBookPublisher()
         {
             var kernel = Injector.Kernel;
-            var service = kernel.Get<IDomainService>();
+            var service = kernel.Get<IBookPublisherService>();
 
-            var result = service.Update(_domain);
+            var result = service.Update(_bookPublisher);
 
             Assert.IsNotNull(result);
             Assert.IsTrue(result.IsValid);
@@ -58,12 +65,12 @@ namespace LibraryAdministrationTest.ServiceTests
         }
 
         [TestMethod]
-        public void TestDeleteDomain()
+        public void TestDeleteBookPublisher()
         {
             var kernel = Injector.Kernel;
-            var service = kernel.Get<IDomainService>();
+            var service = kernel.Get<IBookPublisherService>();
 
-            Assert.ThrowsException<DeleteItemException>(() => service.Delete(_domain));
+            Assert.ThrowsException<DeleteItemException>(() => service.Delete(_bookPublisher));
         }
     }
 }

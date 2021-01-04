@@ -8,36 +8,33 @@ using LibraryAdministration.Interfaces.Business;
 using LibraryAdministration.Startup;
 using LibraryAdministrationTest.Mocks;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using Moq;
 using Ninject;
 
 namespace LibraryAdministrationTest.ServiceTests
 {
     [TestClass]
-    public class DomainServiceTests
+    class PersonalInfoServiceTest
     {
-        private Domain _domain;
+        private PersonalInfo _personalInfo;
 
         [TestInitialize]
         public void Init()
         {
             Injector.Inject(new MockBindings());
-            _domain = new Domain
+            _personalInfo = new PersonalInfo
             {
-                Name = "Beletristica",
-                Id = 1,
-                EntireDomainId = null,
-                ParentId = null
+                PhoneNumber = "0731233233",
+                Email = "mircea.solo1995@gmail.com"
             };
         }
 
         [TestMethod]
-        public void TestInsertDomain()
+        public void TestInsertPersonalInfo()
         {
             var kernel = Injector.Kernel;
-            var service = kernel.Get<IDomainService>();
+            var service = kernel.Get<IPersonalInfoService>();
 
-            var result = service.Insert(_domain);
+            var result = service.Insert(_personalInfo);
 
             Assert.IsNotNull(result);
             Assert.IsTrue(result.IsValid);
@@ -45,12 +42,12 @@ namespace LibraryAdministrationTest.ServiceTests
         }
 
         [TestMethod]
-        public void TestUpdateDomain()
+        public void TestUpdatePersonalInfo()
         {
             var kernel = Injector.Kernel;
-            var service = kernel.Get<IDomainService>();
+            var service = kernel.Get<IPersonalInfoService>();
 
-            var result = service.Update(_domain);
+            var result = service.Update(_personalInfo);
 
             Assert.IsNotNull(result);
             Assert.IsTrue(result.IsValid);
@@ -58,12 +55,12 @@ namespace LibraryAdministrationTest.ServiceTests
         }
 
         [TestMethod]
-        public void TestDeleteDomain()
+        public void TestDeletePersonalInfo()
         {
             var kernel = Injector.Kernel;
-            var service = kernel.Get<IDomainService>();
+            var service = kernel.Get<IPersonalInfoService>();
 
-            Assert.ThrowsException<DeleteItemException>(() => service.Delete(_domain));
+            Assert.ThrowsException<DeleteItemException>(() => service.Delete(_personalInfo));
         }
     }
 }

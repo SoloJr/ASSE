@@ -8,36 +8,39 @@ using LibraryAdministration.Interfaces.Business;
 using LibraryAdministration.Startup;
 using LibraryAdministrationTest.Mocks;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using Moq;
 using Ninject;
 
 namespace LibraryAdministrationTest.ServiceTests
 {
     [TestClass]
-    public class DomainServiceTests
+    public class EmployeeServiceTest
     {
-        private Domain _domain;
+        private Employee _employee;
 
         [TestInitialize]
         public void Init()
         {
             Injector.Inject(new MockBindings());
-            _domain = new Domain
+            _employee = new Employee
             {
-                Name = "Beletristica",
-                Id = 1,
-                EntireDomainId = null,
-                ParentId = null
+                Info = new PersonalInfo
+                {
+                    PhoneNumber = "0731233233",
+                    Email = "mircea.solo1995@gmail.com"
+                },
+                Address = "Str. Drumul cu Plopi Nr. 112",
+                FirstName = "Mircea",
+                LastName = "Solovastru"
             };
         }
 
         [TestMethod]
-        public void TestInsertDomain()
+        public void TestInsertEmployee()
         {
             var kernel = Injector.Kernel;
-            var service = kernel.Get<IDomainService>();
+            var service = kernel.Get<IEmployeeService>();
 
-            var result = service.Insert(_domain);
+            var result = service.Insert(_employee);
 
             Assert.IsNotNull(result);
             Assert.IsTrue(result.IsValid);
@@ -45,12 +48,12 @@ namespace LibraryAdministrationTest.ServiceTests
         }
 
         [TestMethod]
-        public void TestUpdateDomain()
+        public void TestUpdateEmployee()
         {
             var kernel = Injector.Kernel;
-            var service = kernel.Get<IDomainService>();
+            var service = kernel.Get<IEmployeeService>();
 
-            var result = service.Update(_domain);
+            var result = service.Update(_employee);
 
             Assert.IsNotNull(result);
             Assert.IsTrue(result.IsValid);
@@ -58,12 +61,12 @@ namespace LibraryAdministrationTest.ServiceTests
         }
 
         [TestMethod]
-        public void TestDeleteDomain()
+        public void TestDeleteEmployee()
         {
             var kernel = Injector.Kernel;
-            var service = kernel.Get<IDomainService>();
+            var service = kernel.Get<IEmployeeService>();
 
-            Assert.ThrowsException<DeleteItemException>(() => service.Delete(_domain));
+            Assert.ThrowsException<DeleteItemException>(() => service.Delete(_employee));
         }
     }
 }

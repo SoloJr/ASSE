@@ -8,36 +8,34 @@ using LibraryAdministration.Interfaces.Business;
 using LibraryAdministration.Startup;
 using LibraryAdministrationTest.Mocks;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using Moq;
 using Ninject;
 
 namespace LibraryAdministrationTest.ServiceTests
 {
     [TestClass]
-    public class DomainServiceTests
+    public class BookRentalServiceTest
     {
-        private Domain _domain;
+        private BookRental _bookRental;
 
         [TestInitialize]
         public void Init()
         {
             Injector.Inject(new MockBindings());
-            _domain = new Domain
+            _bookRental = new BookRental
             {
-                Name = "Beletristica",
-                Id = 1,
-                EntireDomainId = null,
-                ParentId = null
+                RentBookId = 1,
+                ForRent = 100,
+                Id = 1
             };
         }
 
         [TestMethod]
-        public void TestInsertDomain()
+        public void TestInsertBookRental()
         {
             var kernel = Injector.Kernel;
-            var service = kernel.Get<IDomainService>();
+            var service = kernel.Get<IBookRentalService>();
 
-            var result = service.Insert(_domain);
+            var result = service.Insert(_bookRental);
 
             Assert.IsNotNull(result);
             Assert.IsTrue(result.IsValid);
@@ -45,12 +43,12 @@ namespace LibraryAdministrationTest.ServiceTests
         }
 
         [TestMethod]
-        public void TestUpdateDomain()
+        public void TestUpdateBookRental()
         {
             var kernel = Injector.Kernel;
-            var service = kernel.Get<IDomainService>();
+            var service = kernel.Get<IBookRentalService>();
 
-            var result = service.Update(_domain);
+            var result = service.Update(_bookRental);
 
             Assert.IsNotNull(result);
             Assert.IsTrue(result.IsValid);
@@ -58,12 +56,12 @@ namespace LibraryAdministrationTest.ServiceTests
         }
 
         [TestMethod]
-        public void TestDeleteDomain()
+        public void TestDeleteBookRental()
         {
             var kernel = Injector.Kernel;
-            var service = kernel.Get<IDomainService>();
+            var service = kernel.Get<IBookRentalService>();
 
-            Assert.ThrowsException<DeleteItemException>(() => service.Delete(_domain));
+            Assert.ThrowsException<DeleteItemException>(() => service.Delete(_bookRental));
         }
     }
 }
