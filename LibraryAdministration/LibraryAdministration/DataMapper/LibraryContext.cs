@@ -33,5 +33,7 @@ namespace LibraryAdministration.DataMapper
         public virtual DbSet<PersonalInfo> PersonalInfos { get; set; }
 
         public virtual DbSet<Reader> Readers { get; set; }
+
+        public virtual DbSet<ReaderBook> ReaderBooks { get; set; }
     }
 }

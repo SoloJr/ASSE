@@ -12,7 +12,6 @@ namespace LibraryAdministration.DomainModel
     {
         public Reader()
         {
-            this.Books = new HashSet<Book>();
         }
 
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
@@ -35,7 +34,5 @@ namespace LibraryAdministration.DomainModel
 
         [ForeignKey("ReaderPersonalInfoId")]
         public PersonalInfo Info { get; set; }
-
-        public virtual ICollection<Book> Books { get; set; }
     }
 }

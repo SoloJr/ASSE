@@ -106,6 +106,7 @@
     <Compile Include="DomainModel\Employee.cs" />
     <Compile Include="DomainModel\PersonalInfo.cs" />
     <Compile Include="DomainModel\Reader.cs" />
+    <Compile Include="DomainModel\ReaderBook.cs" />
     <Compile Include="Interfaces\Business\IAuthorService.cs" />
     <Compile Include="Interfaces\Business\IBookPublisherService.cs" />
     <Compile Include="Interfaces\Business\IBookRentalService.cs" />
@@ -153,6 +154,14 @@
     <Compile Include="Migrations\202101041215551_AddedEntireDomainId.cs" />
     <Compile Include="Migrations\202101041215551_AddedEntireDomainId.designer.cs">
       <DependentUpon>202101041215551_AddedEntireDomainId.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202101041400163_RemovedReaderBooks.cs" />
+    <Compile Include="Migrations\202101041400163_RemovedReaderBooks.designer.cs">
+      <DependentUpon>202101041400163_RemovedReaderBooks.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202101041403122_AddedRelationBetweenBookAndReader.cs" />
+    <Compile Include="Migrations\202101041403122_AddedRelationBetweenBookAndReader.designer.cs">
+      <DependentUpon>202101041403122_AddedRelationBetweenBookAndReader.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Startup\Bindings.cs" />
@@ -221,6 +230,12 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\202101041215551_AddedEntireDomainId.resx">
       <DependentUpon>202101041215551_AddedEntireDomainId.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202101041400163_RemovedReaderBooks.resx">
+      <DependentUpon>202101041400163_RemovedReaderBooks.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202101041403122_AddedRelationBetweenBookAndReader.resx">
+      <DependentUpon>202101041403122_AddedRelationBetweenBookAndReader.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
