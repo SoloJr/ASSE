@@ -11,7 +11,7 @@ using LibraryAdministration.Validators;
 
 namespace LibraryAdministration.BusinessLayer
 {
-    class BookRentalService : BaseService<BookRental, IBookRentalRepository>, IBookRentalService
+    public class BookRentalService : BaseService<BookRental, IBookRentalRepository>, IBookRentalService
     {
         public BookRentalService()
             : base(Injector.Get<IBookRentalRepository>(), new BookRentalValidator())

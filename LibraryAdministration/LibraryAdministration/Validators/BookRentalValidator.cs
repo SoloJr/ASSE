@@ -8,7 +8,7 @@ using LibraryAdministration.DomainModel;
 
 namespace LibraryAdministration.Validators
 {
-    class BookRentalValidator : AbstractValidator<BookRental>
+    public class BookRentalValidator : AbstractValidator<BookRental>
     {
         public BookRentalValidator()
         {

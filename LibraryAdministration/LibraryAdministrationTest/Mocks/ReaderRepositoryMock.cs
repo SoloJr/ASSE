@@ -4,10 +4,11 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using LibraryAdministration.DomainModel;
+using LibraryAdministration.Interfaces.DataAccess;
 
-namespace LibraryAdministration.Interfaces.DataAccess
+namespace LibraryAdministrationTest.Mocks
 {
-    public interface IBookRentalRepository : IRepository<BookRental>
+    class ReaderRepositoryMock : BaseRepositoryMock<Reader>, IReaderRepository
     {
     }
 }

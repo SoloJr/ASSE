@@ -2,7 +2,7 @@
 
 namespace LibraryAdministration.Interfaces.Business
 {
-    interface IBookRentalService : IService<BookRental>
+    public interface IBookRentalService : IService<BookRental>
     {
         
     }

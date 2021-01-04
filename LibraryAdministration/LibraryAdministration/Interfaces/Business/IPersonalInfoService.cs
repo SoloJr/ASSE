@@ -7,7 +7,7 @@ using LibraryAdministration.DomainModel;
 
 namespace LibraryAdministration.Interfaces.Business
 {
-    interface IPersonalInfoService : IService<PersonalInfo>
+    public interface IPersonalInfoService : IService<PersonalInfo>
     {
     }
 }

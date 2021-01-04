@@ -7,7 +7,7 @@ using LibraryAdministration.DomainModel;
 
 namespace LibraryAdministration.Interfaces.DataAccess
 {
-    interface IPersonalInfoRepository : IRepository<PersonalInfo>
+    public interface IPersonalInfoRepository : IRepository<PersonalInfo>
     {
     }
 }

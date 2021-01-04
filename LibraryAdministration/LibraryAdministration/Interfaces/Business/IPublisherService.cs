@@ -7,7 +7,7 @@ using LibraryAdministration.DomainModel;
 
 namespace LibraryAdministration.Interfaces.Business
 {
-    interface IPublisherService : IService<Publisher>
+    public interface IPublisherService : IService<Publisher>
     {
     }
 }

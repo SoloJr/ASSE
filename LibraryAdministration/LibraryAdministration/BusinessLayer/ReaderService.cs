@@ -11,7 +11,7 @@ using LibraryAdministration.Validators;
 
 namespace LibraryAdministration.BusinessLayer
 {
-    class ReaderService : BaseService<Reader, IReaderRepository>, IReaderService
+    public class ReaderService : BaseService<Reader, IReaderRepository>, IReaderService
     {
         public ReaderService()
             : base(Injector.Get<IReaderRepository>(), new ReaderValidator())

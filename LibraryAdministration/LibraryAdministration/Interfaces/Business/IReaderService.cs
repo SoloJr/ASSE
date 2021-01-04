@@ -7,7 +7,7 @@ using LibraryAdministration.DomainModel;
 
 namespace LibraryAdministration.Interfaces.Business
 {
-    interface IReaderService : IService<Reader>
+    public interface IReaderService : IService<Reader>
     {
     }
 }

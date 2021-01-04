@@ -3,18 +3,19 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using LibraryAdministration.BusinessLayer;
 using LibraryAdministration.DomainModel;
 using LibraryAdministration.Interfaces.Business;
 using LibraryAdministration.Interfaces.DataAccess;
 using LibraryAdministration.Startup;
 using LibraryAdministration.Validators;
 
-namespace LibraryAdministration.BusinessLayer
+namespace LibraryAdministrationTest.Mocks
 {
-    public class PersonalInfoService : BaseService<PersonalInfo, IPersonalInfoRepository>, IPersonalInfoService
+    class EmployeeServiceMock : BaseService<Employee, IEmployeeRepository>, IEmployeeService
     {
-        public PersonalInfoService()
-            : base(Injector.Get<IPersonalInfoRepository>(), new PersonalInfoValidator())
+        public EmployeeServiceMock()
+            : base(Injector.Get<IEmployeeRepository>(), new EmployeeValidator())
         {
 
         }

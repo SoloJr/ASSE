@@ -11,7 +11,7 @@ using LibraryAdministration.Validators;
 
 namespace LibraryAdministration.BusinessLayer
 {
-    class EmployeeService : BaseService<Employee, IEmployeeRepository>, IEmployeeService
+    public class EmployeeService : BaseService<Employee, IEmployeeRepository>, IEmployeeService
     {
         public EmployeeService()
             : base(Injector.Get<IEmployeeRepository>(), new EmployeeValidator())

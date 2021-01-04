@@ -7,7 +7,7 @@ using LibraryAdministration.DomainModel;
 
 namespace LibraryAdministration.Interfaces.Business
 {
-    interface IAuthorService : IService<Author>
+    public interface IAuthorService : IService<Author>
     {
         IEnumerable<Author> GetAuthorsWithBooks();
     }
