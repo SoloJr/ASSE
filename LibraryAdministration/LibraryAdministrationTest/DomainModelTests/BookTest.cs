@@ -99,14 +99,16 @@ namespace LibraryAdministrationTest.DomainModelTests
             {
                 Name = "Beletristica",
                 ParentId = null,
-                Id = 1
+                Id = 1,
+                EntireDomainId = null
             };
 
             var domainTwo = new Domain
             {
                 Name = "Stiinta",
                 ParentId = null,
-                Id = 2
+                Id = 2,
+                EntireDomainId = null
             };
 
             var book = new Book()
@@ -140,7 +142,7 @@ namespace LibraryAdministrationTest.DomainModelTests
 
             var domainTwo = new Domain
             {
-                Name = "Stiinta",
+                Name = "Povesti pentru Copii",
                 ParentId = 1,
                 Id = 2
             };

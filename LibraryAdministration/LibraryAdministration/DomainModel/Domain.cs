@@ -25,6 +25,8 @@ namespace LibraryAdministration.DomainModel
 
         public int? ParentId { get; set; }
 
+        public int? EntireDomainId { get; set; }
+
         public virtual ICollection<Book> Books { get; set; }
     }
 }

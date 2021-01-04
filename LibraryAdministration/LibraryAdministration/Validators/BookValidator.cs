@@ -27,7 +27,12 @@ namespace LibraryAdministration.Validators
         private bool RuleForNumberOfDomains(ICollection<Domain> domains)
         {
             var dom = int.Parse(_dom);
-            var count = domains.Count(d => d.ParentId == null);
+            var count = domains.Count(d => d.EntireDomainId == null);
+
+            if (count > dom)
+            {
+                return false;
+            }
 
             return count <= dom;
         }

@@ -150,6 +150,10 @@
     <Compile Include="Migrations\202101031921030_AddedNtoMBookDomain.designer.cs">
       <DependentUpon>202101031921030_AddedNtoMBookDomain.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\202101041215551_AddedEntireDomainId.cs" />
+    <Compile Include="Migrations\202101041215551_AddedEntireDomainId.designer.cs">
+      <DependentUpon>202101041215551_AddedEntireDomainId.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Startup\Bindings.cs" />
     <Compile Include="Startup\Injector.cs" />
@@ -213,6 +217,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\202101031921030_AddedNtoMBookDomain.resx">
       <DependentUpon>202101031921030_AddedNtoMBookDomain.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202101041215551_AddedEntireDomainId.resx">
+      <DependentUpon>202101041215551_AddedEntireDomainId.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>

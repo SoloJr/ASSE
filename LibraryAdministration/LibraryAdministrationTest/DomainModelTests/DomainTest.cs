@@ -33,8 +33,6 @@ namespace LibraryAdministrationTest.DomainModelTests
                 Name = "Test Domain",
                 ParentId = null
             };
-
-            _domainServiceMock.Setup(m => m.Insert(domain)).Returns(new ValidationResult(null));
         }
     }
 }
