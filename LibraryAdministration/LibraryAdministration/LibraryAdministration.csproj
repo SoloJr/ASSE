@@ -166,6 +166,7 @@
     <Compile Include="Validators\PersonalInfoValidator.cs" />
     <Compile Include="Validators\PublisherValidator.cs" />
     <Compile Include="Validators\ReaderValidator.cs" />
+    <Compile Include="Validators\ValidatorExtension.cs" />
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>

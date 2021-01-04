@@ -68,8 +68,12 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="DomainModelTests\AuthorTest.cs" />
     <Compile Include="DomainModelTests\BookTest.cs" />
     <Compile Include="DomainModelTests\DomainTest.cs" />
+    <Compile Include="DomainModelTests\EmployeeTest.cs" />
+    <Compile Include="DomainModelTests\PersonalInfoTest.cs" />
+    <Compile Include="DomainModelTests\ReaderTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
