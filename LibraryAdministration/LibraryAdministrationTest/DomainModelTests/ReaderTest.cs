@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading.Tasks;
 using LibraryAdministration.DomainModel;
@@ -14,10 +15,13 @@ namespace LibraryAdministrationTest.DomainModelTests
     {
         private ReaderValidator _readerValidator;
 
+        private ReaderBookValidator _readerBookValidator;
+
         [TestInitialize]
         public void Init()
         {
-            _readerValidator = new ReaderValidator();;
+            _readerValidator = new ReaderValidator();
+            _readerBookValidator = new ReaderBookValidator();
         }
 
         [TestMethod]
@@ -27,6 +31,7 @@ namespace LibraryAdministrationTest.DomainModelTests
             {
                 Info = new PersonalInfo
                 {
+                    Id = 1,
                     PhoneNumber = "0731233233",
                     Email = "mircea.solo1995@gmail.com"
                 },
@@ -35,11 +40,14 @@ namespace LibraryAdministrationTest.DomainModelTests
                 LastName = "Solovastru"
             };
 
+            reader.ReaderPersonalInfoId = reader.Info.Id;
+
             var result = _readerValidator.Validate(reader);
 
             Assert.IsNotNull(result);
             Assert.IsTrue(result.IsValid);
             Assert.IsTrue(result.Errors.Count == 0);
+            Assert.IsNotNull(reader.Info);
         }
 
         [TestMethod]
@@ -169,6 +177,7 @@ namespace LibraryAdministrationTest.DomainModelTests
             Assert.IsFalse(result.IsValid);
             Assert.IsFalse(result.Errors.Count == 0);
         }
+
         [TestMethod]
         public void TestReaderBook()
         {
@@ -193,7 +202,62 @@ namespace LibraryAdministrationTest.DomainModelTests
                 Id = 1
             };
 
+            var readerBook = new ReaderBook
+            {
+                LoanDate = DateTime.Now,
+                BookId = book.Id,
+                ReaderId = reader.Id,
+                Id = 1
+            };
 
+            var result = _readerBookValidator.Validate(readerBook);
+
+            Assert.IsNotNull(result);
+            Assert.IsTrue(result.IsValid);
+            Assert.IsTrue(result.Errors.Count == 0);
+        }
+
+        [TestMethod]
+        public void TestReaderBookWithObjects()
+        {
+            var reader = new Reader
+            {
+                Info = new PersonalInfo
+                {
+                    PhoneNumber = "0731233233",
+                    Email = "mircea.solo1995@gmail.com"
+                },
+                Address = "0",
+                FirstName = "Mircea",
+                LastName = "Solovastru",
+                Id = 1
+            };
+
+            var book = new Book
+            {
+                Name = "Arta Subtila a Nepasarii",
+                Language = "Romana",
+                Year = 2017,
+                Id = 1
+            };
+
+            var readerBook = new ReaderBook
+            {
+                LoanDate = DateTime.Now,
+                BookId = book.Id,
+                ReaderId = reader.Id,
+                Id = 1,
+                Book = book,
+                Reader = reader
+            };
+
+            var result = _readerBookValidator.Validate(readerBook);
+
+            Assert.IsNotNull(result);
+            Assert.IsTrue(result.IsValid);
+            Assert.IsTrue(result.Errors.Count == 0);
+            Assert.IsNotNull(readerBook.Book);
+            Assert.IsNotNull(readerBook.Reader);
         }
     }
 }

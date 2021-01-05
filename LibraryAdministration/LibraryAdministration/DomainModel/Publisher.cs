@@ -10,6 +10,11 @@ namespace LibraryAdministration.DomainModel
 {
     public class Publisher
     {
+        public Publisher()
+        {
+            this.Books = new List<BookPublisher>();
+        }
+
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         [Key]
         public int Id { get; set; }

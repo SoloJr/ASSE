@@ -73,6 +73,7 @@
     <Compile Include="DomainModelTests\DomainTest.cs" />
     <Compile Include="DomainModelTests\EmployeeTest.cs" />
     <Compile Include="DomainModelTests\PersonalInfoTest.cs" />
+    <Compile Include="DomainModelTests\PublisherTest.cs" />
     <Compile Include="DomainModelTests\ReaderTest.cs" />
     <Compile Include="Mocks\AuthorRepositoryMock.cs" />
     <Compile Include="Mocks\AuthorServiceMock.cs" />
@@ -107,6 +108,7 @@
     <Compile Include="ServiceTests\PersonalInfoServiceTest.cs" />
     <Compile Include="ServiceTests\PublisherServiceTest.cs" />
     <Compile Include="ServiceTests\ReaderServiceTest.cs" />
+    <Compile Include="ServiceTests\RealImplementationServiceTests.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />

@@ -12,7 +12,8 @@ namespace LibraryAdministration.Validators
     {
         public BookRentalValidator()
         {
-            
+            RuleFor(x => x.ForRent).NotEmpty();
+            RuleFor(x => x.RentBookId).NotEmpty();
         }
     }
 }

@@ -25,14 +25,17 @@ namespace LibraryAdministrationTest.DomainModelTests
         {
             var employee = new Employee
             {
+                Id = 1,
                 Info = new PersonalInfo
                 {
+                    Id = 1,
                     PhoneNumber = "0731233233",
                     Email = "mircea.solo1995@gmail.com"
                 },
                 Address = "Str. Drumul cu Plopi Nr. 112 Vila 18 Ap. 4",
                 FirstName = "Mircea",
-                LastName = "Solovastru"
+                LastName = "Solovastru",
+                EmployeePersonalInfoId = 1
             };
 
             var result = _validator.Validate(employee);
@@ -40,6 +43,7 @@ namespace LibraryAdministrationTest.DomainModelTests
             Assert.IsNotNull(result);
             Assert.IsTrue(result.IsValid);
             Assert.IsTrue(result.Errors.Count == 0);
+            Assert.IsNotNull(employee.Info);
         }
 
         [TestMethod]
