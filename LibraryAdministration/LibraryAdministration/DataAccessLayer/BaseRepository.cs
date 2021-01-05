@@ -13,39 +13,6 @@ namespace LibraryAdministration.DataAccessLayer
     abstract class BaseRepository<T> : IRepository<T>
         where T : class
     {
-        public virtual IEnumerable<T> Get(
-            Expression<Func<T, bool>> filter = null,
-            Func<IQueryable<T>, IOrderedQueryable<T>> orderBy = null,
-            string includeProperties = "")
-        {
-            using (var ctx = new LibraryContext())
-            {
-                var dbSet = ctx.Set<T>();
-
-                IQueryable<T> query = dbSet;
-
-                foreach (var includeProperty in includeProperties.Split
-                    (new char[] {','}, StringSplitOptions.RemoveEmptyEntries))
-                {
-                    query = query.Include(includeProperty);
-                }
-
-                if (filter != null)
-                {
-                    query = query.Where(filter);
-                }
-
-                if (orderBy != null)
-                {
-                    return orderBy(query).ToList();
-                }
-                else
-                {
-                    return query.ToList();
-                }
-            }
-        }
-
         public virtual void Insert(T entity)
         {
             using (var ctx = new LibraryContext())
@@ -69,7 +36,7 @@ namespace LibraryAdministration.DataAccessLayer
             }
         }
 
-        public virtual void Delete(object id)
+        public virtual void Delete(int id)
         {
             Delete(GetById(id));
         }
@@ -91,11 +58,21 @@ namespace LibraryAdministration.DataAccessLayer
             }
         }
 
-        public virtual T GetById(object id)
+        public virtual T GetById(int id)
         {
             using (var ctx = new LibraryContext())
             {
                 return ctx.Set<T>().Find(id);
+            }
+        }
+
+        public IEnumerable<T> GetAll()
+        {
+            using (var ctx = new LibraryContext())
+            {
+                var dbSet = ctx.Set<T>();
+
+                return dbSet.ToList();
             }
         }
     }

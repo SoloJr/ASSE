@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
+using LibraryAdministration.DomainModel;
 using LibraryAdministration.Interfaces.DataAccess;
 
 namespace LibraryAdministrationTest.Mocks
@@ -25,14 +26,14 @@ namespace LibraryAdministrationTest.Mocks
             // we can consider that it was deleted
         }
 
-        public T GetById(object id)
+        public T GetById(int id)
         {
             return null;
         }
 
-        public IEnumerable<T> Get(Expression<Func<T, bool>> filter = null, Func<IQueryable<T>, IOrderedQueryable<T>> orderBy = null, string includeProperties = "")
+        public IEnumerable<T> GetAll()
         {
-            throw new NotImplementedException();
+            return null;
         }
     }
 }

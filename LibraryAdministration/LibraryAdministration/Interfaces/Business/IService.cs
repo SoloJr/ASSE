@@ -16,7 +16,7 @@ namespace LibraryAdministration.Interfaces.Business
 
         void Delete(T entity);
 
-        T GetById(object id);
+        T GetById(int id);
 
         IEnumerable<T> GetAll();
     }

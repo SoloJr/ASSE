@@ -15,11 +15,8 @@ namespace LibraryAdministration.Interfaces.DataAccess
 
         void Delete(T entity);
 
-        T GetById(object id);
+        T GetById(int id);
 
-        IEnumerable<T> Get(
-            Expression<Func<T, bool>> filter = null,
-            Func<IQueryable<T>, IOrderedQueryable<T>> orderBy = null,
-            string includeProperties = "");
+        IEnumerable<T> GetAll();
     }
 }

@@ -22,9 +22,7 @@ namespace LibraryAdministration.BusinessLayer
 
         public IEnumerable<Book> GetBooksWithAuthors()
         {
-            return _repository.Get(
-                filter: book => book.Authors.Count > 0,
-                includeProperties: "Authors");
+            return _repository.GetAll();
         }
     }
 }

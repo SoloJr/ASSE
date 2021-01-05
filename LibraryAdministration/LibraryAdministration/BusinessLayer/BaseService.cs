@@ -55,14 +55,14 @@ namespace LibraryAdministration.BusinessLayer
             _repository.Delete(entity);
         }
 
-        public T GetById(object id)
+        public T GetById(int id)
         {
             return _repository.GetById(id);
         }
 
         public IEnumerable<T> GetAll()
         {
-            return _repository.Get();
+            return _repository.GetAll();
         }
     }
 }
