@@ -21,24 +21,28 @@ namespace LibraryAdministrationTest.DomainModelTests
         }
 
         [TestMethod]
-        public void TestCreateReaderSuccess()
+        public void TestCreateAuthorSuccess()
         {
+            var authorId = 1;
             var author = new Author
             {
                 Name = "Ion Creanga",
                 BirthDate = new DateTime(1850, 1, 1),
-                Country = "Romania"
+                Country = "Romania",
+                DeathDate = new DateTime(2020, 12, 12),
+                Id = authorId
             };
 
             var result = _validator.Validate(author);
 
+            Assert.IsTrue(authorId == author.Id);
             Assert.IsNotNull(result);
             Assert.IsTrue(result.IsValid);
             Assert.IsTrue(result.Errors.Count == 0);
         }
 
         [TestMethod]
-        public void TestCreateReaderFailNoName()
+        public void TestCreateAuthorFailNoName()
         {
             var author = new Author
             {
@@ -54,7 +58,7 @@ namespace LibraryAdministrationTest.DomainModelTests
         }
 
         [TestMethod]
-        public void TestCreateReaderFailNoCountry()
+        public void TestCreateAuthorFailNoCountry()
         {
             var author = new Author
             {
@@ -70,7 +74,7 @@ namespace LibraryAdministrationTest.DomainModelTests
         }
 
         [TestMethod]
-        public void TestCreateReaderFailNoBirthDate()
+        public void TestCreateAuthorFailNoBirthDate()
         {
             var author = new Author
             {
@@ -86,7 +90,7 @@ namespace LibraryAdministrationTest.DomainModelTests
         }
 
         [TestMethod]
-        public void TestCreateReaderFailNameTooShort()
+        public void TestCreateAuthorFailNameTooShort()
         {
             var author = new Author
             {
@@ -103,7 +107,7 @@ namespace LibraryAdministrationTest.DomainModelTests
         }
 
         [TestMethod]
-        public void TestCreateReaderFailNameTooLong()
+        public void TestCreateAuthorFailNameTooLong()
         {
             var author = new Author
             {
@@ -117,6 +121,40 @@ namespace LibraryAdministrationTest.DomainModelTests
             Assert.IsNotNull(result);
             Assert.IsFalse(result.IsValid);
             Assert.IsFalse(result.Errors.Count == 0);
+        }
+
+        [TestMethod]
+        public void TestCreateAuthorWithBooksSuccess()
+        {
+            var authorId = 1;
+            var author = new Author
+            {
+                Name = "Ion Creanga",
+                BirthDate = new DateTime(1850, 1, 1),
+                Country = "Romania",
+                DeathDate = new DateTime(2020, 12, 12),
+                Id = authorId
+            };
+
+            var book = new Book
+            {
+                Id = 1,
+                Language = "Romana",
+                Name = "Test"
+            };
+
+            author.Books.Add(book);
+            book.Authors.Add(author);
+
+            var result = _validator.Validate(author);
+
+            Assert.IsTrue(authorId == author.Id);
+            Assert.IsNotNull(result);
+            Assert.IsTrue(result.IsValid);
+            Assert.IsTrue(result.Errors.Count == 0);
+            Assert.AreEqual(book, author.Books.ElementAt(0));
+            Assert.AreEqual(author, book.Authors.ElementAt(0));
+            Assert.IsNotNull(author.DeathDate);
         }
     }
 }

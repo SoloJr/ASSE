@@ -26,13 +26,7 @@ namespace LibraryAdministrationTest.ServiceTests
                 BookId = 1,
                 Count = 10,
                 Pages = 200,
-                Publisher = new Publisher
-                {
-                    Name = "Editura 2000",
-                    FoundingDate = new DateTime(2000, 1, 1),
-                    Headquarter = "Bucuresti",
-                    Id = 1
-                },
+                PublisherId = 1,
                 ReleaseDate = DateTime.MaxValue,
                 Type = BookType.Ebook
             };

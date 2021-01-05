@@ -169,5 +169,31 @@ namespace LibraryAdministrationTest.DomainModelTests
             Assert.IsFalse(result.IsValid);
             Assert.IsFalse(result.Errors.Count == 0);
         }
+        [TestMethod]
+        public void TestReaderBook()
+        {
+            var reader = new Reader
+            {
+                Info = new PersonalInfo
+                {
+                    PhoneNumber = "0731233233",
+                    Email = "mircea.solo1995@gmail.com"
+                },
+                Address = "0",
+                FirstName = "Mircea",
+                LastName = "Solovastru",
+                Id = 1
+            };
+
+            var book = new Book
+            {
+                Name = "Arta Subtila a Nepasarii",
+                Language = "Romana",
+                Year = 2017,
+                Id = 1
+            };
+
+
+        }
     }
 }

@@ -14,6 +14,7 @@ namespace LibraryAdministration.DomainModel
         {
             this.Authors = new HashSet<Author>();
             this.Domains = new HashSet<Domain>();
+            this.Publishers = new List<BookPublisher>();
         }
 
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]

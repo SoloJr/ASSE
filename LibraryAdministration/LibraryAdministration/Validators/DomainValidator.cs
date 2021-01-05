@@ -13,6 +13,7 @@ namespace LibraryAdministration.Validators
     {
         public DomainValidator()
         {
+            RuleFor(x => x.Name).NotEmpty().MinimumLength(3).MaximumLength(30); ;
             RuleFor(x => x).Must(ParentTesterDomain).WithMessage("You have to specify the parent if the domain is set");
         }
 
