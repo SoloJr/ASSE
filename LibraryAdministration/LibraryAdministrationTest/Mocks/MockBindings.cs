@@ -1,5 +1,6 @@
 ﻿using System.Text;
 using System.Threading.Tasks;
+using LibraryAdministration.BusinessLayer;
 using LibraryAdministration.Interfaces.Business;
 using LibraryAdministration.Interfaces.DataAccess;
 using Ninject.Modules;
@@ -16,16 +17,16 @@ namespace LibraryAdministrationTest.Mocks
 
         private void LoadRepositoryLayer()
         {
-            Bind<IAuthorService>().To<AuthorServiceMock>();
-            Bind<IBookService>().To<BookServiceMock>();
-            Bind<IBookPublisherService>().To<BookPublisherServiceMock>();
-            Bind<IBookRentalService>().To<BookRentalServiceMock>();
-            Bind<IDomainService>().To<DomainServiceMock>();
-            Bind<IEmployeeService>().To<EmployeeServiceMock>();
-            Bind<IPersonalInfoService>().To<PersonalInfoServiceMock>();
-            Bind<IPublisherService>().To<PublisherServiceMock>();
-            Bind<IReaderService>().To<ReaderServiceMock>();
-            Bind<IReaderBookService>().To<ReaderBookServiceMock>();
+            Bind<IAuthorService>().To<AuthorService>();
+            Bind<IBookService>().To<BookService>();
+            Bind<IBookPublisherService>().To<BookPublisherService>();
+            Bind<IBookRentalService>().To<BookRentalService>();
+            Bind<IDomainService>().To<DomainService>();
+            Bind<IEmployeeService>().To<EmployeeService>();
+            Bind<IPersonalInfoService>().To<PersonalInfoService>();
+            Bind<IPublisherService>().To<PublisherService>();
+            Bind<IReaderService>().To<ReaderService>();
+            Bind<IReaderBookService>().To<ReaderBookService>();
         }
 
         private void LoadServiceLayer()

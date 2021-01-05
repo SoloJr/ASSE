@@ -11,7 +11,7 @@ using LibraryAdministration.Validators;
 
 namespace LibraryAdministration.BusinessLayer
 {
-    class AuthorService : BaseService<Author, IAuthorRepository>, IAuthorService
+    public class AuthorService : BaseService<Author, IAuthorRepository>, IAuthorService
     {
         public AuthorService()
             : base(Injector.Get<IAuthorRepository>(), new AuthorValidator())
