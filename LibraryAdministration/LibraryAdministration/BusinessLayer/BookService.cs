@@ -4,6 +4,8 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using FluentValidation;
+using LibraryAdministration.DataAccessLayer;
+using LibraryAdministration.DataMapper;
 using LibraryAdministration.DomainModel;
 using LibraryAdministration.Interfaces.Business;
 using LibraryAdministration.Interfaces.DataAccess;
@@ -14,8 +16,8 @@ namespace LibraryAdministration.BusinessLayer
 {
     public class BookService : BaseService<Book, IBookRepository>, IBookService
     {
-        public BookService()
-            : base(Injector.Get<IBookRepository>(), new BookValidator())
+        public BookService(LibraryContext context)
+            : base(new BookRepository(context), new BookValidator())
         {
 
         }

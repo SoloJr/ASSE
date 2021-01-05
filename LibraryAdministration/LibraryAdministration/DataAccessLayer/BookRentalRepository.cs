@@ -3,12 +3,13 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using LibraryAdministration.DataMapper;
 using LibraryAdministration.DomainModel;
 using LibraryAdministration.Interfaces.DataAccess;
-
 namespace LibraryAdministration.DataAccessLayer
 {
-    class BookRentalRepository : BaseRepository<BookRental>, IBookRentalRepository
+    public class BookRentalRepository : BaseRepository<BookRental>, IBookRentalRepository
     {
+        public BookRentalRepository(LibraryContext context) : base(context) { }
     }
 }

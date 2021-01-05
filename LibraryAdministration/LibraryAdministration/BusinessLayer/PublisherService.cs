@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using LibraryAdministration.DataAccessLayer;
+using LibraryAdministration.DataMapper;
 using LibraryAdministration.DomainModel;
 using LibraryAdministration.Interfaces.Business;
 using LibraryAdministration.Interfaces.DataAccess;
@@ -13,8 +15,8 @@ namespace LibraryAdministration.BusinessLayer
 {
     public class PublisherService : BaseService<Publisher, IPublisherRepository>, IPublisherService
     {
-        public PublisherService()
-            : base(Injector.Get<IPublisherRepository>(), new PublisherValidator())
+        public PublisherService(LibraryContext context)
+            : base(new PublisherRepository(context), new PublisherValidator())
         {
 
         }

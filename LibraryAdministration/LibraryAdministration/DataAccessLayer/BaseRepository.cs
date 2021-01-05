@@ -10,29 +10,36 @@ using LibraryAdministration.Interfaces.DataAccess;
 
 namespace LibraryAdministration.DataAccessLayer
 {
-    abstract class BaseRepository<T> : IRepository<T>
+    public abstract class BaseRepository<T> : IRepository<T>
         where T : class
     {
+        private LibraryContext _context;
+
+        protected BaseRepository(LibraryContext context)
+        {
+            _context = context;
+        }
+
         public virtual void Insert(T entity)
         {
-            using (var ctx = new LibraryContext())
+            using (_context)
             {
-                var dbSet = ctx.Set<T>();
+                var dbSet = _context.Set<T>();
                 dbSet.Add(entity);
 
-                ctx.SaveChanges();
+                _context.SaveChanges();
             }
         }
 
         public virtual void Update(T item)
         {
-            using (var ctx = new LibraryContext())
+            using (_context)
             {
-                var dbSet = ctx.Set<T>();
+                var dbSet = _context.Set<T>();
                 dbSet.Attach(item);
-                ctx.Entry(item).State = EntityState.Modified;
+                _context.Entry(item).State = EntityState.Modified;
 
-                ctx.SaveChanges();
+                _context.SaveChanges();
             }
         }
 
@@ -43,18 +50,18 @@ namespace LibraryAdministration.DataAccessLayer
 
         public virtual void Delete(T entityToDelete)
         {
-            using (var ctx = new LibraryContext())
+            using (_context)
             {
-                var dbSet = ctx.Set<T>();
+                var dbSet = _context.Set<T>();
 
-                if (ctx.Entry(entityToDelete).State == EntityState.Detached)
+                if (_context.Entry(entityToDelete).State == EntityState.Detached)
                 {
                     dbSet.Attach(entityToDelete);
                 }
 
                 dbSet.Remove(entityToDelete);
 
-                ctx.SaveChanges();
+                _context.SaveChanges();
             }
         }
 

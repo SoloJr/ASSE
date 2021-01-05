@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using FluentValidation;
 using FluentValidation.Results;
+using LibraryAdministration.DataMapper;
 using LibraryAdministration.Interfaces.Business;
 using LibraryAdministration.Interfaces.DataAccess;
 
@@ -16,7 +17,6 @@ namespace LibraryAdministration.BusinessLayer
     {
         protected U _repository;
         protected IValidator<T> _validator;
-
         /// <summary>
         /// Ctor for base service
         /// </summary>

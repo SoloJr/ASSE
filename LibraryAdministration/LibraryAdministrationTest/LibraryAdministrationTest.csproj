@@ -30,6 +30,7 @@
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <LangVersion>preview</LangVersion>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -38,6 +39,7 @@
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <LangVersion>preview</LangVersion>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="Castle.Core, Version=4.0.0.0, Culture=neutral, PublicKeyToken=407dd0808d44fbdc, processorArchitecture=MSIL">
@@ -83,19 +85,7 @@
     <Compile Include="DomainModelTests\PersonalInfoTest.cs" />
     <Compile Include="DomainModelTests\PublisherTest.cs" />
     <Compile Include="DomainModelTests\ReaderTest.cs" />
-    <Compile Include="Mocks\AuthorRepositoryMock.cs" />
-    <Compile Include="Mocks\BaseRepositoryMock.cs" />
-    <Compile Include="Mocks\BookPublisherRepositoryMock.cs" />
-    <Compile Include="Mocks\BookRentalRepositoryMock.cs" />
-    <Compile Include="Mocks\BookRepositoryMock.cs" />
-    <Compile Include="Mocks\DeleteItemException.cs" />
-    <Compile Include="Mocks\DomainRepositoryMock.cs" />
-    <Compile Include="Mocks\EmployeeRepositoryMock.cs" />
     <Compile Include="Mocks\MockBindings.cs" />
-    <Compile Include="Mocks\PersonalInfoRepositoryMock.cs" />
-    <Compile Include="Mocks\PublisherRepositoryMock.cs" />
-    <Compile Include="Mocks\ReaderBookRepositoryMock.cs" />
-    <Compile Include="Mocks\ReaderRepositoryMock.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ServiceTests\AuthorServiceTest.cs" />
     <Compile Include="ServiceTests\BookPublisherServiceTest.cs" />
@@ -106,7 +96,6 @@
     <Compile Include="ServiceTests\PersonalInfoServiceTest.cs" />
     <Compile Include="ServiceTests\PublisherServiceTest.cs" />
     <Compile Include="ServiceTests\ReaderServiceTest.cs" />
-    <Compile Include="ServiceTests\RealImplementationServiceTests.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />

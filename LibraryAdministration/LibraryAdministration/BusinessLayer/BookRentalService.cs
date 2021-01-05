@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using LibraryAdministration.DataAccessLayer;
+using LibraryAdministration.DataMapper;
 using LibraryAdministration.DomainModel;
 using LibraryAdministration.Interfaces.Business;
 using LibraryAdministration.Interfaces.DataAccess;
@@ -13,8 +15,8 @@ namespace LibraryAdministration.BusinessLayer
 {
     public class BookRentalService : BaseService<BookRental, IBookRentalRepository>, IBookRentalService
     {
-        public BookRentalService()
-            : base(Injector.Get<IBookRentalRepository>(), new BookRentalValidator())
+        public BookRentalService(LibraryContext context)
+            : base(new BookRentalRepository(context), new BookRentalValidator())
         {
 
         }

@@ -13,7 +13,7 @@ using Ninject.Modules;
 
 namespace LibraryAdministration.Startup
 {
-    class Bindings : NinjectModule
+    public class Bindings : NinjectModule
     {
         public override void Load()
         {
