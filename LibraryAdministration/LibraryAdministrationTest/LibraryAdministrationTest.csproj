@@ -88,11 +88,13 @@
     <Compile Include="Mocks\DomainServiceMock.cs" />
     <Compile Include="Mocks\EmployeeRepositoryMock.cs" />
     <Compile Include="Mocks\EmployeeServiceMock.cs" />
+    <Compile Include="Mocks\ReaderBookServiceMock.cs" />
     <Compile Include="Mocks\MockBindings.cs" />
     <Compile Include="Mocks\PersonalInfoRepositoryMock.cs" />
     <Compile Include="Mocks\PersonalInfoServiceMock.cs" />
     <Compile Include="Mocks\PublisherRepositoryMock.cs" />
     <Compile Include="Mocks\PublisherServiceMock.cs" />
+    <Compile Include="Mocks\ReaderBookRepositoryMock.cs" />
     <Compile Include="Mocks\ReaderRepositoryMock.cs" />
     <Compile Include="Mocks\ReaderServiceMock.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

@@ -32,6 +32,7 @@ namespace LibraryAdministration.Startup
             Bind<IPersonalInfoService>().To<PersonalInfoService>();
             Bind<IPublisherService>().To<PublisherService>();
             Bind<IReaderService>().To<ReaderService>();
+            Bind<IReaderBookService>().To<ReaderBookService>();
         }
 
         private void LoadRepositoryLayer()
@@ -45,6 +46,7 @@ namespace LibraryAdministration.Startup
             Bind<IPersonalInfoRepository>().To<PersonalInfoRepository>();
             Bind<IPublisherRepository>().To<PublisherRepository>();
             Bind<IReaderRepository>().To<ReaderRepository>();
+            Bind<IReaderBookService>().To<ReaderBookService>();
         }
     }
 }

@@ -91,6 +91,7 @@
     <Compile Include="BusinessLayer\EmployeeService.cs" />
     <Compile Include="BusinessLayer\PersonalInfoService.cs" />
     <Compile Include="BusinessLayer\PublisherService.cs" />
+    <Compile Include="BusinessLayer\ReaderBookService.cs" />
     <Compile Include="BusinessLayer\ReaderService.cs" />
     <Compile Include="DataAccessLayer\AuthorRepository.cs" />
     <Compile Include="DataAccessLayer\BaseRepository.cs" />
@@ -101,6 +102,7 @@
     <Compile Include="DataAccessLayer\EmployeeRepository.cs" />
     <Compile Include="DataAccessLayer\PersonalInfoRepository.cs" />
     <Compile Include="DataAccessLayer\PublisherRepository.cs" />
+    <Compile Include="DataAccessLayer\ReaderBookRepository.cs" />
     <Compile Include="DataAccessLayer\ReaderRepository.cs" />
     <Compile Include="DomainModel\BookRental.cs" />
     <Compile Include="DomainModel\Employee.cs" />
@@ -115,6 +117,7 @@
     <Compile Include="Interfaces\Business\IEmployeeService.cs" />
     <Compile Include="Interfaces\Business\IPersonalInfoService.cs" />
     <Compile Include="Interfaces\Business\IPublisherService.cs" />
+    <Compile Include="Interfaces\Business\IReaderBookService.cs" />
     <Compile Include="Interfaces\Business\IReaderService.cs" />
     <Compile Include="Interfaces\Business\IService.cs" />
     <Compile Include="Interfaces\DataAccess\IAuthorRepository.cs" />
@@ -125,6 +128,7 @@
     <Compile Include="Interfaces\DataAccess\IEmployeeRepository.cs" />
     <Compile Include="Interfaces\DataAccess\IPersonalInfoRepository.cs" />
     <Compile Include="Interfaces\DataAccess\IPublisherRepository.cs" />
+    <Compile Include="Interfaces\DataAccess\IReaderBookRepository.cs" />
     <Compile Include="Interfaces\DataAccess\IReaderRepository.cs" />
     <Compile Include="Interfaces\DataAccess\IRepository.cs" />
     <Compile Include="Migrations\202101030938461_InitialCreate.cs" />
@@ -174,6 +178,7 @@
     <Compile Include="Validators\EmployeeValidator.cs" />
     <Compile Include="Validators\PersonalInfoValidator.cs" />
     <Compile Include="Validators\PublisherValidator.cs" />
+    <Compile Include="Validators\ReaderBookValidator.cs" />
     <Compile Include="Validators\ReaderValidator.cs" />
     <Compile Include="Validators\ValidatorExtension.cs" />
     <Page Include="MainWindow.xaml">

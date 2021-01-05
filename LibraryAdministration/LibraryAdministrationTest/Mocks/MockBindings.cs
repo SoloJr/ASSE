@@ -25,6 +25,7 @@ namespace LibraryAdministrationTest.Mocks
             Bind<IPersonalInfoService>().To<PersonalInfoServiceMock>();
             Bind<IPublisherService>().To<PublisherServiceMock>();
             Bind<IReaderService>().To<ReaderServiceMock>();
+            Bind<IReaderBookService>().To<ReaderBookServiceMock>();
         }
 
         private void LoadServiceLayer()
@@ -38,6 +39,7 @@ namespace LibraryAdministrationTest.Mocks
             Bind<IPersonalInfoRepository>().To<PersonalInfoRepositoryMock>();
             Bind<IPublisherRepository>().To<PublisherRepositoryMock>();
             Bind<IReaderRepository>().To<ReaderRepositoryMock>();
+            Bind<IReaderBookRepository>().To<ReaderBookRepositoryMock>();
         }
     }
 }
