@@ -108,5 +108,44 @@ namespace LibraryAdministrationTest.ServiceTests
                 Assert.Fail(e.Message);
             }
         }
+
+        [TestMethod]
+        public void TestGetAllAuthors()
+        {
+            var data = new List<Author>
+            {
+                _author,
+                new Author
+                {
+                    Name = "Mark Manson(2)",
+                    BirthDate = new DateTime(1970, 1, 1),
+                    Country = "USA",
+                    Id = 2
+                },
+                new Author
+                {
+                    Name = "Mark Manson(3)",
+                    BirthDate = new DateTime(1970, 1, 1),
+                    Country = "USA",
+                    Id = 3
+                }
+            }.AsQueryable();
+
+            var mockSet = new Mock<DbSet<Author>>();
+            mockSet.As<IQueryable<Author>>().Setup(m => m.Provider).Returns(data.Provider);
+            mockSet.As<IQueryable<Author>>().Setup(m => m.Expression).Returns(data.Expression);
+            mockSet.As<IQueryable<Author>>().Setup(m => m.ElementType).Returns(data.ElementType);
+            mockSet.As<IQueryable<Author>>().Setup(m => m.GetEnumerator()).Returns(data.GetEnumerator());
+
+            var mockContext = new Mock<LibraryContext>();
+            mockContext.Setup(x => x.Set<Author>()).Returns(mockSet.Object);
+
+            _service = new AuthorService(mockContext.Object);
+
+            var authors = _service.GetAll();
+
+            Assert.IsNotNull(authors);
+            Assert.AreEqual(authors.Count(), 3);
+        }
     }
 }

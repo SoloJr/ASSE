@@ -95,6 +95,7 @@
     <Compile Include="ServiceTests\EmployeeServiceTest.cs" />
     <Compile Include="ServiceTests\PersonalInfoServiceTest.cs" />
     <Compile Include="ServiceTests\PublisherServiceTest.cs" />
+    <Compile Include="ServiceTests\ReaderBookServiceTest.cs" />
     <Compile Include="ServiceTests\ReaderServiceTest.cs" />
   </ItemGroup>
   <ItemGroup>

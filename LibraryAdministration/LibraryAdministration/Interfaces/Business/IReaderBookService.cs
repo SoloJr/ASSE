@@ -9,5 +9,6 @@ namespace LibraryAdministration.Interfaces.Business
 {
     public interface IReaderBookService : IService<ReaderBook>
     {
+        List<ReaderBook> GetAllBooksOnLoan(int readerId);
     }
 }

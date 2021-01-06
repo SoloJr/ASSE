@@ -13,7 +13,7 @@ namespace LibraryAdministration.DataAccessLayer
     public abstract class BaseRepository<T> : IRepository<T>
         where T : class
     {
-        private LibraryContext _context;
+        protected LibraryContext _context;
 
         protected BaseRepository(LibraryContext context)
         {
@@ -67,17 +67,17 @@ namespace LibraryAdministration.DataAccessLayer
 
         public virtual T GetById(int id)
         {
-            using (var ctx = new LibraryContext())
+            using (_context)
             {
-                return ctx.Set<T>().Find(id);
+                return _context.Set<T>().Find(id);
             }
         }
 
         public IEnumerable<T> GetAll()
         {
-            using (var ctx = new LibraryContext())
+            using (_context)
             {
-                var dbSet = ctx.Set<T>();
+                var dbSet = _context.Set<T>();
 
                 return dbSet.ToList();
             }
