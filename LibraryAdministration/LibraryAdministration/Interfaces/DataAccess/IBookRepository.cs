@@ -9,5 +9,6 @@ namespace LibraryAdministration.Interfaces.DataAccess
 {
     public interface IBookRepository : IRepository<Book>
     {
+        IEnumerable<Domain> GetAllDomainsOfBook(int bookId);
     }
 }

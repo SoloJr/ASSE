@@ -36,13 +36,13 @@ namespace LibraryAdministration
 
             var bookService = kernel.Get<IBookService>();
 
-            var result = bookService.Insert(new Book()
-            {
-                Language = "Romanian",
-                Name = "Amintiri din Copilarie",
-                Year = 1885
-            });
+            //var result = bookService.GetAllDomainsOfBook(2);
 
+            var domainService = kernel.Get<IDomainService>();
+
+            var _ = domainService.GetAllParentDomains(13);
+
+            _ = domainService.GetAllParentDomains(7);
 
             InitializeComponent();
         }

@@ -26,5 +26,10 @@ namespace LibraryAdministration.BusinessLayer
         {
             return _repository.GetAll();
         }
+
+        public IEnumerable<Domain> GetAllDomainsOfBook(int bookId)
+        {
+            return _repository.GetAllDomainsOfBook(bookId);
+        }
     }
 }

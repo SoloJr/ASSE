@@ -15,5 +15,9 @@ namespace LibraryAdministration.Interfaces.Business
         /// <param name="bookId">The book identifier.</param>
         /// <returns></returns>
         IEnumerable<Domain> GetAllDomainsOfBook(int bookId);
+
+        IEnumerable<Domain> GetAllParentDomains(int domainId);
+
+        bool CheckDomainConstraint(List<Domain> domains);
     }
 }

@@ -10,5 +10,7 @@ namespace LibraryAdministration.Interfaces.Business
     public interface IBookService : IService<Book>
     {
         IEnumerable<Book> GetBooksWithAuthors();
+
+        IEnumerable<Domain> GetAllDomainsOfBook(int bookId);
     }
 }

@@ -25,5 +25,16 @@ namespace LibraryAdministration.BusinessLayer
         {
             return null;
         }
+
+        public IEnumerable<Domain> GetAllParentDomains(int domainId)
+        {
+            return _repository.GetAllParentDomains(domainId);
+        }
+
+
+        public bool CheckDomainConstraint(List<Domain> domains)
+        {
+            return _repository.CheckDomainConstraint(domains);
+        }
     }
 }

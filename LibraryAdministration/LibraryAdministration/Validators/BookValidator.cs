@@ -16,12 +16,13 @@ namespace LibraryAdministration.Validators
 
         public BookValidator()
         {
-            //var dom = int.Parse(_dom);
+            var dom = int.Parse(_dom);
             RuleFor(book => book.Name).NotEmpty().MinimumLength(3).MaximumLength(100);
             RuleFor(book => book.Language).NotEmpty().MinimumLength(3).MaximumLength(20);
             RuleFor(book => book.Year).NotEmpty();
-            //RuleFor(book => book.Domains).Must(x => x.Count <= dom).WithMessage($"The book cannot be in more than {dom} domains");
-            RuleFor(book => book.Domains).Must(RuleForNumberOfDomains).WithMessage("Too many domains");
+            RuleFor(book => book.Domains).Must(x => x.Count <= dom)
+                .WithMessage($"The book cannot be in more than {dom} domains");
+            //RuleFor(book => book.Domains).Must(RuleForNumberOfDomains).WithMessage("Too many domains");
         }
 
         private bool RuleForNumberOfDomains(ICollection<Domain> domains)
