@@ -29,6 +29,9 @@ namespace LibraryAdministration.DomainModel
         [Required]
         public int ForRent { get; set; }
 
+        [Required]
+        public int ForLecture { get; set; }
+
         public int BookId { get; set; }
 
         [ForeignKey("BookId")]

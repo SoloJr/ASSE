@@ -26,5 +26,20 @@ namespace LibraryAdministration.BusinessLayer
             var repo = (ReaderBookRepository) _repository;
             return repo.GetAllBooksOnLoan(readerId);
         }
+
+        public bool CheckBeforeLoan(int readerId)
+        {
+            return _repository.CheckBeforeLoan(readerId);
+        }
+
+        public bool CheckPastLoansForDomains(int readerId, int domainId)
+        {
+            return _repository.CheckPastLoansForDomains(readerId, domainId);
+        }
+
+        public bool CheckBooksRentedToday(int readerId)
+        {
+            return _repository.CheckBooksRentedToday(readerId);
+        }
     }
 }

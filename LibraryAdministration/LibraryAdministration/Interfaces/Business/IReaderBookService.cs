@@ -10,5 +10,11 @@ namespace LibraryAdministration.Interfaces.Business
     public interface IReaderBookService : IService<ReaderBook>
     {
         List<ReaderBook> GetAllBooksOnLoan(int readerId);
+
+        bool CheckBeforeLoan(int readerId);
+
+        bool CheckPastLoansForDomains(int readerId, int domainId);
+
+        bool CheckBooksRentedToday(int readerId);
     }
 }

@@ -9,5 +9,10 @@ namespace LibraryAdministration.Interfaces.DataAccess
 {
     public interface IReaderBookRepository : IRepository<ReaderBook>
     {
+        bool CheckBeforeLoan(int readerId);
+
+        bool CheckPastLoansForDomains(int readerId, int domainId);
+
+        bool CheckBooksRentedToday(int readerId);
     }
 }

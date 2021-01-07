@@ -18,6 +18,8 @@ namespace LibraryAdministration.Validators
             RuleFor(x => x.Type).NotEmpty();
             RuleFor(x => x.Pages).NotEmpty();
             RuleFor(x => x.ReleaseDate).Must(x => x > DateTime.MinValue);
+            RuleFor(x => x.ForLecture).NotEmpty();
+            RuleFor(x => x.ForRent).NotEmpty();
         }
     }
 }
