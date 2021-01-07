@@ -44,8 +44,8 @@ namespace LibraryAdministrationTest.DomainModelTests
             var result = _bookValidator.Validate(book);
 
             Assert.IsNotNull(result);
-            Assert.AreEqual(result.IsValid, true);
-            Assert.AreEqual(result.Errors.Count, 0);
+            Assert.AreEqual(result.IsValid, false);
+            Assert.IsTrue(result.Errors.Count > 0);
         }
 
         [TestMethod]
@@ -124,6 +124,10 @@ namespace LibraryAdministrationTest.DomainModelTests
                 {
                     domainOne,
                     domainTwo
+                },
+                Authors = new List<Author>
+                {
+                    new Author()
                 }
             };
 
@@ -131,7 +135,7 @@ namespace LibraryAdministrationTest.DomainModelTests
 
             Assert.IsNotNull(result);
             Assert.AreEqual(result.IsValid, false);
-            Assert.IsTrue(result.Errors.Any(x => x.ErrorMessage.Contains("Too many domains")));
+            Assert.IsTrue(result.Errors.Any(x => x.ErrorMessage.Contains("The book cannot be in more")));
         }
 
         [TestMethod]
@@ -160,6 +164,10 @@ namespace LibraryAdministrationTest.DomainModelTests
                 {
                     domainOne,
                     domainTwo
+                },
+                Authors = new List<Author>
+                {
+                    new Author()
                 }
             };
 
@@ -167,7 +175,7 @@ namespace LibraryAdministrationTest.DomainModelTests
 
             Assert.IsNotNull(result);
             Assert.AreEqual(result.IsValid, false);
-            Assert.IsTrue(result.Errors.Any(x => x.ErrorMessage.Contains("Too many domains")));
+            Assert.IsTrue(result.Errors.Any(x => x.ErrorMessage.Contains("The book cannot be in more")));
         }
 
         [TestMethod]
@@ -179,7 +187,14 @@ namespace LibraryAdministrationTest.DomainModelTests
                 Language = "Romanian",
                 Name = "Amintiri din Copilarie",
                 Year = 1885,
-                Id = bookId
+                Id = bookId,
+                Authors = new List<Author>
+                {
+                    new Author
+                    {
+
+                    }
+                }
             };
 
             var result = _bookValidator.Validate(book);
@@ -231,7 +246,11 @@ namespace LibraryAdministrationTest.DomainModelTests
             {
                 Language = "Romanian",
                 Name = "Amintiri din Copilarie",
-                Year = 1885
+                Year = 1885,
+                Authors = new List<Author>
+                {
+                    new Author()
+                }
             };
 
             var bookPublisher = new BookPublisher
@@ -268,7 +287,11 @@ namespace LibraryAdministrationTest.DomainModelTests
                 Id = 1,
                 Language = "Romanian",
                 Name = "Amintiri din Copilarie",
-                Year = 1885
+                Year = 1885,
+                Authors = new List<Author>
+                {
+                    new Author()
+                }
             };
 
             var bookPublisher = new BookPublisher
@@ -278,7 +301,9 @@ namespace LibraryAdministrationTest.DomainModelTests
                 RentCount = 200,
                 Pages = 200,
                 Type = BookType.Hardback,
-                ReleaseDate = new DateTime(2020, 12, 12)
+                ReleaseDate = new DateTime(2020, 12, 12),
+                ForLecture = 10,
+                ForRent = 10
             };
 
             book.Publishers.Add(bookPublisher);
@@ -307,7 +332,11 @@ namespace LibraryAdministrationTest.DomainModelTests
                 Id = 1,
                 Language = "Romanian",
                 Name = "Amintiri din Copilarie",
-                Year = 1885
+                Year = 1885,
+                Authors = new List<Author>
+                {
+                    new Author()
+                }
             };
 
             var bookPublisherId = 1;
@@ -321,7 +350,9 @@ namespace LibraryAdministrationTest.DomainModelTests
                 BookId = book.Id,
                 Publisher = publisher,
                 PublisherId = publisher.Id,
-                ReleaseDate = new DateTime(2020, 12, 31)
+                ReleaseDate = new DateTime(2020, 12, 31),
+                ForLecture = 10,
+                ForRent = 10
             };
 
             book.Publishers.Add(bookPublisher);

@@ -34,7 +34,9 @@ namespace LibraryAdministrationTest.ServiceTests
                 Pages = 200,
                 PublisherId = 1,
                 ReleaseDate = DateTime.MaxValue,
-                Type = BookType.Ebook
+                Type = BookType.Ebook,
+                ForLecture = 10,
+                ForRent = 4
             };
         }
 
