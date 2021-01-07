@@ -16,5 +16,7 @@ namespace LibraryAdministration.Interfaces.Business
         bool CheckPastLoansForDomains(int readerId, int domainId);
 
         bool CheckBooksRentedToday(int readerId);
+
+        bool CheckSameBookRented(int bookId, int readerId);
     }
 }

@@ -95,5 +95,16 @@ namespace LibraryAdministration.DataAccessLayer
 
             return result.Count <= nczInt;
         }
+
+        public bool CheckSameBookRented(int bookId, int readerId)
+        {
+            var delta = ConfigurationManager.AppSettings["DELTA"];
+            var deltaInt = int.Parse(delta);
+            var data = _context.ReaderBooks.Where(x => x.ReaderId == readerId && x.BookPublisher.BookId == bookId).ToList();
+
+            var ddlDate = DateTime.Now.AddDays(-deltaInt);
+
+            return data.Count == 0 || data.All(rb => rb.LoanDate <= ddlDate);
+        }
     }
 }

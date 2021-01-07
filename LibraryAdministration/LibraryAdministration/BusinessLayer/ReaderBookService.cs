@@ -41,5 +41,10 @@ namespace LibraryAdministration.BusinessLayer
         {
             return _repository.CheckBooksRentedToday(readerId);
         }
+
+        public bool CheckSameBookRented(int bookId, int readerId)
+        {
+            return _repository.CheckSameBookRented(bookId, readerId);
+        }
     }
 }

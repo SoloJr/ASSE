@@ -555,5 +555,168 @@ namespace LibraryAdministrationTest.ServiceTests
 
             Assert.IsTrue(result);
         }
+
+        [TestMethod]
+        public void TestFailRentSameBook()
+        {
+            var bookPublisher = new BookPublisher
+            {
+                Id = 2,
+                BookId = 1
+            };
+
+            var bpData = new List<BookPublisher>
+            {
+                bookPublisher
+            }.AsQueryable();
+
+            var data = new List<ReaderBook>
+            {
+                new ReaderBook
+                {
+                    BookPublisher = bpData.ElementAt(0),
+                    BookPublisherId = 2,
+                    ReaderId = 2,
+                    LoanDate = DateTime.Now,
+                    Id = 1
+                },
+                new ReaderBook
+                {
+                    BookPublisher = bpData.ElementAt(0),
+                    BookPublisherId = 2,
+                    ReaderId = 1,
+                    LoanDate = DateTime.Now,
+                    Id = 2
+                },
+                new ReaderBook
+                {
+                    BookPublisher = bpData.ElementAt(0),
+                    BookPublisherId = 2,
+                    ReaderId = 1,
+                    LoanDate = DateTime.Now,
+                    Id = 3
+                }
+            }.AsQueryable();
+
+            var mockSet = new Mock<DbSet<ReaderBook>>();
+            mockSet.As<IQueryable<ReaderBook>>().Setup(m => m.Provider).Returns(data.Provider);
+            mockSet.As<IQueryable<ReaderBook>>().Setup(m => m.Expression).Returns(data.Expression);
+            mockSet.As<IQueryable<ReaderBook>>().Setup(m => m.ElementType).Returns(data.ElementType);
+            mockSet.As<IQueryable<ReaderBook>>().Setup(m => m.GetEnumerator()).Returns(data.GetEnumerator());
+
+            var mockSetBp = new Mock<DbSet<BookPublisher>>();
+            mockSetBp.As<IQueryable<BookPublisher>>().Setup(m => m.Provider).Returns(bpData.Provider);
+            mockSetBp.As<IQueryable<BookPublisher>>().Setup(m => m.Expression).Returns(bpData.Expression);
+            mockSetBp.As<IQueryable<BookPublisher>>().Setup(m => m.ElementType).Returns(bpData.ElementType);
+            mockSetBp.As<IQueryable<BookPublisher>>().Setup(m => m.GetEnumerator()).Returns(bpData.GetEnumerator());
+
+
+            var mockContext = new Mock<LibraryContext>();
+            mockContext.Setup(x => x.ReaderBooks).Returns(mockSet.Object);
+            mockContext.Setup(x => x.BookPublisher).Returns(mockSetBp.Object);
+
+            _service = new ReaderBookService(mockContext.Object);
+            var result = _service.CheckSameBookRented(1, 1);
+
+            Assert.IsFalse(result);
+        }
+
+        [TestMethod]
+        public void TestSuccessRentSameBookAlreadyRent()
+        {
+            var bookPublisher = new BookPublisher
+            {
+                Id = 2,
+                BookId = 1
+            };
+
+            var bpData = new List<BookPublisher>
+            {
+                bookPublisher
+            }.AsQueryable();
+
+            var data = new List<ReaderBook>
+            {
+                new ReaderBook
+                {
+                    BookPublisher = bpData.ElementAt(0),
+                    BookPublisherId = 2,
+                    ReaderId = 1,
+                    LoanDate = DateTime.Now.AddDays(-14),
+                    Id = 2
+                }
+            }.AsQueryable();
+
+            var mockSet = new Mock<DbSet<ReaderBook>>();
+            mockSet.As<IQueryable<ReaderBook>>().Setup(m => m.Provider).Returns(data.Provider);
+            mockSet.As<IQueryable<ReaderBook>>().Setup(m => m.Expression).Returns(data.Expression);
+            mockSet.As<IQueryable<ReaderBook>>().Setup(m => m.ElementType).Returns(data.ElementType);
+            mockSet.As<IQueryable<ReaderBook>>().Setup(m => m.GetEnumerator()).Returns(data.GetEnumerator());
+
+            var mockSetBp = new Mock<DbSet<BookPublisher>>();
+            mockSetBp.As<IQueryable<BookPublisher>>().Setup(m => m.Provider).Returns(bpData.Provider);
+            mockSetBp.As<IQueryable<BookPublisher>>().Setup(m => m.Expression).Returns(bpData.Expression);
+            mockSetBp.As<IQueryable<BookPublisher>>().Setup(m => m.ElementType).Returns(bpData.ElementType);
+            mockSetBp.As<IQueryable<BookPublisher>>().Setup(m => m.GetEnumerator()).Returns(bpData.GetEnumerator());
+
+
+            var mockContext = new Mock<LibraryContext>();
+            mockContext.Setup(x => x.ReaderBooks).Returns(mockSet.Object);
+            mockContext.Setup(x => x.BookPublisher).Returns(mockSetBp.Object);
+
+            _service = new ReaderBookService(mockContext.Object);
+            var result = _service.CheckSameBookRented(1, 1);
+
+            Assert.IsTrue(result);
+        }
+
+        [TestMethod]
+        public void TestSuccessRentSameBookNeverRent()
+        {
+            var bookPublisher = new BookPublisher
+            {
+                Id = 2,
+                BookId = 2
+            };
+
+            var bpData = new List<BookPublisher>
+            {
+                bookPublisher
+            }.AsQueryable();
+
+            var data = new List<ReaderBook>
+            {
+                new ReaderBook
+                {
+                    BookPublisher = bpData.ElementAt(0),
+                    BookPublisherId = 2,
+                    ReaderId = 1,
+                    LoanDate = DateTime.Now.AddDays(-14),
+                    Id = 2
+                }
+            }.AsQueryable();
+
+            var mockSet = new Mock<DbSet<ReaderBook>>();
+            mockSet.As<IQueryable<ReaderBook>>().Setup(m => m.Provider).Returns(data.Provider);
+            mockSet.As<IQueryable<ReaderBook>>().Setup(m => m.Expression).Returns(data.Expression);
+            mockSet.As<IQueryable<ReaderBook>>().Setup(m => m.ElementType).Returns(data.ElementType);
+            mockSet.As<IQueryable<ReaderBook>>().Setup(m => m.GetEnumerator()).Returns(data.GetEnumerator());
+
+            var mockSetBp = new Mock<DbSet<BookPublisher>>();
+            mockSetBp.As<IQueryable<BookPublisher>>().Setup(m => m.Provider).Returns(bpData.Provider);
+            mockSetBp.As<IQueryable<BookPublisher>>().Setup(m => m.Expression).Returns(bpData.Expression);
+            mockSetBp.As<IQueryable<BookPublisher>>().Setup(m => m.ElementType).Returns(bpData.ElementType);
+            mockSetBp.As<IQueryable<BookPublisher>>().Setup(m => m.GetEnumerator()).Returns(bpData.GetEnumerator());
+
+
+            var mockContext = new Mock<LibraryContext>();
+            mockContext.Setup(x => x.ReaderBooks).Returns(mockSet.Object);
+            mockContext.Setup(x => x.BookPublisher).Returns(mockSetBp.Object);
+
+            _service = new ReaderBookService(mockContext.Object);
+            var result = _service.CheckSameBookRented(1, 1);
+
+            Assert.IsTrue(result);
+        }
     }
 }
