@@ -20,11 +20,5 @@ namespace LibraryAdministration.BusinessLayer
         {
             
         }
-
-
-        public IEnumerable<Author> GetAuthorsWithBooks()
-        {
-            return _repository.GetAll();
-        }
     }
 }

@@ -55,7 +55,7 @@ namespace LibraryAdministration.BusinessLayer
             _repository.Delete(entity);
         }
 
-        public T GetById(int id)
+        public T GetById(object id)
         {
             return _repository.GetById(id);
         }

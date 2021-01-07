@@ -15,7 +15,7 @@ namespace LibraryAdministration.Interfaces.DataAccess
 
         void Delete(T entity);
 
-        T GetById(int id);
+        T GetById(object id);
 
         IEnumerable<T> GetAll();
     }

@@ -22,11 +22,6 @@ namespace LibraryAdministration.BusinessLayer
 
         }
 
-        public IEnumerable<Book> GetBooksWithAuthors()
-        {
-            return _repository.GetAll();
-        }
-
         public IEnumerable<Domain> GetAllDomainsOfBook(int bookId)
         {
             return _repository.GetAllDomainsOfBook(bookId);

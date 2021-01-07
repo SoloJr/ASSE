@@ -32,7 +32,8 @@ namespace LibraryAdministrationTest.ServiceTests
                 Info = new PersonalInfo
                 {
                     PhoneNumber = "0731233233",
-                    Email = "mircea.solo1995@gmail.com"
+                    Email = "mircea.solo1995@gmail.com",
+                    Id = 1
                 },
                 Address = "Str. Drumul cu Plopi Nr. 112",
                 FirstName = "Mircea",

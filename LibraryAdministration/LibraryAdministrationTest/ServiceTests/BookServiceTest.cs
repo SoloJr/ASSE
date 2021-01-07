@@ -249,5 +249,91 @@ namespace LibraryAdministrationTest.ServiceTests
             Assert.IsFalse(result.IsValid);
             Assert.IsTrue(result.Errors.Count > 0);
         }
+
+        [TestMethod]
+        public void TestGetAllDomainsOfBook()
+        {
+            var domainOne = new Domain
+            {
+                Name = "Beletristica",
+                ParentId = null,
+                Id = 1,
+                EntireDomainId = null
+            };
+
+            var domainTwo = new Domain
+            {
+                Name = "Stiinta",
+                ParentId = 1,
+                Id = 2,
+                EntireDomainId = null
+            };
+
+            var domains = new List<Domain>
+            {
+                domainOne,
+                domainTwo
+            }.AsQueryable();
+
+            var data = new List<Book>
+            {
+                _book,
+                new Book
+                {
+                    Name = "Arta Subtila a Seductiei",
+                    Authors = new List<Author>
+                    {
+                        new Author
+                        {
+                            BirthDate = new DateTime(1970, 1, 1),
+                            Name = "Mark Manson",
+                            Country = "USA",
+                            Id = 1
+                        }
+                    },
+                    Language = "Romana",
+                    Publishers = new List<BookPublisher>
+                    {
+                        new BookPublisher
+                        {
+                            Id = 1,
+                            BookId = 1,
+                            Pages = 300,
+                            RentCount = 10,
+                            PublisherId = 1
+                        }
+                    },
+                    Id = 2,
+                    Year = 2015,
+                    Domains = new List<Domain>
+                    {
+                        domainTwo
+                    }
+                }
+            }.AsQueryable();
+
+            var mockSet = new Mock<DbSet<Book>>();
+            mockSet.As<IQueryable<Book>>().Setup(m => m.Provider).Returns(data.Provider);
+            mockSet.As<IQueryable<Book>>().Setup(m => m.Expression).Returns(data.Expression);
+            mockSet.As<IQueryable<Book>>().Setup(m => m.ElementType).Returns(data.ElementType);
+            mockSet.As<IQueryable<Book>>().Setup(m => m.GetEnumerator()).Returns(data.GetEnumerator());
+
+            var mockSetDomain = new Mock<DbSet<Domain>>();
+            mockSetDomain.As<IQueryable<Domain>>().Setup(m => m.Provider).Returns(domains.Provider);
+            mockSetDomain.As<IQueryable<Domain>>().Setup(m => m.Expression).Returns(domains.Expression);
+            mockSetDomain.As<IQueryable<Domain>>().Setup(m => m.ElementType).Returns(domains.ElementType);
+            mockSetDomain.As<IQueryable<Domain>>().Setup(m => m.GetEnumerator()).Returns(domains.GetEnumerator());
+
+            var mockContext = new Mock<LibraryContext>();
+            mockContext.Setup(x => x.Books).Returns(mockSet.Object);
+            mockContext.Setup(x => x.Domains).Returns(mockSetDomain.Object);
+
+            _service = new BookService(mockContext.Object);
+
+            var result = _service.GetAllDomainsOfBook(2);
+
+            Assert.IsNotNull(result);
+            Assert.AreEqual(result.Count(), 2);
+        }
     }
 }

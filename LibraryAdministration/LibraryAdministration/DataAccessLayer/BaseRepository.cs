@@ -43,7 +43,7 @@ namespace LibraryAdministration.DataAccessLayer
             }
         }
 
-        public virtual void Delete(int id)
+        public virtual void Delete(object id)
         {
             Delete(GetById(id));
         }
@@ -65,7 +65,7 @@ namespace LibraryAdministration.DataAccessLayer
             }
         }
 
-        public virtual T GetById(int id)
+        public virtual T GetById(object id)
         {
             using (_context)
             {

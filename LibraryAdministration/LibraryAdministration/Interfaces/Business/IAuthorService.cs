@@ -9,6 +9,5 @@ namespace LibraryAdministration.Interfaces.Business
 {
     public interface IAuthorService : IService<Author>
     {
-        IEnumerable<Author> GetAuthorsWithBooks();
     }
 }
