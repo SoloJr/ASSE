@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using LibraryAdministration.DomainModel;
+using LibraryAdministration.Helper;
 
 namespace LibraryAdministration.Interfaces.Business
 {
@@ -18,5 +19,7 @@ namespace LibraryAdministration.Interfaces.Business
         bool CheckBooksRentedToday(int readerId);
 
         bool CheckSameBookRented(int bookId, int readerId);
+
+        RentDetails GetRentDetails();
     }
 }

@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using LibraryAdministration.DataAccessLayer;
 using LibraryAdministration.DataMapper;
 using LibraryAdministration.DomainModel;
+using LibraryAdministration.Helper;
 using LibraryAdministration.Interfaces.Business;
 using LibraryAdministration.Interfaces.DataAccess;
 using LibraryAdministration.Startup;
@@ -15,10 +16,10 @@ namespace LibraryAdministration.BusinessLayer
 {
     public class ReaderBookService : BaseService<ReaderBook, IReaderBookRepository>, IReaderBookService
     {
-        public ReaderBookService(LibraryContext context)
-            : base(new ReaderBookRepository(context), new ReaderBookValidator())
+        public ReaderBookService(LibraryContext context, bool sameAccount = true)
+            : base(new ReaderBookRepository(context, sameAccount), new ReaderBookValidator())
         {
-
+            
         }
 
         public List<ReaderBook> GetAllBooksOnLoan(int readerId)
@@ -45,6 +46,12 @@ namespace LibraryAdministration.BusinessLayer
         public bool CheckSameBookRented(int bookId, int readerId)
         {
             return _repository.CheckSameBookRented(bookId, readerId);
+        }
+
+        public RentDetails GetRentDetails()
+        {
+            var repo = (ReaderBookRepository)_repository;
+            return repo.Details;
         }
     }
 }

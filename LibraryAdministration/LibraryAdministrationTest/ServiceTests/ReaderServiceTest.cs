@@ -36,7 +36,9 @@ namespace LibraryAdministrationTest.ServiceTests
                 },
                 Address = "Str. Drumul cu Plopi Nr. 112",
                 FirstName = "Mircea",
-                LastName = "Solovastru"
+                LastName = "Solovastru",
+                Id = 1,
+                ReaderPersonalInfoId = 1
             };
         }
 
@@ -145,6 +147,96 @@ namespace LibraryAdministrationTest.ServiceTests
 
             Assert.IsNotNull(pubs);
             Assert.AreEqual(pubs.Count(), 2);
+        }
+
+        [TestMethod]
+        public void TestReaderIsEmployeeSuccess()
+        {
+            var data = new List<Reader>
+            {
+                _reader
+            }.AsQueryable();
+
+            var employee = new Employee
+            {
+                Address = _reader.Address,
+                EmployeePersonalInfoId = _reader.ReaderPersonalInfoId,
+                FirstName = _reader.FirstName,
+                LastName = _reader.LastName,
+                Id = 1
+            };
+
+            var emplData = new List<Employee>
+            {
+                employee
+            }.AsQueryable();
+
+            var mockSet = new Mock<DbSet<Reader>>();
+            mockSet.As<IQueryable<Reader>>().Setup(m => m.Provider).Returns(data.Provider);
+            mockSet.As<IQueryable<Reader>>().Setup(m => m.Expression).Returns(data.Expression);
+            mockSet.As<IQueryable<Reader>>().Setup(m => m.ElementType).Returns(data.ElementType);
+            mockSet.As<IQueryable<Reader>>().Setup(m => m.GetEnumerator()).Returns(data.GetEnumerator());
+
+            var mockSetEmployee = new Mock<DbSet<Employee>>();
+            mockSetEmployee.As<IQueryable<Employee>>().Setup(m => m.Provider).Returns(emplData.Provider);
+            mockSetEmployee.As<IQueryable<Employee>>().Setup(m => m.Expression).Returns(emplData.Expression);
+            mockSetEmployee.As<IQueryable<Employee>>().Setup(m => m.ElementType).Returns(emplData.ElementType);
+            mockSetEmployee.As<IQueryable<Employee>>().Setup(m => m.GetEnumerator()).Returns(emplData.GetEnumerator());
+
+            var mockContext = new Mock<LibraryContext>();
+            mockContext.Setup(x => x.Readers).Returns(mockSet.Object);
+            mockContext.Setup(x => x.Employees).Returns(mockSetEmployee.Object);
+
+            _service = new ReaderService(mockContext.Object);
+
+            var pubs = _service.CheckEmployeeStatus(_reader.Id, employee.Id);
+
+            Assert.IsTrue(pubs);
+        }
+
+        [TestMethod]
+        public void TestReaderIsEmployeeFail()
+        {
+            var data = new List<Reader>
+            {
+                _reader
+            }.AsQueryable();
+
+            var employee = new Employee
+            {
+                Address = _reader.Address,
+                EmployeePersonalInfoId = 3,
+                FirstName = _reader.FirstName,
+                LastName = _reader.LastName,
+                Id = 1
+            };
+
+            var emplData = new List<Employee>
+            {
+                employee
+            }.AsQueryable();
+
+            var mockSet = new Mock<DbSet<Reader>>();
+            mockSet.As<IQueryable<Reader>>().Setup(m => m.Provider).Returns(data.Provider);
+            mockSet.As<IQueryable<Reader>>().Setup(m => m.Expression).Returns(data.Expression);
+            mockSet.As<IQueryable<Reader>>().Setup(m => m.ElementType).Returns(data.ElementType);
+            mockSet.As<IQueryable<Reader>>().Setup(m => m.GetEnumerator()).Returns(data.GetEnumerator());
+
+            var mockSetEmployee = new Mock<DbSet<Employee>>();
+            mockSetEmployee.As<IQueryable<Employee>>().Setup(m => m.Provider).Returns(emplData.Provider);
+            mockSetEmployee.As<IQueryable<Employee>>().Setup(m => m.Expression).Returns(emplData.Expression);
+            mockSetEmployee.As<IQueryable<Employee>>().Setup(m => m.ElementType).Returns(emplData.ElementType);
+            mockSetEmployee.As<IQueryable<Employee>>().Setup(m => m.GetEnumerator()).Returns(emplData.GetEnumerator());
+
+            var mockContext = new Mock<LibraryContext>();
+            mockContext.Setup(x => x.Readers).Returns(mockSet.Object);
+            mockContext.Setup(x => x.Employees).Returns(mockSetEmployee.Object);
+
+            _service = new ReaderService(mockContext.Object);
+
+            var pubs = _service.CheckEmployeeStatus(_reader.Id, employee.Id);
+
+            Assert.IsFalse(pubs);
         }
     }
 }

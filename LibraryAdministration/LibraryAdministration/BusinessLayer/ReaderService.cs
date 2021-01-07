@@ -20,5 +20,10 @@ namespace LibraryAdministration.BusinessLayer
         {
 
         }
+
+        public bool CheckEmployeeStatus(int readerId, int employeeId)
+        {
+            return _repository.CheckEmployeeStatus(readerId, employeeId);
+        }
     }
 }

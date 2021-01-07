@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Configuration;
 using System.Data.Entity;
 using System.Linq;
 using System.Text;
@@ -718,6 +719,60 @@ namespace LibraryAdministrationTest.ServiceTests
             var result = _service.CheckSameBookRented(1, 1);
 
             Assert.IsTrue(result);
+        }
+
+        [TestMethod]
+        public void TestSameAccount()
+        {
+            var mockContext = new Mock<LibraryContext>();
+
+            _service = new ReaderBookService(mockContext.Object);
+
+            var per = int.Parse(ConfigurationManager.AppSettings["PER"]);
+            var nmc = int.Parse(ConfigurationManager.AppSettings["NMC"]);
+            var d = int.Parse(ConfigurationManager.AppSettings["D"]);
+            var l = int.Parse(ConfigurationManager.AppSettings["L"]);
+            var ncz = int.Parse(ConfigurationManager.AppSettings["NCZ"]);
+            var delta = int.Parse(ConfigurationManager.AppSettings["DELTA"]);
+            var c = int.Parse(ConfigurationManager.AppSettings["C"]);
+            var lim = int.Parse(ConfigurationManager.AppSettings["LIM"]);
+            var persimp = int.Parse(ConfigurationManager.AppSettings["PERSIMP"]);
+
+            var details = _service.GetRentDetails();
+
+            Assert.IsTrue(details.C == 2 * c);
+            Assert.IsTrue(details.NMC == 2 * nmc);
+            Assert.IsTrue(details.D == 2 * d);
+            Assert.IsTrue(details.LIM == 2 * lim);
+            Assert.IsTrue(details.DELTA == delta / 2);
+            Assert.IsTrue(details.PER == per / 2);
+        }
+
+        [TestMethod]
+        public void TestDifferentAccount()
+        {
+            var mockContext = new Mock<LibraryContext>();
+
+            _service = new ReaderBookService(mockContext.Object, false);
+
+            var per = int.Parse(ConfigurationManager.AppSettings["PER"]);
+            var nmc = int.Parse(ConfigurationManager.AppSettings["NMC"]);
+            var d = int.Parse(ConfigurationManager.AppSettings["D"]);
+            var l = int.Parse(ConfigurationManager.AppSettings["L"]);
+            var ncz = int.Parse(ConfigurationManager.AppSettings["NCZ"]);
+            var delta = int.Parse(ConfigurationManager.AppSettings["DELTA"]);
+            var c = int.Parse(ConfigurationManager.AppSettings["C"]);
+            var lim = int.Parse(ConfigurationManager.AppSettings["LIM"]);
+            var persimp = int.Parse(ConfigurationManager.AppSettings["PERSIMP"]);
+
+            var details = _service.GetRentDetails();
+
+            Assert.IsTrue(details.C == c);
+            Assert.IsTrue(details.NMC == nmc);
+            Assert.IsTrue(details.D == d);
+            Assert.IsTrue(details.LIM == lim);
+            Assert.IsTrue(details.DELTA == delta);
+            Assert.IsTrue(details.PER == per);
         }
     }
 }

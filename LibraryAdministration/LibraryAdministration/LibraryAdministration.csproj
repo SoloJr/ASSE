@@ -106,6 +106,7 @@
     <Compile Include="DomainModel\PersonalInfo.cs" />
     <Compile Include="DomainModel\Reader.cs" />
     <Compile Include="DomainModel\ReaderBook.cs" />
+    <Compile Include="Helper\RentDetails.cs" />
     <Compile Include="Interfaces\Business\IAuthorService.cs" />
     <Compile Include="Interfaces\Business\IBookPublisherService.cs" />
     <Compile Include="Interfaces\Business\IBookService.cs" />
