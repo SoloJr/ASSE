@@ -23,15 +23,12 @@ namespace LibraryAdministrationTest.DomainModelTests
 
         private BookPublisherValidator _bookPublisherValidator;
 
-        private BookRentalValidator _bookRentalValidator;
-
         [TestInitialize]
         public void Init()
         {
             _bookServiceMock = new Mock<IBookService>();
             _bookValidator = new BookValidator();
             _bookPublisherValidator = new BookPublisherValidator();
-            _bookRentalValidator = new BookRentalValidator();
         }
 
         [TestMethod]
@@ -338,39 +335,6 @@ namespace LibraryAdministrationTest.DomainModelTests
             Assert.IsNotNull(bookPublisher.Book);
             Assert.IsNotNull(bookPublisher.Publisher);
             Assert.IsTrue(bookPublisherId == bookPublisher.Id);
-        }
-
-        [TestMethod]
-        public void TestBookRental()
-        {
-            var bookRental = new BookRental
-            {
-                RentBookPublisherId = 1,
-                ForRent = 100,
-                Id = 1
-            };
-
-            var book = new BookPublisher()
-            {
-                Id = 1,
-                BookId = 1,
-                PublisherId = 1,
-                Count = 200,
-                Pages = 100,
-                Type = BookType.Hardback
-            };
-
-            bookRental.BookPublisher = book;
-            bookRental.RentBookPublisherId = book.Id;
-
-
-
-            Assert.IsNotNull(bookRental.BookPublisher);
-            var result = _bookRentalValidator.Validate(bookRental);
-
-            Assert.IsNotNull(result);
-            Assert.AreEqual(result.IsValid, true);
-            Assert.AreEqual(result.Errors.Count, 0);
         }
     }
 }

@@ -89,7 +89,6 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ServiceTests\AuthorServiceTest.cs" />
     <Compile Include="ServiceTests\BookPublisherServiceTest.cs" />
-    <Compile Include="ServiceTests\BookRentalServiceTest.cs" />
     <Compile Include="ServiceTests\BookServiceTest.cs" />
     <Compile Include="ServiceTests\DomainServiceTests.cs" />
     <Compile Include="ServiceTests\EmployeeServiceTest.cs" />

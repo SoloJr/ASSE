@@ -85,7 +85,6 @@
     <Compile Include="BusinessLayer\AuthorService.cs" />
     <Compile Include="BusinessLayer\BaseService.cs" />
     <Compile Include="BusinessLayer\BookPublisherService.cs" />
-    <Compile Include="BusinessLayer\BookRentalService.cs" />
     <Compile Include="BusinessLayer\BookService.cs" />
     <Compile Include="BusinessLayer\DomainService.cs" />
     <Compile Include="BusinessLayer\EmployeeService.cs" />
@@ -96,7 +95,6 @@
     <Compile Include="DataAccessLayer\AuthorRepository.cs" />
     <Compile Include="DataAccessLayer\BaseRepository.cs" />
     <Compile Include="DataAccessLayer\BookPublisherRepository.cs" />
-    <Compile Include="DataAccessLayer\BookRentalRepository.cs" />
     <Compile Include="DataAccessLayer\BookRepository.cs" />
     <Compile Include="DataAccessLayer\DomainRepository.cs" />
     <Compile Include="DataAccessLayer\EmployeeRepository.cs" />
@@ -104,14 +102,12 @@
     <Compile Include="DataAccessLayer\PublisherRepository.cs" />
     <Compile Include="DataAccessLayer\ReaderBookRepository.cs" />
     <Compile Include="DataAccessLayer\ReaderRepository.cs" />
-    <Compile Include="DomainModel\BookRental.cs" />
     <Compile Include="DomainModel\Employee.cs" />
     <Compile Include="DomainModel\PersonalInfo.cs" />
     <Compile Include="DomainModel\Reader.cs" />
     <Compile Include="DomainModel\ReaderBook.cs" />
     <Compile Include="Interfaces\Business\IAuthorService.cs" />
     <Compile Include="Interfaces\Business\IBookPublisherService.cs" />
-    <Compile Include="Interfaces\Business\IBookRentalService.cs" />
     <Compile Include="Interfaces\Business\IBookService.cs" />
     <Compile Include="Interfaces\Business\IDomainService.cs" />
     <Compile Include="Interfaces\Business\IEmployeeService.cs" />
@@ -122,7 +118,6 @@
     <Compile Include="Interfaces\Business\IService.cs" />
     <Compile Include="Interfaces\DataAccess\IAuthorRepository.cs" />
     <Compile Include="Interfaces\DataAccess\IBookPublisherRepository.cs" />
-    <Compile Include="Interfaces\DataAccess\IBookRentalRepository.cs" />
     <Compile Include="Interfaces\DataAccess\IBookRepository.cs" />
     <Compile Include="Interfaces\DataAccess\IDomainRepository.cs" />
     <Compile Include="Interfaces\DataAccess\IEmployeeRepository.cs" />
@@ -176,7 +171,6 @@
     <Compile Include="Startup\Injector.cs" />
     <Compile Include="Validators\AuthorValidator.cs" />
     <Compile Include="Validators\BookPublisherValidator.cs" />
-    <Compile Include="Validators\BookRentalValidator.cs" />
     <Compile Include="Validators\BookValidator.cs" />
     <Compile Include="Validators\DomainValidator.cs" />
     <Compile Include="Validators\EmployeeValidator.cs" />

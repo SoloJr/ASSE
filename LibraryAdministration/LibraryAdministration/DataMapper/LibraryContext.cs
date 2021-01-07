@@ -26,8 +26,6 @@ namespace LibraryAdministration.DataMapper
 
         public virtual DbSet<Publisher> Publishers { get; set; }
 
-        public virtual DbSet<BookRental> BookRentals { get; set; }
-
         public virtual DbSet<Employee> Employees { get; set; }
 
         public virtual DbSet<PersonalInfo> PersonalInfos { get; set; }

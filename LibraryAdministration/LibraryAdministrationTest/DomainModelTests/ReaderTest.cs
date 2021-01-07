@@ -205,7 +205,7 @@ namespace LibraryAdministrationTest.DomainModelTests
             var readerBook = new ReaderBook
             {
                 LoanDate = DateTime.Now,
-                BookId = book.Id,
+                BookPublisherId = book.Id,
                 ReaderId = reader.Id,
                 Id = 1
             };
@@ -233,21 +233,25 @@ namespace LibraryAdministrationTest.DomainModelTests
                 Id = 1
             };
 
-            var book = new Book
+            var book = new BookPublisher()
             {
-                Name = "Arta Subtila a Nepasarii",
-                Language = "Romana",
-                Year = 2017,
+                AllForRent = true,
+                Count = 100,
+                Pages = 240,
+                PublisherId = 1,
+                BookId = 1,
+                ReleaseDate = DateTime.Now,
+                Type = BookType.Hardback,
                 Id = 1
             };
 
             var readerBook = new ReaderBook
             {
                 LoanDate = DateTime.Now,
-                BookId = book.Id,
+                BookPublisherId = book.Id,
                 ReaderId = reader.Id,
                 Id = 1,
-                Book = book,
+                BookPublisher = book,
                 Reader = reader
             };
 
@@ -256,7 +260,7 @@ namespace LibraryAdministrationTest.DomainModelTests
             Assert.IsNotNull(result);
             Assert.IsTrue(result.IsValid);
             Assert.IsTrue(result.Errors.Count == 0);
-            Assert.IsNotNull(readerBook.Book);
+            Assert.IsNotNull(readerBook.BookPublisher);
             Assert.IsNotNull(readerBook.Reader);
         }
     }

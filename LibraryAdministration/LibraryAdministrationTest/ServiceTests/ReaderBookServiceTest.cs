@@ -31,7 +31,7 @@ namespace LibraryAdministrationTest.ServiceTests
                 LoanDate = DateTime.Now.AddDays(-3),
                 Id = 1,
                 ReaderId = 1,
-                BookId = 1
+                BookPublisherId = 1
             };
         }
 
@@ -68,21 +68,21 @@ namespace LibraryAdministrationTest.ServiceTests
                 _readerBook,
                 new ReaderBook
                 {
-                    BookId = 2,
+                    BookPublisherId = 2,
                     ReaderId = 2,
                     LoanDate = DateTime.Now,
                     Id = 3
                 },
                 new ReaderBook
                 {
-                    BookId = 2,
+                    BookPublisherId = 2,
                     ReaderId = 1,
                     LoanDate = DateTime.Now,
                     Id = 3
                 },
                 new ReaderBook
                 {
-                    BookId = 2,
+                    BookPublisherId = 2,
                     ReaderId = 1,
                     LoanDate = DateTime.Now.AddYears(-1),
                     Id = 3

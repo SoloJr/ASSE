@@ -23,6 +23,7 @@ namespace LibraryAdministration.Validators
             RuleFor(book => book.Domains).Must(x => x.Count <= dom)
                 .WithMessage($"The book cannot be in more than {dom} domains");
             //RuleFor(book => book.Domains).Must(RuleForNumberOfDomains).WithMessage("Too many domains");
+            RuleFor(book => book.Authors).Must(x => x.Count > 0).WithMessage("At least one author should be specified");
         }
 
         private bool RuleForNumberOfDomains(ICollection<Domain> domains)
