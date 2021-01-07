@@ -14,7 +14,8 @@ namespace LibraryAdministrationTest.Mocks
     {
         public override void Load()
         {
-
+            LoadRepositoryLayer();
+            LoadServiceLayer();
         }
 
         private void LoadRepositoryLayer()
