@@ -29,6 +29,7 @@ namespace LibraryAdministrationTest.ServiceTests
             _readerBook = new ReaderBook
             {
                 LoanDate = DateTime.Now.AddDays(-3),
+                DueDate = DateTime.Now.AddDays(14),
                 Id = 1,
                 ReaderId = 1,
                 BookPublisherId = 1

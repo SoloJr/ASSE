@@ -101,7 +101,6 @@ namespace LibraryAdministrationTest.ServiceTests
             try
             {
                 mockSet.Verify(m => m.Remove((It.IsAny<Author>())), Times.Once());
-                mockContext.Verify(m => m.SaveChanges(), Times.Once());
             }
             catch (MockException e)
             {

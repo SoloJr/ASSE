@@ -205,6 +205,7 @@ namespace LibraryAdministrationTest.DomainModelTests
             var readerBook = new ReaderBook
             {
                 LoanDate = DateTime.Now,
+                DueDate = DateTime.Now.AddDays(14),
                 BookPublisherId = book.Id,
                 ReaderId = reader.Id,
                 Id = 1
@@ -248,6 +249,7 @@ namespace LibraryAdministrationTest.DomainModelTests
             var readerBook = new ReaderBook
             {
                 LoanDate = DateTime.Now,
+                DueDate = DateTime.Now.AddDays(14),
                 BookPublisherId = book.Id,
                 ReaderId = reader.Id,
                 Id = 1,

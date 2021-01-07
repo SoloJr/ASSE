@@ -17,6 +17,9 @@ namespace LibraryAdministration.DomainModel
         [Required]
         public DateTime LoanDate { get; set; }
 
+        [Required]
+        public DateTime DueDate { get; set; }
+
         public DateTime? LoanReturnDate { get; set; }
 
         public int BookPublisherId { get; set; }

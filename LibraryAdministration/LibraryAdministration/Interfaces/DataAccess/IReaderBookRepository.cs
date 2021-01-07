@@ -16,5 +16,6 @@ namespace LibraryAdministration.Interfaces.DataAccess
         bool CheckBooksRentedToday(int readerId);
 
         bool CheckSameBookRented(int bookId, int readerId);
+
     }
 }
