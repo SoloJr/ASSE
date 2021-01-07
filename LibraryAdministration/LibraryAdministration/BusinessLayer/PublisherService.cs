@@ -20,5 +20,10 @@ namespace LibraryAdministration.BusinessLayer
         {
 
         }
+
+        public ICollection<Publisher> GetAllBookPublishersOfABook(int bookId)
+        {
+            return _repository.GetAllBookPublishersOfABook(bookId);
+        }
     }
 }

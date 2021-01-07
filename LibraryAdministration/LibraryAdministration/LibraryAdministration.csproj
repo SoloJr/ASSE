@@ -166,6 +166,14 @@
     <Compile Include="Migrations\202101070803311_UpdatedToLatestSpecs.designer.cs">
       <DependentUpon>202101070803311_UpdatedToLatestSpecs.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\202101070854411_DeletedTable.cs" />
+    <Compile Include="Migrations\202101070854411_DeletedTable.designer.cs">
+      <DependentUpon>202101070854411_DeletedTable.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202101071027546_ChangedRentMechanism.cs" />
+    <Compile Include="Migrations\202101071027546_ChangedRentMechanism.designer.cs">
+      <DependentUpon>202101071027546_ChangedRentMechanism.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Startup\Bindings.cs" />
     <Compile Include="Startup\Injector.cs" />
@@ -242,6 +250,12 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\202101070803311_UpdatedToLatestSpecs.resx">
       <DependentUpon>202101070803311_UpdatedToLatestSpecs.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202101070854411_DeletedTable.resx">
+      <DependentUpon>202101070854411_DeletedTable.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202101071027546_ChangedRentMechanism.resx">
+      <DependentUpon>202101071027546_ChangedRentMechanism.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>

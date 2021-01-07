@@ -9,5 +9,6 @@ namespace LibraryAdministration.Interfaces.Business
 {
     public interface IPublisherService : IService<Publisher>
     {
+        ICollection<Publisher> GetAllBookPublishersOfABook(int bookId);
     }
 }

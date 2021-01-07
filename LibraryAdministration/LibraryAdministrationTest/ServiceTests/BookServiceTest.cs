@@ -59,7 +59,7 @@ namespace LibraryAdministrationTest.ServiceTests
                         Id = 1,
                         BookId = 1,
                         Pages = 300,
-                        Count = 10,
+                        RentCount = 10,
                         PublisherId = 1
                     }
                 },
@@ -168,7 +168,7 @@ namespace LibraryAdministrationTest.ServiceTests
                             Id = 1,
                             BookId = 1,
                             Pages = 300,
-                            Count = 10,
+                            RentCount = 10,
                             PublisherId = 1
                         }
                     },
@@ -192,6 +192,62 @@ namespace LibraryAdministrationTest.ServiceTests
 
             Assert.IsNotNull(authors);
             Assert.AreEqual(authors.Count(), 2);
+        }
+
+        [TestMethod]
+        public void TestInsertBookNoAuthorsNullShouldFail()
+        {
+            var mockSet = new Mock<DbSet<Book>>();
+
+            var mockContext = new Mock<LibraryContext>();
+            mockContext.Setup(x => x.Set<Book>()).Returns(mockSet.Object);
+
+            var testBook = _book;
+            testBook.Authors = null;
+
+            _service = new BookService(mockContext.Object);
+            var result = _service.Insert(testBook);
+            try
+            {
+                mockSet.Verify(m => m.Add((It.IsAny<Book>())), Times.Never);
+                mockContext.Verify(m => m.SaveChanges(), Times.Never);
+            }
+            catch (MockException e)
+            {
+                Assert.Fail(e.Message);
+            }
+
+            Assert.IsNotNull(result);
+            Assert.IsFalse(result.IsValid);
+            Assert.IsTrue(result.Errors.Count > 0);
+        }
+
+        [TestMethod]
+        public void TestInsertBookNoAuthorsEmptyShouldFail()
+        {
+            var mockSet = new Mock<DbSet<Book>>();
+
+            var mockContext = new Mock<LibraryContext>();
+            mockContext.Setup(x => x.Set<Book>()).Returns(mockSet.Object);
+
+            var testBook = _book;
+            testBook.Authors = new List<Author>();
+
+            _service = new BookService(mockContext.Object);
+            var result = _service.Insert(testBook);
+            try
+            {
+                mockSet.Verify(m => m.Add((It.IsAny<Book>())), Times.Never);
+                mockContext.Verify(m => m.SaveChanges(), Times.Never);
+            }
+            catch (MockException e)
+            {
+                Assert.Fail(e.Message);
+            }
+
+            Assert.IsNotNull(result);
+            Assert.IsFalse(result.IsValid);
+            Assert.IsTrue(result.Errors.Count > 0);
         }
     }
 }

@@ -26,7 +26,6 @@ namespace LibraryAdministration.Startup
             Bind<IAuthorService>().To<AuthorService>();
             Bind<IBookService>().To<BookService>();
             Bind<IBookPublisherService>().To<BookPublisherService>();
-            Bind<IBookRentalService>().To<BookRentalService>();
             Bind<IDomainService>().To<DomainService>();
             Bind<IEmployeeService>().To<EmployeeService>();
             Bind<IPersonalInfoService>().To<PersonalInfoService>();
@@ -40,7 +39,6 @@ namespace LibraryAdministration.Startup
             Bind<IAuthorRepository>().To<AuthorRepository>();
             Bind<IBookRepository>().To<BookRepository>();
             Bind<IBookPublisherRepository>().To<BookPublisherRepository>();
-            Bind<IBookRentalRepository>().To<BookRentalRepository>();
             Bind<IDomainRepository>().To<DomainRepository>();
             Bind<IEmployeeRepository>().To<EmployeeRepository>();
             Bind<IPersonalInfoRepository>().To<PersonalInfoRepository>();

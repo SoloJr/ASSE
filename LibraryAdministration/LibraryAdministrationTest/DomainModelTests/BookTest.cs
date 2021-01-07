@@ -238,7 +238,7 @@ namespace LibraryAdministrationTest.DomainModelTests
             {
                 BookId = book.Id,
                 PublisherId = publisher.Id,
-                Count = 200,
+                RentCount = 200,
                 Pages = 200
             };
 
@@ -275,7 +275,7 @@ namespace LibraryAdministrationTest.DomainModelTests
             {
                 BookId = book.Id,
                 PublisherId = publisher.Id,
-                Count = 200,
+                RentCount = 200,
                 Pages = 200,
                 Type = BookType.Hardback,
                 ReleaseDate = new DateTime(2020, 12, 12)
@@ -314,7 +314,7 @@ namespace LibraryAdministrationTest.DomainModelTests
             var bookPublisher = new BookPublisher
             {
                 Id = bookPublisherId,
-                Count = 200,
+                RentCount = 200,
                 Pages = 200,
                 Type = BookType.Hardback,
                 Book = book,

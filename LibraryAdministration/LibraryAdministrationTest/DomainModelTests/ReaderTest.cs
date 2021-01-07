@@ -235,8 +235,8 @@ namespace LibraryAdministrationTest.DomainModelTests
 
             var book = new BookPublisher()
             {
-                AllForRent = true,
-                Count = 100,
+                ForRent = 120,
+                RentCount = 100,
                 Pages = 240,
                 PublisherId = 1,
                 BookId = 1,

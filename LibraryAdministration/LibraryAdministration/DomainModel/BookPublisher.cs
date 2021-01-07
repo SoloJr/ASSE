@@ -24,10 +24,10 @@ namespace LibraryAdministration.DomainModel
         public DateTime ReleaseDate { get; set; }
 
         [Required]
-        public int Count { get; set; }
+        public int RentCount { get; set; }
 
         [Required]
-        public bool? AllForRent { get; set; }
+        public int ForRent { get; set; }
 
         public int BookId { get; set; }
 

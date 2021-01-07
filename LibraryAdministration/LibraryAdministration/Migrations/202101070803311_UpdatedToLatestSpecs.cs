@@ -9,7 +9,7 @@
         {
             DropForeignKey("dbo.BookRentals", "RentBookId", "dbo.Books");
             DropIndex("dbo.BookRentals", new[] { "RentBookId" });
-            AddColumn("dbo.BookPublishers", "AllForRent", c => c.Boolean(nullable: false));
+            AddColumn("dbo.BookPublishers", "ForRent", c => c.Boolean(nullable: false));
             AddColumn("dbo.BookRentals", "RentBookPublisherId", c => c.Int(nullable: false));
             CreateIndex("dbo.BookRentals", "RentBookPublisherId");
             AddForeignKey("dbo.BookRentals", "RentBookPublisherId", "dbo.BookPublishers", "Id", cascadeDelete: true);
@@ -22,7 +22,7 @@
             DropForeignKey("dbo.BookRentals", "RentBookPublisherId", "dbo.BookPublishers");
             DropIndex("dbo.BookRentals", new[] { "RentBookPublisherId" });
             DropColumn("dbo.BookRentals", "RentBookPublisherId");
-            DropColumn("dbo.BookPublishers", "AllForRent");
+            DropColumn("dbo.BookPublishers", "ForRent");
             CreateIndex("dbo.BookRentals", "RentBookId");
             AddForeignKey("dbo.BookRentals", "RentBookId", "dbo.Books", "Id", cascadeDelete: true);
         }

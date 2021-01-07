@@ -53,5 +53,33 @@ namespace LibraryAdministrationTest.DomainModelTests
             Assert.IsTrue(result.Errors.Count == 0);
             Assert.IsTrue(publisher.Books.Count > 0);
         }
+
+        [TestMethod]
+        public void TestCreatePublisherDetails()
+        {
+            var publisher = _stub;
+            publisher.Books.Add(new BookPublisher
+            {
+                Id = 1,
+                BookId = 1,
+                PublisherId = 1,
+                ForRent = 11,
+                RentCount = 10,
+                Pages = 100
+            });
+
+            var result = _validator.Validate(publisher);
+
+            foreach (var book in publisher.Books)
+            {
+                Assert.IsNotNull(book.RentCount);
+                Assert.IsNotNull(book.Pages);
+            }
+
+            Assert.IsNotNull(result);
+            Assert.IsTrue(result.IsValid);
+            Assert.IsTrue(result.Errors.Count == 0);
+            Assert.IsTrue(publisher.Books.Count > 0);
+        }
     }
 }
