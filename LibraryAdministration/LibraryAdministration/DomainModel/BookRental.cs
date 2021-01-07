@@ -17,9 +17,9 @@ namespace LibraryAdministration.DomainModel
         [Required]
         public int ForRent { get; set; }
 
-        public int RentBookId { get; set; }
+        public int RentBookPublisherId { get; set; }
 
-        [ForeignKey("RentBookId")]
-        public Book Book { get; set; }
+        [ForeignKey("RentBookPublisherId")]
+        public BookPublisher BookPublisher { get; set; }
     }
 }

@@ -26,6 +26,9 @@ namespace LibraryAdministration.DomainModel
         [Required]
         public int Count { get; set; }
 
+        [Required]
+        public bool? AllForRent { get; set; }
+
         public int BookId { get; set; }
 
         [ForeignKey("BookId")]

@@ -23,7 +23,7 @@ namespace LibraryAdministrationTest.ServiceTests
             Injector.Inject(new MockBindings());
             _bookRental = new BookRental
             {
-                RentBookId = 1,
+                RentBookPublisherId = 1,
                 ForRent = 100,
                 Id = 1
             };

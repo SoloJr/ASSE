@@ -167,6 +167,10 @@
     <Compile Include="Migrations\202101041403122_AddedRelationBetweenBookAndReader.designer.cs">
       <DependentUpon>202101041403122_AddedRelationBetweenBookAndReader.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\202101070803311_UpdatedToLatestSpecs.cs" />
+    <Compile Include="Migrations\202101070803311_UpdatedToLatestSpecs.designer.cs">
+      <DependentUpon>202101070803311_UpdatedToLatestSpecs.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Startup\Bindings.cs" />
     <Compile Include="Startup\Injector.cs" />
@@ -241,6 +245,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\202101041403122_AddedRelationBetweenBookAndReader.resx">
       <DependentUpon>202101041403122_AddedRelationBetweenBookAndReader.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202101070803311_UpdatedToLatestSpecs.resx">
+      <DependentUpon>202101070803311_UpdatedToLatestSpecs.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>

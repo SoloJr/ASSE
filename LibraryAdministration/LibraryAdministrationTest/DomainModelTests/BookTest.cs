@@ -345,25 +345,27 @@ namespace LibraryAdministrationTest.DomainModelTests
         {
             var bookRental = new BookRental
             {
-                RentBookId = 1,
+                RentBookPublisherId = 1,
                 ForRent = 100,
                 Id = 1
             };
 
-            var book = new Book()
+            var book = new BookPublisher()
             {
                 Id = 1,
-                Language = "Romanian",
-                Name = "Amintiri din Copilarie",
-                Year = 1885
+                BookId = 1,
+                PublisherId = 1,
+                Count = 200,
+                Pages = 100,
+                Type = BookType.Hardback
             };
 
-            bookRental.Book = book;
-            bookRental.RentBookId = book.Id;
+            bookRental.BookPublisher = book;
+            bookRental.RentBookPublisherId = book.Id;
 
 
 
-            Assert.IsNotNull(bookRental.Book);
+            Assert.IsNotNull(bookRental.BookPublisher);
             var result = _bookRentalValidator.Validate(bookRental);
 
             Assert.IsNotNull(result);
