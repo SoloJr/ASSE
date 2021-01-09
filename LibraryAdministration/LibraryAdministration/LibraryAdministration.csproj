@@ -187,6 +187,10 @@
     <Compile Include="Migrations\202101071540073_AddedDueDate.designer.cs">
       <DependentUpon>202101071540073_AddedDueDate.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\202101091650109_RemovedRequiredInPersonalInfo.cs" />
+    <Compile Include="Migrations\202101091650109_RemovedRequiredInPersonalInfo.designer.cs">
+      <DependentUpon>202101091650109_RemovedRequiredInPersonalInfo.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Startup\Bindings.cs" />
     <Compile Include="Startup\Injector.cs" />
@@ -278,6 +282,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\202101071540073_AddedDueDate.resx">
       <DependentUpon>202101071540073_AddedDueDate.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202101091650109_RemovedRequiredInPersonalInfo.resx">
+      <DependentUpon>202101091650109_RemovedRequiredInPersonalInfo.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>

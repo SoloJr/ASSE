@@ -29,6 +29,97 @@ namespace LibraryAdministrationTest.DomainModelTests
         }
 
         [TestMethod]
+        public void TestCreatePublisherFailsNoName()
+        {
+            var publisher = _stub;
+            publisher.Name = null;
+
+            var result = _validator.Validate(publisher);
+
+            Assert.IsNotNull(result);
+            Assert.IsFalse(result.IsValid);
+            Assert.IsTrue(result.Errors.Count > 0);
+        }
+
+        [TestMethod]
+        public void TestCreatePublisherFailsNameTooShort()
+        {
+            var publisher = _stub;
+            publisher.Name = "b";
+
+            var result = _validator.Validate(publisher);
+
+            Assert.IsNotNull(result);
+            Assert.IsFalse(result.IsValid);
+            Assert.IsTrue(result.Errors.Count > 0);
+        }
+
+        [TestMethod]
+        public void TestCreatePublisherFailsNameTooLong()
+        {
+            var publisher = _stub;
+            publisher.Name = "Raaandooooooooooooooooooooooooooooooooooooooooooooooooooooooooooom";
+
+            var result = _validator.Validate(publisher);
+
+            Assert.IsNotNull(result);
+            Assert.IsFalse(result.IsValid);
+            Assert.IsTrue(result.Errors.Count > 0);
+        }
+
+        [TestMethod]
+        public void TestCreatePublisherFailsNoFoundingDate()
+        {
+            var publisher = _stub;
+            publisher.FoundingDate = DateTime.MinValue;
+
+            var result = _validator.Validate(publisher);
+
+            Assert.IsNotNull(result);
+            Assert.IsFalse(result.IsValid);
+            Assert.IsTrue(result.Errors.Count > 0);
+        }
+
+        [TestMethod]
+        public void TestCreatePublisherFailsNoHeadquarter()
+        {
+            var publisher = _stub;
+            publisher.Headquarter = null;
+
+            var result = _validator.Validate(publisher);
+
+            Assert.IsNotNull(result);
+            Assert.IsFalse(result.IsValid);
+            Assert.IsTrue(result.Errors.Count > 0);
+        }
+
+        [TestMethod]
+        public void TestCreatePublisherFailsHeadquarterTooShort()
+        {
+            var publisher = _stub;
+            publisher.Headquarter = "b";
+
+            var result = _validator.Validate(publisher);
+
+            Assert.IsNotNull(result);
+            Assert.IsFalse(result.IsValid);
+            Assert.IsTrue(result.Errors.Count > 0);
+        }
+
+        [TestMethod]
+        public void TestCreatePublisherFailsHeadquarterTooLong()
+        {
+            var publisher = _stub;
+            publisher.Headquarter = "Raaandooooooooooooooooooooooooooooooooooooooooooooooooooooooooooom";
+
+            var result = _validator.Validate(publisher);
+
+            Assert.IsNotNull(result);
+            Assert.IsFalse(result.IsValid);
+            Assert.IsTrue(result.Errors.Count > 0);
+        }
+
+        [TestMethod]
         public void TestCreatePublisher()
         {
             var publisher = _stub;

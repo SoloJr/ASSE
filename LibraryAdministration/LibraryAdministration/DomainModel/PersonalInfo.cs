@@ -14,11 +14,9 @@ namespace LibraryAdministration.DomainModel
         [Key]
         public int Id { get; set; }
 
-        [Required]
         [StringLength(10, MinimumLength = 10)]
         public string PhoneNumber { get; set; }
 
-        [Required]
         [StringLength(50, MinimumLength = 8)]
         public string Email { get; set; }
     }

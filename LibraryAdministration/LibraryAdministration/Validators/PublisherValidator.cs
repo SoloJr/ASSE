@@ -13,8 +13,8 @@ namespace LibraryAdministration.Validators
         public PublisherValidator()
         {
             RuleFor(x => x.Name).NotEmpty().MinimumLength(3).MaximumLength(30);
-            RuleFor(x => x.Name).NotEmpty().MinimumLength(3).MaximumLength(30);
-            RuleFor(x => x.FoundingDate).NotEmpty();
+            RuleFor(x => x.Headquarter).NotEmpty().MinimumLength(3).MaximumLength(30);
+            RuleFor(x => x.FoundingDate).Must(x => x > DateTime.MinValue);
         }
     }
 }

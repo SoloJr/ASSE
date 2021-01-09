@@ -15,7 +15,6 @@ namespace LibraryAdministration.Validators
             RuleFor(x => x.Name).NotEmpty().MinimumLength(3).MaximumLength(100);
             RuleFor(x => x.BirthDate).NotNull();
             RuleFor(x => x.BirthDate).Must(x => x.Date > DateTime.MinValue);
-            RuleFor(x => x.Name).NotEmpty();
             RuleFor(x => x.Country).NotEmpty();
         }
     }
