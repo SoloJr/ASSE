@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using LibraryAdministration.BusinessLayer;
 using LibraryAdministration.DataMapper;
 using LibraryAdministration.DomainModel;
+using LibraryAdministration.Helper;
 using LibraryAdministration.Interfaces.Business;
 using LibraryAdministration.Startup;
 using LibraryAdministrationTest.Mocks;
@@ -238,6 +239,34 @@ namespace LibraryAdministrationTest.ServiceTests
             var pubs = _service.CheckEmployeeStatus(_reader.Id, employee.Id);
 
             Assert.IsFalse(pubs);
+        }
+
+        [TestMethod]
+        public void TestCheckEmployeeStatusWrongParamEmployeeId()
+        {
+            const int employeeId = -1;
+
+            const int readerId = 1;
+
+            var context = new Mock<LibraryContext>();
+
+            var service = new ReaderService(context.Object);
+
+            Assert.ThrowsException<LibraryArgumentException>(() => service.CheckEmployeeStatus(readerId, employeeId));
+        }
+
+        [TestMethod]
+        public void TestCheckEmployeeStatusWrongParamReaderId()
+        {
+            const int employeeId = 1;
+
+            const int readerId = -1;
+
+            var context = new Mock<LibraryContext>();
+
+            var service = new ReaderService(context.Object);
+
+            Assert.ThrowsException<LibraryArgumentException>(() => service.CheckEmployeeStatus(readerId, employeeId));
         }
     }
 }

@@ -18,46 +18,6 @@ namespace LibraryAdministrationTest.DomainModelTests
         }
 
         [TestMethod]
-        public void TestBookWithPublishers()
-        {
-            var publisher = new Publisher
-            {
-                Name = "Editura Pentru Copii",
-                FoundingDate = new DateTime(2000, 1, 1),
-                Headquarter = "Romania",
-                Id = 1
-            };
-
-            var book = new Book()
-            {
-                Language = "Romanian",
-                Name = "Amintiri din Copilarie",
-                Year = 1885,
-                Authors = new List<Author>
-                {
-                    new Author()
-                }
-            };
-
-            var bookPublisher = new BookPublisher
-            {
-                BookId = book.Id,
-                PublisherId = publisher.Id,
-                RentCount = 200,
-                Pages = 200
-            };
-
-            book.Publishers.Add(bookPublisher);
-
-            var result = _bookValidator.Validate(book);
-
-            Assert.IsNotNull(result);
-            Assert.AreEqual(result.IsValid, true);
-            Assert.AreEqual(result.Errors.Count, 0);
-            Assert.IsTrue(book.Publishers.Count > 0);
-        }
-
-        [TestMethod]
         public void TestBookPublisherCreate()
         {
             var publisher = new Publisher

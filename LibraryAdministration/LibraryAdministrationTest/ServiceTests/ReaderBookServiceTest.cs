@@ -8,6 +8,7 @@ using System.Threading.Tasks;
 using LibraryAdministration.BusinessLayer;
 using LibraryAdministration.DataMapper;
 using LibraryAdministration.DomainModel;
+using LibraryAdministration.Helper;
 using LibraryAdministration.Interfaces.Business;
 using LibraryAdministration.Startup;
 using LibraryAdministrationTest.Mocks;
@@ -1075,6 +1076,98 @@ namespace LibraryAdministrationTest.ServiceTests
             Assert.IsTrue(details.LIM == lim);
             Assert.IsTrue(details.DELTA == delta);
             Assert.IsTrue(details.PER == per);
+        }
+
+        [TestMethod]
+        public void TestCheckBeforeLoanWrongParam()
+        {
+            const int id = -1;
+
+            var context = new Mock<LibraryContext>();
+
+            var service = new ReaderBookService(context.Object);
+
+            Assert.ThrowsException<LibraryArgumentException>(() => service.CheckBeforeLoan(id));
+        }
+
+        [TestMethod]
+        public void TestCheckBooksRentedTodayWrongParam()
+        {
+            const int id = -1;
+
+            var context = new Mock<LibraryContext>();
+
+            var service = new ReaderBookService(context.Object);
+
+            Assert.ThrowsException<LibraryArgumentException>(() => service.CheckBooksRentedToday(id));
+        }
+
+        [TestMethod]
+        public void TestCheckPastLoansForDomainsWrongDomainIdParam()
+        {
+            const int domainId = -1;
+
+            const int readerId = 1;
+
+            var context = new Mock<LibraryContext>();
+
+            var service = new ReaderBookService(context.Object);
+
+            Assert.ThrowsException<LibraryArgumentException>(() => service.CheckPastLoansForDomains(readerId, domainId));
+        }
+
+        [TestMethod]
+        public void TestCheckPastLoansForDomainsWrongReaderIdParam()
+        {
+            const int domainId = 1;
+
+            const int readerId = -1;
+
+            var context = new Mock<LibraryContext>();
+
+            var service = new ReaderBookService(context.Object);
+
+            Assert.ThrowsException<LibraryArgumentException>(() => service.CheckPastLoansForDomains(readerId, domainId));
+        }
+
+        [TestMethod]
+        public void TestCheckSameBookRentedWrongReaderIdParam()
+        {
+            const int bookId = 1;
+
+            const int readerId = -1;
+
+            var context = new Mock<LibraryContext>();
+
+            var service = new ReaderBookService(context.Object);
+
+            Assert.ThrowsException<LibraryArgumentException>(() => service.CheckSameBookRented(bookId, readerId));
+        }
+
+        [TestMethod]
+        public void TestCheckSameBookRentedWrongBookIdParam()
+        {
+            const int bookId = -1;
+
+            const int readerId = 1;
+
+            var context = new Mock<LibraryContext>();
+
+            var service = new ReaderBookService(context.Object);
+
+            Assert.ThrowsException<LibraryArgumentException>(() => service.CheckSameBookRented(bookId, readerId));
+        }
+
+        [TestMethod]
+        public void TestGetAllBooksOnLoanWrongParam()
+        {
+            const int readerId = -1;
+
+            var context = new Mock<LibraryContext>();
+
+            var service = new ReaderBookService(context.Object);
+
+            Assert.ThrowsException<LibraryArgumentException>(() => service.GetAllBooksOnLoan(readerId));
         }
     }
 }

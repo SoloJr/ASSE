@@ -9,6 +9,8 @@ namespace LibraryAdministration.Interfaces.DataAccess
 {
     public interface IReaderBookRepository : IRepository<ReaderBook>
     {
+        List<ReaderBook> GetAllBooksOnLoan(int readerId);
+
         bool CheckBeforeLoan(int readerId);
 
         bool CheckPastLoansForDomains(int readerId, int domainId);

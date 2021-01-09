@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using LibraryAdministration.BusinessLayer;
+using LibraryAdministration.DataAccessLayer;
 using LibraryAdministration.Interfaces.Business;
 using LibraryAdministration.Interfaces.DataAccess;
 using LibraryAdministration.Startup;
@@ -36,7 +38,35 @@ namespace LibraryAdministrationTest.StartupTests
             Injector.Inject(new MockBindings());
             var kernel = Injector.Kernel;
 
-            var repo = kernel.Get<IDomainService>();
+            var service = kernel.Get<IDomainService>();
+
+            Assert.IsNotNull(service);
+            Assert.IsNotNull(kernel);
+        }
+
+        [TestMethod]
+        public void TestTypeInjectionService()
+        {
+            Injector.Inject(new MockBindings());
+            var kernel = Injector.Kernel;
+
+            var service = kernel.Get<IDomainService>();
+
+            Assert.IsTrue(service is DomainService);
+
+            Assert.IsNotNull(service);
+            Assert.IsNotNull(kernel);
+        }
+
+        [TestMethod]
+        public void TestTypeInjectionRepository()
+        {
+            Injector.Inject(new MockBindings());
+            var kernel = Injector.Kernel;
+
+            var repo = kernel.Get<IDomainRepository>();
+
+            Assert.IsTrue(repo is DomainRepository);
 
             Assert.IsNotNull(repo);
             Assert.IsNotNull(kernel);

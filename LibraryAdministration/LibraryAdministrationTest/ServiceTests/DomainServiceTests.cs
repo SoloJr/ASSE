@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using LibraryAdministration.BusinessLayer;
 using LibraryAdministration.DataMapper;
 using LibraryAdministration.DomainModel;
+using LibraryAdministration.Helper;
 using LibraryAdministration.Interfaces.Business;
 using LibraryAdministration.Startup;
 using LibraryAdministrationTest.Mocks;
@@ -328,6 +329,28 @@ namespace LibraryAdministrationTest.ServiceTests
             var result = _service.CheckDomainConstraint(data.ToList());
 
             Assert.IsFalse(result);
+        }
+
+        [TestMethod]
+        public void TestCheckDomainConstraintWrongParam()
+        {
+            var context = new Mock<LibraryContext>();
+
+            var service = new DomainService(context.Object);
+
+            Assert.ThrowsException<LibraryArgumentException>(() => service.CheckDomainConstraint(null));
+        }
+
+        [TestMethod]
+        public void TestGetAllParentDomainsWrongParam()
+        {
+            const int id = -1;
+
+            var context = new Mock<LibraryContext>();
+
+            var service = new DomainService(context.Object);
+
+            Assert.ThrowsException<LibraryArgumentException>(() => service.GetAllParentDomains(id));
         }
     }
 }

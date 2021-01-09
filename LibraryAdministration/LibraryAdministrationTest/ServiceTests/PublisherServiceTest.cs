@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using LibraryAdministration.BusinessLayer;
 using LibraryAdministration.DataMapper;
 using LibraryAdministration.DomainModel;
+using LibraryAdministration.Helper;
 using LibraryAdministration.Interfaces.Business;
 using LibraryAdministration.Startup;
 using LibraryAdministrationTest.Mocks;
@@ -319,6 +320,18 @@ namespace LibraryAdministrationTest.ServiceTests
 
             Assert.IsNotNull(pubs);
             Assert.AreEqual(pubs.Count(), 2);
+        }
+
+        [TestMethod]
+        public void TestGetAllBookPublishersOfABookWrongParam()
+        {
+            const int id = -1;
+
+            var context = new Mock<LibraryContext>();
+
+            var service = new PublisherService(context.Object);
+
+            Assert.ThrowsException<LibraryArgumentException>(() => service.GetAllBookPublishersOfABook(id));
         }
     }
 }

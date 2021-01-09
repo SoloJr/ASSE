@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using LibraryAdministration.BusinessLayer;
 using LibraryAdministration.DataMapper;
 using LibraryAdministration.DomainModel;
+using LibraryAdministration.Helper;
 using LibraryAdministration.Interfaces.Business;
 using LibraryAdministration.Startup;
 using LibraryAdministrationTest.Mocks;
@@ -334,6 +335,18 @@ namespace LibraryAdministrationTest.ServiceTests
 
             Assert.IsNotNull(result);
             Assert.AreEqual(result.Count(), 2);
+        }
+
+        [TestMethod]
+        public void TestGetAllDomainsOfBookWrongParam()
+        {
+            var wrongParam = -1;
+
+            var context = new Mock<LibraryContext>();
+
+            var service = new BookService(context.Object);
+
+            Assert.ThrowsException<LibraryArgumentException>(() => service.GetAllDomainsOfBook(wrongParam));
         }
     }
 }

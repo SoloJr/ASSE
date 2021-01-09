@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using LibraryAdministration.DataAccessLayer;
 using LibraryAdministration.DataMapper;
 using LibraryAdministration.DomainModel;
+using LibraryAdministration.Helper;
 using LibraryAdministration.Interfaces.Business;
 using LibraryAdministration.Interfaces.DataAccess;
 using LibraryAdministration.Startup;
@@ -23,6 +24,11 @@ namespace LibraryAdministration.BusinessLayer
 
         public ICollection<Publisher> GetAllBookPublishersOfABook(int bookId)
         {
+            if (bookId <= 0)
+            {
+                throw new LibraryArgumentException(nameof(bookId));
+            }
+
             return _repository.GetAllBookPublishersOfABook(bookId);
         }
     }

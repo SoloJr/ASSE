@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using LibraryAdministration.DataAccessLayer;
 using LibraryAdministration.DataMapper;
 using LibraryAdministration.DomainModel;
+using LibraryAdministration.Helper;
 using LibraryAdministration.Interfaces.Business;
 using LibraryAdministration.Interfaces.DataAccess;
 using LibraryAdministration.Startup;
@@ -21,19 +22,24 @@ namespace LibraryAdministration.BusinessLayer
 
         }
 
-        public IEnumerable<Domain> GetAllDomainsOfBook(int bookId)
-        {
-            return null;
-        }
-
         public IEnumerable<Domain> GetAllParentDomains(int domainId)
         {
+            if (domainId <= 0)
+            {
+                throw new LibraryArgumentException(nameof(domainId));
+            }
+
             return _repository.GetAllParentDomains(domainId);
         }
 
 
         public bool CheckDomainConstraint(List<Domain> domains)
         {
+            if (domains == null)
+            {
+                throw new LibraryArgumentException(nameof(domains));
+            }
+
             return _repository.CheckDomainConstraint(domains);
         }
     }
