@@ -37,6 +37,36 @@ namespace LibraryAdministrationTest.DomainModelTests
         }
 
         [TestMethod]
+        public void TestCreatePersonalInfoSuccessPhoneNumberOnly()
+        {
+            var info = new PersonalInfo
+            {
+                PhoneNumber = "0731233233"
+            };
+
+            var result = _validator.Validate(info);
+
+            Assert.IsNotNull(result);
+            Assert.IsTrue(result.IsValid);
+            Assert.IsTrue(result.Errors.Count == 0);
+        }
+
+        [TestMethod]
+        public void TestCreatePersonalInfoSuccessEmailOnly()
+        {
+            var info = new PersonalInfo
+            {
+                Email = "mircea.solo1995@gmail.com"
+            };
+
+            var result = _validator.Validate(info);
+
+            Assert.IsNotNull(result);
+            Assert.IsTrue(result.IsValid);
+            Assert.IsTrue(result.Errors.Count == 0);
+        }
+
+        [TestMethod]
         public void TestCreatePersonalInfoFailNull()
         {
             var info = new PersonalInfo();

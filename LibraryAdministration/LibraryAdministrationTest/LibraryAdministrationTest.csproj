@@ -79,11 +79,13 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="DomainModelTests\AuthorTest.cs" />
+    <Compile Include="DomainModelTests\BookPublisherTest.cs" />
     <Compile Include="DomainModelTests\BookTest.cs" />
     <Compile Include="DomainModelTests\DomainTest.cs" />
     <Compile Include="DomainModelTests\EmployeeTest.cs" />
     <Compile Include="DomainModelTests\PersonalInfoTest.cs" />
     <Compile Include="DomainModelTests\PublisherTest.cs" />
+    <Compile Include="DomainModelTests\ReaderBookTest.cs" />
     <Compile Include="DomainModelTests\ReaderTest.cs" />
     <Compile Include="Mocks\MockBindings.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

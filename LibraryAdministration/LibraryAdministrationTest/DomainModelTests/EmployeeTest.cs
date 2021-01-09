@@ -173,5 +173,93 @@ namespace LibraryAdministrationTest.DomainModelTests
             Assert.IsFalse(result.IsValid);
             Assert.IsFalse(result.Errors.Count == 0);
         }
+
+        [TestMethod]
+        public void TestCreateEmployeeFailWithFirstNameTooLong()
+        {
+            var employee = new Employee
+            {
+                Info = new PersonalInfo
+                {
+                    PhoneNumber = "0731233233",
+                    Email = "mircea.solo1995@gmail.com"
+                },
+                Address = "Str. Drumul cu Plopi Nr. 112 Vila 18 Ap. 4",
+                FirstName = "Mirceaaaaaaaaaaaaaaaaaaaa",
+                LastName = "Solovastru"
+            };
+
+            var result = _validator.Validate(employee);
+
+            Assert.IsNotNull(result);
+            Assert.IsFalse(result.IsValid);
+            Assert.IsFalse(result.Errors.Count == 0);
+        }
+
+        [TestMethod]
+        public void TestCreateEmployeeFailWithFirstNameTooShort()
+        {
+            var employee = new Employee
+            {
+                Info = new PersonalInfo
+                {
+                    PhoneNumber = "0731233233",
+                    Email = "mircea.solo1995@gmail.com"
+                },
+                Address = "Str. Drumul cu Plopi Nr. 112 Vila 18 Ap. 4",
+                FirstName = "M",
+                LastName = "Solovastru"
+            };
+
+            var result = _validator.Validate(employee);
+
+            Assert.IsNotNull(result);
+            Assert.IsFalse(result.IsValid);
+            Assert.IsFalse(result.Errors.Count == 0);
+        }
+
+        [TestMethod]
+        public void TestCreateEmployeeFailWithLastNameTooLong()
+        {
+            var employee = new Employee
+            {
+                Info = new PersonalInfo
+                {
+                    PhoneNumber = "0731233233",
+                    Email = "mircea.solo1995@gmail.com"
+                },
+                Address = "Str. Drumul cu Plopi Nr. 112 Vila 18 Ap. 4",
+                FirstName = "Mircea",
+                LastName = "Solovastruuuuuuuuuuuuuuuuu"
+            };
+
+            var result = _validator.Validate(employee);
+
+            Assert.IsNotNull(result);
+            Assert.IsFalse(result.IsValid);
+            Assert.IsFalse(result.Errors.Count == 0);
+        }
+
+        [TestMethod]
+        public void TestCreateEmployeeFailWithLastNameTooShort()
+        {
+            var employee = new Employee
+            {
+                Info = new PersonalInfo
+                {
+                    PhoneNumber = "0731233233",
+                    Email = "mircea.solo1995@gmail.com"
+                },
+                Address = "Str. Drumul cu Plopi Nr. 112 Vila 18 Ap. 4",
+                FirstName = "Mircea",
+                LastName = "S"
+            };
+
+            var result = _validator.Validate(employee);
+
+            Assert.IsNotNull(result);
+            Assert.IsFalse(result.IsValid);
+            Assert.IsFalse(result.Errors.Count == 0);
+        }
     }
 }
