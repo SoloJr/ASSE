@@ -12,8 +12,8 @@ namespace LibraryAdministration.Validators
     {
         public ReaderBookValidator()
         {
-            RuleFor(x => x.DueDate).NotEmpty();
-            RuleFor(x => x.LoanDate).NotEmpty();
+            RuleFor(x => x.DueDate).Must(x => x > DateTime.MinValue);
+            RuleFor(x => x.LoanDate).Must(x => x > DateTime.MinValue);
             RuleFor(x => x.BookPublisherId).NotEmpty();
             RuleFor(x => x.ReaderId).NotEmpty();
         }

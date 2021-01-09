@@ -265,5 +265,201 @@ namespace LibraryAdministrationTest.DomainModelTests
             Assert.IsNotNull(readerBook.BookPublisher);
             Assert.IsNotNull(readerBook.Reader);
         }
+
+        [TestMethod]
+        public void TestCreateReaderBookFailsDueDate()
+        {
+            var reader = new Reader
+            {
+                Info = new PersonalInfo
+                {
+                    PhoneNumber = "0731233233",
+                    Email = "mircea.solo1995@gmail.com"
+                },
+                Address = "0",
+                FirstName = "Mircea",
+                LastName = "Solovastru",
+                Id = 1
+            };
+
+            var book = new Book
+            {
+                Name = "Arta Subtila a Nepasarii",
+                Language = "Romana",
+                Year = 2017,
+                Id = 1
+            };
+
+            var readerBook = new ReaderBook
+            {
+                LoanDate = DateTime.Now,
+                BookPublisherId = book.Id,
+                ReaderId = reader.Id,
+                Id = 1
+            };
+
+            var result = _readerBookValidator.Validate(readerBook);
+
+            Assert.IsNotNull(result);
+            Assert.IsFalse(result.IsValid);
+            Assert.IsFalse(result.Errors.Count == 0);
+        }
+
+        [TestMethod]
+        public void TestCreateReaderBookFailsLoanDate()
+        {
+            var reader = new Reader
+            {
+                Info = new PersonalInfo
+                {
+                    PhoneNumber = "0731233233",
+                    Email = "mircea.solo1995@gmail.com"
+                },
+                Address = "0",
+                FirstName = "Mircea",
+                LastName = "Solovastru",
+                Id = 1
+            };
+
+            var book = new Book
+            {
+                Name = "Arta Subtila a Nepasarii",
+                Language = "Romana",
+                Year = 2017,
+                Id = 1
+            };
+
+            var readerBook = new ReaderBook
+            {
+                DueDate = DateTime.Now,
+                BookPublisherId = book.Id,
+                ReaderId = reader.Id,
+                Id = 1
+            };
+
+            var result = _readerBookValidator.Validate(readerBook);
+
+            Assert.IsNotNull(result);
+            Assert.IsFalse(result.IsValid);
+            Assert.IsFalse(result.Errors.Count == 0);
+        }
+
+        [TestMethod]
+        public void TestCreateReaderBookFailsNoPublisherId()
+        {
+            var reader = new Reader
+            {
+                Info = new PersonalInfo
+                {
+                    PhoneNumber = "0731233233",
+                    Email = "mircea.solo1995@gmail.com"
+                },
+                Address = "0",
+                FirstName = "Mircea",
+                LastName = "Solovastru",
+                Id = 1
+            };
+
+            var book = new Book
+            {
+                Name = "Arta Subtila a Nepasarii",
+                Language = "Romana",
+                Year = 2017,
+                Id = 1
+            };
+
+            var readerBook = new ReaderBook
+            {
+                DueDate = DateTime.Now,
+                LoanDate = DateTime.Now.AddDays(14),
+                ReaderId = reader.Id,
+                Id = 1
+            };
+
+            var result = _readerBookValidator.Validate(readerBook);
+
+            Assert.IsNotNull(result);
+            Assert.IsFalse(result.IsValid);
+            Assert.IsFalse(result.Errors.Count == 0);
+        }
+
+        [TestMethod]
+        public void TestCreateReaderBookFailsNoReaderId()
+        {
+            var reader = new Reader
+            {
+                Info = new PersonalInfo
+                {
+                    PhoneNumber = "0731233233",
+                    Email = "mircea.solo1995@gmail.com"
+                },
+                Address = "0",
+                FirstName = "Mircea",
+                LastName = "Solovastru",
+                Id = 1
+            };
+
+            var book = new Book
+            {
+                Name = "Arta Subtila a Nepasarii",
+                Language = "Romana",
+                Year = 2017,
+                Id = 1
+            };
+
+            var readerBook = new ReaderBook
+            {
+                DueDate = DateTime.Now,
+                LoanDate = DateTime.Now.AddDays(14),
+                BookPublisherId = int.MinValue,
+                Id = 1
+            };
+
+            var result = _readerBookValidator.Validate(readerBook);
+
+            Assert.IsNotNull(result);
+            Assert.IsFalse(result.IsValid);
+            Assert.IsFalse(result.Errors.Count == 0);
+        }
+
+        [TestMethod]
+        public void TestCreateReaderBookSuccessWithNoLoanReturnDate()
+        {
+            var reader = new Reader
+            {
+                Info = new PersonalInfo
+                {
+                    PhoneNumber = "0731233233",
+                    Email = "mircea.solo1995@gmail.com"
+                },
+                Address = "0",
+                FirstName = "Mircea",
+                LastName = "Solovastru",
+                Id = 1
+            };
+
+            var book = new Book
+            {
+                Name = "Arta Subtila a Nepasarii",
+                Language = "Romana",
+                Year = 2017,
+                Id = 1
+            };
+
+            var readerBook = new ReaderBook
+            {
+                DueDate = DateTime.Now,
+                LoanDate = DateTime.Now.AddDays(14),
+                BookPublisherId = int.MinValue,
+                ReaderId = 1,
+                Id = 1
+            };
+
+            var result = _readerBookValidator.Validate(readerBook);
+
+            Assert.IsNotNull(result);
+            Assert.IsTrue(result.IsValid);
+            Assert.IsTrue(result.Errors.Count == 0);
+        }
     }
 }
