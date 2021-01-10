@@ -1,13 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using FluentValidation;
+﻿using FluentValidation;
 using FluentValidation.Results;
-using LibraryAdministration.DataMapper;
 using LibraryAdministration.Interfaces.Business;
 using LibraryAdministration.Interfaces.DataAccess;
+using System.Collections.Generic;
 
 namespace LibraryAdministration.BusinessLayer
 {
@@ -18,7 +13,7 @@ namespace LibraryAdministration.BusinessLayer
         protected U _repository;
         protected IValidator<T> _validator;
         /// <summary>
-        /// Ctor for base service
+        /// Constructor for base service
         /// </summary>
         /// <param name="repository">The actual repository that will fit into this class</param>
         /// <param name="validator">The fluent validation validator</param>

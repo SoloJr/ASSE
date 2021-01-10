@@ -1,14 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using FluentValidation.Results;
-using LibraryAdministration.DomainModel;
-using LibraryAdministration.Interfaces.Business;
+﻿using LibraryAdministration.DomainModel;
 using LibraryAdministration.Validators;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using Moq;
+using System.Linq;
 
 namespace LibraryAdministrationTest.DomainModelTests
 {

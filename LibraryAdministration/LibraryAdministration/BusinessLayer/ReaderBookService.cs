@@ -1,16 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using LibraryAdministration.DataAccessLayer;
+﻿using LibraryAdministration.DataAccessLayer;
 using LibraryAdministration.DataMapper;
 using LibraryAdministration.DomainModel;
 using LibraryAdministration.Helper;
 using LibraryAdministration.Interfaces.Business;
 using LibraryAdministration.Interfaces.DataAccess;
-using LibraryAdministration.Startup;
 using LibraryAdministration.Validators;
+using System;
+using System.Collections.Generic;
 
 namespace LibraryAdministration.BusinessLayer
 {
@@ -19,7 +15,7 @@ namespace LibraryAdministration.BusinessLayer
         public ReaderBookService(LibraryContext context, bool sameAccount = true)
             : base(new ReaderBookRepository(context, sameAccount), new ReaderBookValidator())
         {
-            
+
         }
 
         public List<ReaderBook> GetAllBooksOnLoan(int readerId)
@@ -96,7 +92,7 @@ namespace LibraryAdministration.BusinessLayer
 
             if (this.CheckLoanExtension(id, days))
             {
-                throw new Exception("Can't extend this loan"); 
+                throw new Exception("Can't extend this loan");
             }
 
             return _repository.ExtendLoan(id, days);

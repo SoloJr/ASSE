@@ -1,11 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using LibraryAdministration.DomainModel;
+﻿using LibraryAdministration.DomainModel;
 using LibraryAdministration.Validators;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using System;
 
 namespace LibraryAdministrationTest.DomainModelTests
 {

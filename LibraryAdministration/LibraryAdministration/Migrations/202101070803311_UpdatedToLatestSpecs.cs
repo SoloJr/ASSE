@@ -1,8 +1,7 @@
 ﻿namespace LibraryAdministration.Migrations
 {
-    using System;
     using System.Data.Entity.Migrations;
-    
+
     public partial class UpdatedToLatestSpecs : DbMigration
     {
         public override void Up()
@@ -15,7 +14,7 @@
             AddForeignKey("dbo.BookRentals", "RentBookPublisherId", "dbo.BookPublishers", "Id", cascadeDelete: true);
             DropColumn("dbo.BookRentals", "RentBookId");
         }
-        
+
         public override void Down()
         {
             AddColumn("dbo.BookRentals", "RentBookId", c => c.Int(nullable: false));

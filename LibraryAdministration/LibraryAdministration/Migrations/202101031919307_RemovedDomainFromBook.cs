@@ -1,8 +1,7 @@
 ﻿namespace LibraryAdministration.Migrations
 {
-    using System;
     using System.Data.Entity.Migrations;
-    
+
     public partial class RemovedDomainFromBook : DbMigration
     {
         public override void Up()
@@ -11,7 +10,7 @@
             DropIndex("dbo.Books", new[] { "BookDomainId" });
             DropColumn("dbo.Books", "BookDomainId");
         }
-        
+
         public override void Down()
         {
             AddColumn("dbo.Books", "BookDomainId", c => c.Int(nullable: false));

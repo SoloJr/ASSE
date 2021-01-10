@@ -1,8 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using LibraryAdministration.DomainModel;
+﻿using LibraryAdministration.DomainModel;
 using LibraryAdministration.Validators;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using System;
+using System.Collections.Generic;
 
 namespace LibraryAdministrationTest.DomainModelTests
 {

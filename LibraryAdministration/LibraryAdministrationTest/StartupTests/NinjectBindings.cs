@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using LibraryAdministration.BusinessLayer;
+﻿using LibraryAdministration.BusinessLayer;
 using LibraryAdministration.DataAccessLayer;
 using LibraryAdministration.Interfaces.Business;
 using LibraryAdministration.Interfaces.DataAccess;
@@ -11,6 +6,7 @@ using LibraryAdministration.Startup;
 using LibraryAdministrationTest.Mocks;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Ninject;
+using System;
 
 namespace LibraryAdministrationTest.StartupTests
 {

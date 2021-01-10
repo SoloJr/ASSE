@@ -1,8 +1,7 @@
 ﻿namespace LibraryAdministration.Migrations
 {
-    using System;
     using System.Data.Entity.Migrations;
-    
+
     public partial class ChangedRentMechanism : DbMigration
     {
         public override void Up()
@@ -12,7 +11,7 @@
             DropColumn("dbo.BookPublishers", "Count");
             DropColumn("dbo.BookPublishers", "AllForRent");
         }
-        
+
         public override void Down()
         {
             AddColumn("dbo.BookPublishers", "AllForRent", c => c.Boolean(nullable: false));

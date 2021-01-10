@@ -1,17 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using FluentValidation;
-using LibraryAdministration.DataAccessLayer;
+﻿using LibraryAdministration.DataAccessLayer;
 using LibraryAdministration.DataMapper;
 using LibraryAdministration.DomainModel;
 using LibraryAdministration.Helper;
 using LibraryAdministration.Interfaces.Business;
 using LibraryAdministration.Interfaces.DataAccess;
-using LibraryAdministration.Startup;
 using LibraryAdministration.Validators;
+using System.Collections.Generic;
 
 namespace LibraryAdministration.BusinessLayer
 {

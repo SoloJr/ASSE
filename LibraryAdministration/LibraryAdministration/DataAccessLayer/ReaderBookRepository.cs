@@ -1,16 +1,13 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Configuration;
-using System.Data.Entity.Core;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using LibraryAdministration.BusinessLayer;
+﻿using LibraryAdministration.BusinessLayer;
 using LibraryAdministration.DataMapper;
 using LibraryAdministration.DomainModel;
 using LibraryAdministration.Helper;
 using LibraryAdministration.Interfaces.DataAccess;
-using LibraryAdministration.Startup;
+using System;
+using System.Collections.Generic;
+using System.Configuration;
+using System.Data.Entity.Core;
+using System.Linq;
 
 namespace LibraryAdministration.DataAccessLayer
 {
@@ -54,7 +51,7 @@ namespace LibraryAdministration.DataAccessLayer
             Details.C *= 2;
             Details.D *= 2;
             Details.LIM *= 2;
-            Details.DELTA = (int) (Details.DELTA / 2);
+            Details.DELTA = (int)(Details.DELTA / 2);
             Details.PER = (int)(Details.PER / 2);
         }
 

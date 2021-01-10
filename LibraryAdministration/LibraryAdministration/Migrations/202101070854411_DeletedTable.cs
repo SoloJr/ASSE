@@ -1,8 +1,7 @@
 ﻿namespace LibraryAdministration.Migrations
 {
-    using System;
     using System.Data.Entity.Migrations;
-    
+
     public partial class DeletedTable : DbMigration
     {
         public override void Up()
@@ -17,19 +16,19 @@
             DropColumn("dbo.ReaderBooks", "BookId");
             DropTable("dbo.BookRentals");
         }
-        
+
         public override void Down()
         {
             CreateTable(
                 "dbo.BookRentals",
                 c => new
-                    {
-                        Id = c.Int(nullable: false, identity: true),
-                        ForRent = c.Int(nullable: false),
-                        RentBookPublisherId = c.Int(nullable: false),
-                    })
+                {
+                    Id = c.Int(nullable: false, identity: true),
+                    ForRent = c.Int(nullable: false),
+                    RentBookPublisherId = c.Int(nullable: false),
+                })
                 .PrimaryKey(t => t.Id);
-            
+
             AddColumn("dbo.ReaderBooks", "BookId", c => c.Int(nullable: false));
             DropForeignKey("dbo.ReaderBooks", "BookPublisherId", "dbo.BookPublishers");
             DropIndex("dbo.ReaderBooks", new[] { "BookPublisherId" });

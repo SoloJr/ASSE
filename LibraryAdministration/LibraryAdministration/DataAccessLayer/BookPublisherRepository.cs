@@ -1,12 +1,9 @@
-﻿using System;
+﻿using LibraryAdministration.DataMapper;
+using LibraryAdministration.DomainModel;
+using LibraryAdministration.Interfaces.DataAccess;
 using System.Collections.Generic;
 using System.Data.Entity.Core;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using LibraryAdministration.DataMapper;
-using LibraryAdministration.DomainModel;
-using LibraryAdministration.Interfaces.DataAccess;
 namespace LibraryAdministration.DataAccessLayer
 {
     public class BookPublisherRepository : BaseRepository<BookPublisher>, IBookPublisherRepository

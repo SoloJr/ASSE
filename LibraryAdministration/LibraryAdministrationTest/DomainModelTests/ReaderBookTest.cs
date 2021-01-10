@@ -1,7 +1,7 @@
-﻿using System;
-using LibraryAdministration.DomainModel;
+﻿using LibraryAdministration.DomainModel;
 using LibraryAdministration.Validators;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using System;
 
 namespace LibraryAdministrationTest.DomainModelTests
 {

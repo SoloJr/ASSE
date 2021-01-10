@@ -1,10 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using FluentValidation;
+﻿using FluentValidation;
 using LibraryAdministration.DomainModel;
+using System;
 
 namespace LibraryAdministration.Validators
 {
@@ -12,7 +8,7 @@ namespace LibraryAdministration.Validators
     {
         public ReaderBookValidator()
         {
-            RuleFor(x => x ).Must(CheckLoanDate);
+            RuleFor(x => x).Must(CheckLoanDate);
             RuleFor(x => x.LoanDate).Must(x => x > DateTime.MinValue);
             RuleFor(x => x.BookPublisherId).NotEmpty();
             RuleFor(x => x.ReaderId).NotEmpty();

@@ -1,18 +1,13 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Data.Entity;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using LibraryAdministration.BusinessLayer;
+﻿using LibraryAdministration.BusinessLayer;
 using LibraryAdministration.DataMapper;
 using LibraryAdministration.DomainModel;
-using LibraryAdministration.Interfaces.Business;
 using LibraryAdministration.Startup;
 using LibraryAdministrationTest.Mocks;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
-using Ninject;
+using System.Collections.Generic;
+using System.Data.Entity;
+using System.Linq;
 
 namespace LibraryAdministrationTest.ServiceTests
 {

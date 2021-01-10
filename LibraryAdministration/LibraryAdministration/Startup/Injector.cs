@@ -1,12 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Reflection;
-using System.Text;
-using System.Threading.Tasks;
-using Ninject;
+﻿using Ninject;
 using Ninject.Extensions.Logging.Log4net;
 using Ninject.Modules;
+using System;
+using System.Reflection;
 
 namespace LibraryAdministration.Startup
 {
