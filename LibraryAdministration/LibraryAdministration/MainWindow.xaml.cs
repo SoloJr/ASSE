@@ -1,16 +1,25 @@
-﻿using LibraryAdministration.Interfaces.Business;
-using LibraryAdministration.Startup;
-using Ninject;
-using Ninject.Extensions.Logging;
-using System.Windows;
+﻿//----------------------------------------------------------------------
+// <copyright file="MainWindow.xaml.cs" company="Transilvania University of Brasov">
+//     Mircea Solovastru
+// </copyright>
+//-----------------------------------------------------------------------
 
 namespace LibraryAdministration
 {
+    using System.Windows;
+    using Interfaces.Business;
+    using Ninject;
+    using Ninject.Extensions.Logging;
+    using Startup;
+
     /// <summary>
     /// Interaction logic for MainWindow
     /// </summary>
     public partial class MainWindow : Window
     {
+        /// <summary>
+        /// Initializes a new instance of the <see cref="MainWindow"/> class.
+        /// </summary>
         public MainWindow()
         {
             var kernel = Injector.Kernel;
@@ -21,15 +30,13 @@ namespace LibraryAdministration
 
             var bookService = kernel.Get<IBookService>();
 
-            //var result = bookService.GetAllDomainsOfBook(2);
-
             var domainService = kernel.Get<IDomainService>();
 
             var _ = domainService.GetAllParentDomains(13);
 
             _ = domainService.GetAllParentDomains(7);
 
-            InitializeComponent();
+            this.InitializeComponent();
         }
     }
 }

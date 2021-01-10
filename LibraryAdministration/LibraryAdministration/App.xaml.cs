@@ -4,12 +4,10 @@
 // </copyright>
 //-----------------------------------------------------------------------
 
-
-
 namespace LibraryAdministration
 {
-    using LibraryAdministration.Startup;
     using System.Windows;
+    using Startup;
 
     /// <summary>
     /// Interaction logic for App
