@@ -1,30 +1,48 @@
-﻿using LibraryAdministration.BusinessLayer;
-using LibraryAdministration.DataMapper;
-using LibraryAdministration.DomainModel;
-using LibraryAdministration.Helper;
-using LibraryAdministration.Interfaces.Business;
-using LibraryAdministration.Startup;
-using LibraryAdministrationTest.Mocks;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
-using Moq;
-using System.Collections.Generic;
-using System.Data.Entity;
-using System.Linq;
+﻿//---------------------------------------------------------------------
+// <copyright file="DomainServiceTests.cs" company="Transilvania University of Brasov">
+//     Mircea Solovastru
+// </copyright>
+//-----------------------------------------------------------------------
 
 namespace LibraryAdministrationTest.ServiceTests
 {
+    using System.Collections.Generic;
+    using System.Data.Entity;
+    using System.Linq;
+    using LibraryAdministration.BusinessLayer;
+    using LibraryAdministration.DataMapper;
+    using LibraryAdministration.DomainModel;
+    using LibraryAdministration.Helper;
+    using LibraryAdministration.Interfaces.Business;
+    using LibraryAdministration.Startup;
+    using Microsoft.VisualStudio.TestTools.UnitTesting;
+    using Mocks;
+    using Moq;
+
+    /// <summary>
+    /// DomainServiceTests class
+    /// </summary>
     [TestClass]
     public class DomainServiceTests
     {
-        private Domain _domain;
+        /// <summary>
+        /// The domain
+        /// </summary>
+        private Domain domain;
 
-        private IDomainService _service;
+        /// <summary>
+        /// The service
+        /// </summary>
+        private IDomainService service;
 
+        /// <summary>
+        /// Initializes this instance.
+        /// </summary>
         [TestInitialize]
         public void Init()
         {
             Injector.Inject(new MockBindings());
-            _domain = new Domain
+            this.domain = new Domain
             {
                 Id = 1,
                 Name = "Base Domain",
@@ -33,6 +51,9 @@ namespace LibraryAdministrationTest.ServiceTests
             };
         }
 
+        /// <summary>
+        /// Tests the insert domain.
+        /// </summary>
         [TestMethod]
         public void TestInsertDomain()
         {
@@ -41,11 +62,11 @@ namespace LibraryAdministrationTest.ServiceTests
             var mockContext = new Mock<LibraryContext>();
             mockContext.Setup(x => x.Set<Domain>()).Returns(mockSet.Object);
 
-            _service = new DomainService(mockContext.Object);
-            var result = _service.Insert(_domain);
+            this.service = new DomainService(mockContext.Object);
+            var result = this.service.Insert(this.domain);
             try
             {
-                mockSet.Verify(m => m.Add((It.IsAny<Domain>())), Times.Once());
+                mockSet.Verify(m => m.Add(It.IsAny<Domain>()), Times.Once());
                 mockContext.Verify(m => m.SaveChanges(), Times.Once());
             }
             catch (MockException e)
@@ -58,6 +79,9 @@ namespace LibraryAdministrationTest.ServiceTests
             Assert.IsTrue(result.Errors.Count == 0);
         }
 
+        /// <summary>
+        /// Tests the update domain.
+        /// </summary>
         [TestMethod]
         public void TestUpdateDomain()
         {
@@ -66,13 +90,13 @@ namespace LibraryAdministrationTest.ServiceTests
             var mockContext = new Mock<LibraryContext>();
             mockContext.Setup(x => x.Set<Domain>()).Returns(mockSet.Object);
 
-            _domain.Name = "Update";
+            this.domain.Name = "Update";
 
-            _service = new DomainService(mockContext.Object);
-            var result = _service.Update(_domain);
+            this.service = new DomainService(mockContext.Object);
+            var result = this.service.Update(this.domain);
             try
             {
-                mockSet.Verify(m => m.Attach((It.IsAny<Domain>())), Times.Once());
+                mockSet.Verify(m => m.Attach(It.IsAny<Domain>()), Times.Once());
                 mockContext.Verify(m => m.SaveChanges(), Times.Once());
             }
             catch (MockException e)
@@ -85,6 +109,9 @@ namespace LibraryAdministrationTest.ServiceTests
             Assert.IsTrue(result.Errors.Count == 0);
         }
 
+        /// <summary>
+        /// Tests the delete domain.
+        /// </summary>
         [TestMethod]
         public void TestDeleteDomain()
         {
@@ -93,11 +120,11 @@ namespace LibraryAdministrationTest.ServiceTests
             var mockContext = new Mock<LibraryContext>();
             mockContext.Setup(x => x.Set<Domain>()).Returns(mockSet.Object);
 
-            _service = new DomainService(mockContext.Object);
-            _service.Delete(_domain);
+            this.service = new DomainService(mockContext.Object);
+            this.service.Delete(this.domain);
             try
             {
-                mockSet.Verify(m => m.Remove((It.IsAny<Domain>())), Times.Once());
+                mockSet.Verify(m => m.Remove(It.IsAny<Domain>()), Times.Once());
                 mockContext.Verify(m => m.SaveChanges(), Times.Once());
             }
             catch (MockException e)
@@ -106,12 +133,15 @@ namespace LibraryAdministrationTest.ServiceTests
             }
         }
 
+        /// <summary>
+        /// Tests the get all domains.
+        /// </summary>
         [TestMethod]
         public void TestGetAllDomains()
         {
             var data = new List<Domain>
             {
-                _domain,
+                this.domain,
                 new Domain
                 {
                     Id = 2,
@@ -137,21 +167,24 @@ namespace LibraryAdministrationTest.ServiceTests
             var mockContext = new Mock<LibraryContext>();
             mockContext.Setup(x => x.Set<Domain>()).Returns(mockSet.Object);
 
-            _service = new DomainService(mockContext.Object);
+            this.service = new DomainService(mockContext.Object);
 
-            var authors = _service.GetAll();
+            var authors = this.service.GetAll();
 
             Assert.IsNotNull(authors);
             Assert.AreEqual(authors.Count(), 3);
         }
 
+        /// <summary>
+        /// Tests the get all parent domains.
+        /// </summary>
         [TestMethod]
         public void TestGetAllParentDomains()
         {
             var idToCheck = 3;
             var data = new List<Domain>
             {
-                _domain,
+                this.domain,
                 new Domain
                 {
                     Id = 2,
@@ -184,20 +217,23 @@ namespace LibraryAdministrationTest.ServiceTests
             var mockContext = new Mock<LibraryContext>();
             mockContext.Setup(x => x.Domains).Returns(mockSet.Object);
 
-            _service = new DomainService(mockContext.Object);
+            this.service = new DomainService(mockContext.Object);
 
-            var authors = _service.GetAllParentDomains(idToCheck);
+            var authors = this.service.GetAllParentDomains(idToCheck);
 
             Assert.IsNotNull(authors);
             Assert.AreEqual(authors.Count(), 2);
         }
 
+        /// <summary>
+        /// Tests the check domains when adding book.
+        /// </summary>
         [TestMethod]
         public void TestCheckDomainsWhenAddingBook()
         {
             var data = new List<Domain>
             {
-                _domain,
+                this.domain,
                 new Domain
                 {
                     Id = 2,
@@ -230,19 +266,22 @@ namespace LibraryAdministrationTest.ServiceTests
             var mockContext = new Mock<LibraryContext>();
             mockContext.Setup(x => x.Domains).Returns(mockSet.Object);
 
-            _service = new DomainService(mockContext.Object);
+            this.service = new DomainService(mockContext.Object);
 
-            var result = _service.CheckDomainConstraint(data.ToList());
+            var result = this.service.CheckDomainConstraint(data.ToList());
 
             Assert.IsTrue(result);
         }
 
+        /// <summary>
+        /// Tests the check domains when adding book with parent ids success.
+        /// </summary>
         [TestMethod]
         public void TestCheckDomainsWhenAddingBookWithParentIdsSuccess()
         {
             var data = new List<Domain>
             {
-                _domain,
+                this.domain,
                 new Domain
                 {
                     Id = 2,
@@ -275,19 +314,22 @@ namespace LibraryAdministrationTest.ServiceTests
             var mockContext = new Mock<LibraryContext>();
             mockContext.Setup(x => x.Domains).Returns(mockSet.Object);
 
-            _service = new DomainService(mockContext.Object);
+            this.service = new DomainService(mockContext.Object);
 
-            var result = _service.CheckDomainConstraint(data.ToList());
+            var result = this.service.CheckDomainConstraint(data.ToList());
 
             Assert.IsTrue(result);
         }
 
+        /// <summary>
+        /// Tests the check domains when adding book with parent ids fail.
+        /// </summary>
         [TestMethod]
         public void TestCheckDomainsWhenAddingBookWithParentIdsFail()
         {
             var data = new List<Domain>
             {
-                _domain,
+                this.domain,
                 new Domain
                 {
                     Id = 2,
@@ -320,13 +362,16 @@ namespace LibraryAdministrationTest.ServiceTests
             var mockContext = new Mock<LibraryContext>();
             mockContext.Setup(x => x.Domains).Returns(mockSet.Object);
 
-            _service = new DomainService(mockContext.Object);
+            this.service = new DomainService(mockContext.Object);
 
-            var result = _service.CheckDomainConstraint(data.ToList());
+            var result = this.service.CheckDomainConstraint(data.ToList());
 
             Assert.IsFalse(result);
         }
 
+        /// <summary>
+        /// Tests the check domain constraint wrong parameter.
+        /// </summary>
         [TestMethod]
         public void TestCheckDomainConstraintWrongParam()
         {
@@ -337,16 +382,19 @@ namespace LibraryAdministrationTest.ServiceTests
             Assert.ThrowsException<LibraryArgumentException>(() => service.CheckDomainConstraint(null));
         }
 
+        /// <summary>
+        /// Tests the get all parent domains wrong parameter.
+        /// </summary>
         [TestMethod]
         public void TestGetAllParentDomainsWrongParam()
         {
-            const int id = -1;
+            const int Id = -1;
 
             var context = new Mock<LibraryContext>();
 
             var service = new DomainService(context.Object);
 
-            Assert.ThrowsException<LibraryArgumentException>(() => service.GetAllParentDomains(id));
+            Assert.ThrowsException<LibraryArgumentException>(() => service.GetAllParentDomains(Id));
         }
     }
 }

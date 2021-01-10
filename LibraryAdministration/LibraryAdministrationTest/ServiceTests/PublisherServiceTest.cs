@@ -1,30 +1,48 @@
-﻿using LibraryAdministration.BusinessLayer;
-using LibraryAdministration.DataMapper;
-using LibraryAdministration.DomainModel;
-using LibraryAdministration.Helper;
-using LibraryAdministration.Startup;
-using LibraryAdministrationTest.Mocks;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
-using Moq;
-using System;
-using System.Collections.Generic;
-using System.Data.Entity;
-using System.Linq;
+﻿//---------------------------------------------------------------------
+// <copyright file="PublisherServiceTest.cs" company="Transilvania University of Brasov">
+//     Mircea Solovastru
+// </copyright>
+//-----------------------------------------------------------------------
 
 namespace LibraryAdministrationTest.ServiceTests
 {
+    using System;
+    using System.Collections.Generic;
+    using System.Data.Entity;
+    using System.Linq;
+    using LibraryAdministration.BusinessLayer;
+    using LibraryAdministration.DataMapper;
+    using LibraryAdministration.DomainModel;
+    using LibraryAdministration.Helper;
+    using LibraryAdministration.Startup;
+    using Microsoft.VisualStudio.TestTools.UnitTesting;
+    using Mocks;
+    using Moq;
+
+    /// <summary>
+    /// PublisherServiceTest class
+    /// </summary>
     [TestClass]
     public class PublisherServiceTest
     {
-        private Publisher _publisher;
+        /// <summary>
+        /// The publisher
+        /// </summary>
+        private Publisher publisher;
 
-        private PublisherService _service;
+        /// <summary>
+        /// The service
+        /// </summary>
+        private PublisherService service;
 
+        /// <summary>
+        /// Initializes this instance.
+        /// </summary>
         [TestInitialize]
         public void Init()
         {
             Injector.Inject(new MockBindings());
-            _publisher = new Publisher
+            this.publisher = new Publisher
             {
                 Name = "Editura 2000",
                 FoundingDate = new DateTime(2000, 1, 1),
@@ -32,7 +50,9 @@ namespace LibraryAdministrationTest.ServiceTests
             };
         }
 
-
+        /// <summary>
+        /// Tests the insert publisher.
+        /// </summary>
         [TestMethod]
         public void TestInsertPublisher()
         {
@@ -41,11 +61,11 @@ namespace LibraryAdministrationTest.ServiceTests
             var mockContext = new Mock<LibraryContext>();
             mockContext.Setup(x => x.Set<Publisher>()).Returns(mockSet.Object);
 
-            _service = new PublisherService(mockContext.Object);
-            var result = _service.Insert(_publisher);
+            this.service = new PublisherService(mockContext.Object);
+            var result = this.service.Insert(this.publisher);
             try
             {
-                mockSet.Verify(m => m.Add((It.IsAny<Publisher>())), Times.Once());
+                mockSet.Verify(m => m.Add(It.IsAny<Publisher>()), Times.Once());
                 mockContext.Verify(m => m.SaveChanges(), Times.Once());
             }
             catch (MockException e)
@@ -58,6 +78,9 @@ namespace LibraryAdministrationTest.ServiceTests
             Assert.IsTrue(result.Errors.Count == 0);
         }
 
+        /// <summary>
+        /// Tests the update publisher.
+        /// </summary>
         [TestMethod]
         public void TestUpdatePublisher()
         {
@@ -66,13 +89,13 @@ namespace LibraryAdministrationTest.ServiceTests
             var mockContext = new Mock<LibraryContext>();
             mockContext.Setup(x => x.Set<Publisher>()).Returns(mockSet.Object);
 
-            _publisher.Name = "Update";
+            this.publisher.Name = "Update";
 
-            _service = new PublisherService(mockContext.Object);
-            var result = _service.Update(_publisher);
+            this.service = new PublisherService(mockContext.Object);
+            var result = this.service.Update(this.publisher);
             try
             {
-                mockSet.Verify(m => m.Attach((It.IsAny<Publisher>())), Times.Once());
+                mockSet.Verify(m => m.Attach(It.IsAny<Publisher>()), Times.Once());
                 mockContext.Verify(m => m.SaveChanges(), Times.Once());
             }
             catch (MockException e)
@@ -85,6 +108,9 @@ namespace LibraryAdministrationTest.ServiceTests
             Assert.IsTrue(result.Errors.Count == 0);
         }
 
+        /// <summary>
+        /// Tests the delete publisher.
+        /// </summary>
         [TestMethod]
         public void TestDeletePublisher()
         {
@@ -93,11 +119,11 @@ namespace LibraryAdministrationTest.ServiceTests
             var mockContext = new Mock<LibraryContext>();
             mockContext.Setup(x => x.Set<Publisher>()).Returns(mockSet.Object);
 
-            _service = new PublisherService(mockContext.Object);
-            _service.Delete(_publisher);
+            this.service = new PublisherService(mockContext.Object);
+            this.service.Delete(this.publisher);
             try
             {
-                mockSet.Verify(m => m.Remove((It.IsAny<Publisher>())), Times.Once());
+                mockSet.Verify(m => m.Remove(It.IsAny<Publisher>()), Times.Once());
                 mockContext.Verify(m => m.SaveChanges(), Times.Once());
             }
             catch (MockException e)
@@ -106,12 +132,15 @@ namespace LibraryAdministrationTest.ServiceTests
             }
         }
 
+        /// <summary>
+        /// Tests the get all publishers.
+        /// </summary>
         [TestMethod]
         public void TestGetAllPublishers()
         {
             var data = new List<Publisher>
             {
-                _publisher,
+                this.publisher,
                 new Publisher
                 {
                     Name = "Editura 2001",
@@ -129,20 +158,23 @@ namespace LibraryAdministrationTest.ServiceTests
             var mockContext = new Mock<LibraryContext>();
             mockContext.Setup(x => x.Set<Publisher>()).Returns(mockSet.Object);
 
-            _service = new PublisherService(mockContext.Object);
+            this.service = new PublisherService(mockContext.Object);
 
-            var pubs = _service.GetAll();
+            var pubs = this.service.GetAll();
 
             Assert.IsNotNull(pubs);
             Assert.AreEqual(pubs.Count(), 2);
         }
 
+        /// <summary>
+        /// Tests the get all publishers of a book.
+        /// </summary>
         [TestMethod]
         public void TestGetAllPublishersOfABook()
         {
             var data = new List<Publisher>
             {
-                _publisher,
+                this.publisher,
                 new Publisher
                 {
                     Name = "Editura 2001",
@@ -198,7 +230,6 @@ namespace LibraryAdministrationTest.ServiceTests
             mockSet.As<IQueryable<Publisher>>().Setup(m => m.ElementType).Returns(data.ElementType);
             mockSet.As<IQueryable<Publisher>>().Setup(m => m.GetEnumerator()).Returns(data.GetEnumerator());
 
-
             var mockSetBook = new Mock<DbSet<Book>>();
             mockSetBook.As<IQueryable<Book>>().Setup(m => m.Provider).Returns(books.Provider);
             mockSetBook.As<IQueryable<Book>>().Setup(m => m.Expression).Returns(books.Expression);
@@ -216,20 +247,23 @@ namespace LibraryAdministrationTest.ServiceTests
             mockContext.Setup(x => x.Books).Returns(mockSetBook.Object);
             mockContext.Setup(x => x.BookPublisher).Returns(mockSetBookPublisher.Object);
 
-            _service = new PublisherService(mockContext.Object);
+            this.service = new PublisherService(mockContext.Object);
 
-            var pubs = _service.GetAllBookPublishersOfABook(books.ElementAt(0).Id);
+            var pubs = this.service.GetAllBookPublishersOfABook(books.ElementAt(0).Id);
 
             Assert.IsNotNull(pubs);
             Assert.AreEqual(pubs.Count(), 2);
         }
 
+        /// <summary>
+        /// Tests the get all publishers of a book with different book identifier to test get.
+        /// </summary>
         [TestMethod]
         public void TestGetAllPublishersOfABookWithDifferentBookIdToTestGet()
         {
             var data = new List<Publisher>
             {
-                _publisher,
+                this.publisher,
                 new Publisher
                 {
                     Name = "Editura 2001",
@@ -292,7 +326,6 @@ namespace LibraryAdministrationTest.ServiceTests
             mockSet.As<IQueryable<Publisher>>().Setup(m => m.ElementType).Returns(data.ElementType);
             mockSet.As<IQueryable<Publisher>>().Setup(m => m.GetEnumerator()).Returns(data.GetEnumerator());
 
-
             var mockSetBook = new Mock<DbSet<Book>>();
             mockSetBook.As<IQueryable<Book>>().Setup(m => m.Provider).Returns(books.Provider);
             mockSetBook.As<IQueryable<Book>>().Setup(m => m.Expression).Returns(books.Expression);
@@ -310,24 +343,27 @@ namespace LibraryAdministrationTest.ServiceTests
             mockContext.Setup(x => x.Books).Returns(mockSetBook.Object);
             mockContext.Setup(x => x.BookPublisher).Returns(mockSetBookPublisher.Object);
 
-            _service = new PublisherService(mockContext.Object);
+            this.service = new PublisherService(mockContext.Object);
 
-            var pubs = _service.GetAllBookPublishersOfABook(books.ElementAt(0).Id);
+            var pubs = this.service.GetAllBookPublishersOfABook(books.ElementAt(0).Id);
 
             Assert.IsNotNull(pubs);
             Assert.AreEqual(pubs.Count(), 2);
         }
 
+        /// <summary>
+        /// Tests the get all book publishers of a book wrong parameter.
+        /// </summary>
         [TestMethod]
         public void TestGetAllBookPublishersOfABookWrongParam()
         {
-            const int id = -1;
+            const int Id = -1;
 
             var context = new Mock<LibraryContext>();
 
             var service = new PublisherService(context.Object);
 
-            Assert.ThrowsException<LibraryArgumentException>(() => service.GetAllBookPublishersOfABook(id));
+            Assert.ThrowsException<LibraryArgumentException>(() => service.GetAllBookPublishersOfABook(Id));
         }
     }
 }

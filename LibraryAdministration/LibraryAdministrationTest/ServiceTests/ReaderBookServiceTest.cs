@@ -1,33 +1,51 @@
-﻿using LibraryAdministration.BusinessLayer;
-using LibraryAdministration.DataMapper;
-using LibraryAdministration.DomainModel;
-using LibraryAdministration.Helper;
-using LibraryAdministration.Interfaces.Business;
-using LibraryAdministration.Startup;
-using LibraryAdministrationTest.Mocks;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
-using Moq;
-using System;
-using System.Collections.Generic;
-using System.Configuration;
-using System.Data.Entity;
-using System.Data.Entity.Core;
-using System.Linq;
+﻿//---------------------------------------------------------------------
+// <copyright file="ReaderBookServiceTest.cs" company="Transilvania University of Brasov">
+//     Mircea Solovastru
+// </copyright>
+//-----------------------------------------------------------------------
 
 namespace LibraryAdministrationTest.ServiceTests
 {
+    using System;
+    using System.Collections.Generic;
+    using System.Configuration;
+    using System.Data.Entity;
+    using System.Data.Entity.Core;
+    using System.Linq;
+    using LibraryAdministration.BusinessLayer;
+    using LibraryAdministration.DataMapper;
+    using LibraryAdministration.DomainModel;
+    using LibraryAdministration.Helper;
+    using LibraryAdministration.Interfaces.Business;
+    using LibraryAdministration.Startup;
+    using Microsoft.VisualStudio.TestTools.UnitTesting;
+    using Mocks;
+    using Moq;
+
+    /// <summary>
+    /// ReaderBookServiceTest class
+    /// </summary>
     [TestClass]
     public class ReaderBookServiceTest
     {
-        private ReaderBook _readerBook;
+        /// <summary>
+        /// The reader book
+        /// </summary>
+        private ReaderBook readerBook;
 
-        private IReaderBookService _service;
+        /// <summary>
+        /// The service
+        /// </summary>
+        private IReaderBookService service;
 
+        /// <summary>
+        /// Initializes this instance.
+        /// </summary>
         [TestInitialize]
         public void Init()
         {
             Injector.Inject(new MockBindings());
-            _readerBook = new ReaderBook
+            this.readerBook = new ReaderBook
             {
                 LoanDate = DateTime.Now,
                 DueDate = DateTime.Now.AddDays(14),
@@ -38,6 +56,9 @@ namespace LibraryAdministrationTest.ServiceTests
             };
         }
 
+        /// <summary>
+        /// Tests the insert reader book.
+        /// </summary>
         [TestMethod]
         public void TestInsertReaderBook()
         {
@@ -46,11 +67,11 @@ namespace LibraryAdministrationTest.ServiceTests
             var mockContext = new Mock<LibraryContext>();
             mockContext.Setup(x => x.Set<ReaderBook>()).Returns(mockSet.Object);
 
-            _service = new ReaderBookService(mockContext.Object);
-            var result = _service.Insert(_readerBook);
+            this.service = new ReaderBookService(mockContext.Object);
+            var result = this.service.Insert(this.readerBook);
             try
             {
-                mockSet.Verify(m => m.Add((It.IsAny<ReaderBook>())), Times.Once());
+                mockSet.Verify(m => m.Add(It.IsAny<ReaderBook>()), Times.Once());
                 mockContext.Verify(m => m.SaveChanges(), Times.Once());
             }
             catch (MockException e)
@@ -63,12 +84,15 @@ namespace LibraryAdministrationTest.ServiceTests
             Assert.IsTrue(result.Errors.Count == 0);
         }
 
+        /// <summary>
+        /// Tests the get all books for reader.
+        /// </summary>
         [TestMethod]
         public void TestGetAllBooksForReader()
         {
             var data = new List<ReaderBook>
             {
-                _readerBook,
+                this.readerBook,
                 new ReaderBook
                 {
                     BookPublisherId = 2,
@@ -101,19 +125,22 @@ namespace LibraryAdministrationTest.ServiceTests
             var mockContext = new Mock<LibraryContext>();
             mockContext.Setup(x => x.ReaderBooks).Returns(mockSet.Object);
 
-            _service = new ReaderBookService(mockContext.Object, false);
-            var result = _service.GetAllBooksOnLoan(1);
+            this.service = new ReaderBookService(mockContext.Object, false);
+            var result = this.service.GetAllBooksOnLoan(1);
 
             Assert.IsNotNull(result);
             Assert.AreEqual(2, result.Count);
         }
 
+        /// <summary>
+        /// Tests the success rent book for number of books.
+        /// </summary>
         [TestMethod]
         public void TestSuccessRentBookForNumberOfBooks()
         {
             var data = new List<ReaderBook>
             {
-                _readerBook,
+                this.readerBook,
                 new ReaderBook
                 {
                     BookPublisherId = 2,
@@ -139,18 +166,21 @@ namespace LibraryAdministrationTest.ServiceTests
             var mockContext = new Mock<LibraryContext>();
             mockContext.Setup(x => x.ReaderBooks).Returns(mockSet.Object);
 
-            _service = new ReaderBookService(mockContext.Object);
-            var result = _service.CheckBeforeLoan(1);
+            this.service = new ReaderBookService(mockContext.Object);
+            var result = this.service.CheckBeforeLoan(1);
 
             Assert.IsTrue(result);
         }
 
+        /// <summary>
+        /// Tests the fail rent book for number of books.
+        /// </summary>
         [TestMethod]
         public void TestFailRentBookForNumberOfBooks()
         {
             var data = new List<ReaderBook>
             {
-                _readerBook,
+                this.readerBook,
                 new ReaderBook
                 {
                     BookPublisherId = 2,
@@ -183,89 +213,94 @@ namespace LibraryAdministrationTest.ServiceTests
             var mockContext = new Mock<LibraryContext>();
             mockContext.Setup(x => x.ReaderBooks).Returns(mockSet.Object);
 
-            _service = new ReaderBookService(mockContext.Object, false);
-            var result = _service.CheckBeforeLoan(1);
-
-            Assert.IsFalse(result);
-        }
-
-        [TestMethod]
-        public void TestSuccessRentBookForNumberOfBooksToday()
-        {
-            var data = new List<ReaderBook>
-            {
-                _readerBook,
-                new ReaderBook
-                {
-                    BookPublisherId = 2,
-                    ReaderId = 2,
-                    LoanDate = DateTime.Now,
-                    Id = 3
-                }
-            }.AsQueryable();
-
-            var mockSet = new Mock<DbSet<ReaderBook>>();
-            mockSet.As<IQueryable<ReaderBook>>().Setup(m => m.Provider).Returns(data.Provider);
-            mockSet.As<IQueryable<ReaderBook>>().Setup(m => m.Expression).Returns(data.Expression);
-            mockSet.As<IQueryable<ReaderBook>>().Setup(m => m.ElementType).Returns(data.ElementType);
-            mockSet.As<IQueryable<ReaderBook>>().Setup(m => m.GetEnumerator()).Returns(data.GetEnumerator());
-
-            var mockContext = new Mock<LibraryContext>();
-            mockContext.Setup(x => x.ReaderBooks).Returns(mockSet.Object);
-
-            _service = new ReaderBookService(mockContext.Object, true);
-            var result = _service.CheckBooksRentedToday(1);
-
-            Assert.IsTrue(result);
-        }
-
-        [TestMethod]
-        public void TestFailRentBookForNumberOfBooksToday()
-        {
-            var data = new List<ReaderBook>
-            {
-                _readerBook,
-                new ReaderBook
-                {
-                    BookPublisherId = 2,
-                    ReaderId = 1,
-                    LoanDate = DateTime.Now,
-                    Id = 3
-                },
-                new ReaderBook
-                {
-                    BookPublisherId = 2,
-                    ReaderId = 1,
-                    LoanDate = DateTime.Now,
-                    Id = 3
-                },
-                new ReaderBook
-                {
-                    BookPublisherId = 2,
-                    ReaderId = 1,
-                    LoanDate = DateTime.Now,
-                    Id = 3
-                }
-            }.AsQueryable();
-
-            var mockSet = new Mock<DbSet<ReaderBook>>();
-            mockSet.As<IQueryable<ReaderBook>>().Setup(m => m.Provider).Returns(data.Provider);
-            mockSet.As<IQueryable<ReaderBook>>().Setup(m => m.Expression).Returns(data.Expression);
-            mockSet.As<IQueryable<ReaderBook>>().Setup(m => m.ElementType).Returns(data.ElementType);
-            mockSet.As<IQueryable<ReaderBook>>().Setup(m => m.GetEnumerator()).Returns(data.GetEnumerator());
-
-            var mockContext = new Mock<LibraryContext>();
-            mockContext.Setup(x => x.ReaderBooks).Returns(mockSet.Object);
-
-            _service = new ReaderBookService(mockContext.Object);
-            var result = _service.CheckBooksRentedToday(1);
+            this.service = new ReaderBookService(mockContext.Object, false);
+            var result = this.service.CheckBeforeLoan(1);
 
             Assert.IsFalse(result);
         }
 
         /// <summary>
-        /// Tests the number of books from same domain in given span.
-        /// Nu pot imprumuta mai mult de D carti dintr-un acelasi domeniu – de tip frunza sau de nivel superior - in ultimele L luni
+        /// Tests the success rent book for number of books today.
+        /// </summary>
+        [TestMethod]
+        public void TestSuccessRentBookForNumberOfBooksToday()
+        {
+            var data = new List<ReaderBook>
+            {
+                this.readerBook,
+                new ReaderBook
+                {
+                    BookPublisherId = 2,
+                    ReaderId = 2,
+                    LoanDate = DateTime.Now,
+                    Id = 3
+                }
+            }.AsQueryable();
+
+            var mockSet = new Mock<DbSet<ReaderBook>>();
+            mockSet.As<IQueryable<ReaderBook>>().Setup(m => m.Provider).Returns(data.Provider);
+            mockSet.As<IQueryable<ReaderBook>>().Setup(m => m.Expression).Returns(data.Expression);
+            mockSet.As<IQueryable<ReaderBook>>().Setup(m => m.ElementType).Returns(data.ElementType);
+            mockSet.As<IQueryable<ReaderBook>>().Setup(m => m.GetEnumerator()).Returns(data.GetEnumerator());
+
+            var mockContext = new Mock<LibraryContext>();
+            mockContext.Setup(x => x.ReaderBooks).Returns(mockSet.Object);
+
+            this.service = new ReaderBookService(mockContext.Object, true);
+            var result = this.service.CheckBooksRentedToday(1);
+
+            Assert.IsTrue(result);
+        }
+
+        /// <summary>
+        /// Tests the fail rent book for number of books today.
+        /// </summary>
+        [TestMethod]
+        public void TestFailRentBookForNumberOfBooksToday()
+        {
+            var data = new List<ReaderBook>
+            {
+                this.readerBook,
+                new ReaderBook
+                {
+                    BookPublisherId = 2,
+                    ReaderId = 1,
+                    LoanDate = DateTime.Now,
+                    Id = 3
+                },
+                new ReaderBook
+                {
+                    BookPublisherId = 2,
+                    ReaderId = 1,
+                    LoanDate = DateTime.Now,
+                    Id = 3
+                },
+                new ReaderBook
+                {
+                    BookPublisherId = 2,
+                    ReaderId = 1,
+                    LoanDate = DateTime.Now,
+                    Id = 3
+                }
+            }.AsQueryable();
+
+            var mockSet = new Mock<DbSet<ReaderBook>>();
+            mockSet.As<IQueryable<ReaderBook>>().Setup(m => m.Provider).Returns(data.Provider);
+            mockSet.As<IQueryable<ReaderBook>>().Setup(m => m.Expression).Returns(data.Expression);
+            mockSet.As<IQueryable<ReaderBook>>().Setup(m => m.ElementType).Returns(data.ElementType);
+            mockSet.As<IQueryable<ReaderBook>>().Setup(m => m.GetEnumerator()).Returns(data.GetEnumerator());
+
+            var mockContext = new Mock<LibraryContext>();
+            mockContext.Setup(x => x.ReaderBooks).Returns(mockSet.Object);
+
+            this.service = new ReaderBookService(mockContext.Object);
+            var result = this.service.CheckBooksRentedToday(1);
+
+            Assert.IsFalse(result);
+        }
+
+        /// <summary>
+        /// Tests the number of books from same domain in given span reader fail.
         /// </summary>
         [TestMethod]
         public void TestNumberOfBooksFromSameDomainInGivenSpanReaderFail()
@@ -347,11 +382,11 @@ namespace LibraryAdministrationTest.ServiceTests
                 }
             }.AsQueryable();
 
-            _readerBook.BookPublisher = bookPublishers.ElementAt(1);
+            this.readerBook.BookPublisher = bookPublishers.ElementAt(1);
 
             var data = new List<ReaderBook>
             {
-                _readerBook,
+                this.readerBook,
                 new ReaderBook
                 {
                     BookPublisherId = 1,
@@ -408,12 +443,15 @@ namespace LibraryAdministrationTest.ServiceTests
             mockContext.Setup(x => x.Books).Returns(mockSetBook.Object);
             mockContext.Setup(x => x.BookPublisher).Returns(mockSetBookPublisher.Object);
 
-            _service = new ReaderBookService(mockContext.Object, false);
-            var result = _service.CheckPastLoansForDomains(1, 4);
+            this.service = new ReaderBookService(mockContext.Object, false);
+            var result = this.service.CheckPastLoansForDomains(1, 4);
 
             Assert.IsFalse(result);
         }
 
+        /// <summary>
+        /// Tests the number of books from same domain in given span reader success.
+        /// </summary>
         [TestMethod]
         public void TestNumberOfBooksFromSameDomainInGivenSpanReaderSuccess()
         {
@@ -494,11 +532,11 @@ namespace LibraryAdministrationTest.ServiceTests
                 }
             }.AsQueryable();
 
-            _readerBook.BookPublisher = bookPublishers.ElementAt(1);
+            this.readerBook.BookPublisher = bookPublishers.ElementAt(1);
 
             var data = new List<ReaderBook>
             {
-                _readerBook,
+                this.readerBook,
                 new ReaderBook
                 {
                     BookPublisherId = 1,
@@ -539,12 +577,15 @@ namespace LibraryAdministrationTest.ServiceTests
             mockContext.Setup(x => x.Books).Returns(mockSetBook.Object);
             mockContext.Setup(x => x.BookPublisher).Returns(mockSetBookPublisher.Object);
 
-            _service = new ReaderBookService(mockContext.Object, false);
-            var result = _service.CheckPastLoansForDomains(1, 4);
+            this.service = new ReaderBookService(mockContext.Object, false);
+            var result = this.service.CheckPastLoansForDomains(1, 4);
 
             Assert.IsTrue(result);
         }
 
+        /// <summary>
+        /// Tests the number of books from same domain in given span employee fail.
+        /// </summary>
         [TestMethod]
         public void TestNumberOfBooksFromSameDomainInGivenSpanEmployeeFail()
         {
@@ -649,11 +690,11 @@ namespace LibraryAdministrationTest.ServiceTests
                 }
             }.AsQueryable();
 
-            _readerBook.BookPublisher = bookPublishers.ElementAt(1);
+            this.readerBook.BookPublisher = bookPublishers.ElementAt(1);
 
             var data = new List<ReaderBook>
             {
-                _readerBook,
+                this.readerBook,
                 new ReaderBook
                 {
                     BookPublisherId = 1,
@@ -710,12 +751,15 @@ namespace LibraryAdministrationTest.ServiceTests
             mockContext.Setup(x => x.Books).Returns(mockSetBook.Object);
             mockContext.Setup(x => x.BookPublisher).Returns(mockSetBookPublisher.Object);
 
-            _service = new ReaderBookService(mockContext.Object);
-            var result = _service.CheckPastLoansForDomains(1, 4);
+            this.service = new ReaderBookService(mockContext.Object);
+            var result = this.service.CheckPastLoansForDomains(1, 4);
 
             Assert.IsFalse(result);
         }
 
+        /// <summary>
+        /// Tests the number of books from same domain in given span employee success.
+        /// </summary>
         [TestMethod]
         public void TestNumberOfBooksFromSameDomainInGivenSpanEmployeeSuccess()
         {
@@ -796,11 +840,11 @@ namespace LibraryAdministrationTest.ServiceTests
                 }
             }.AsQueryable();
 
-            _readerBook.BookPublisher = bookPublishers.ElementAt(1);
+            this.readerBook.BookPublisher = bookPublishers.ElementAt(1);
 
             var data = new List<ReaderBook>
             {
-                _readerBook,
+                this.readerBook,
                 new ReaderBook
                 {
                     BookPublisherId = 1,
@@ -841,12 +885,15 @@ namespace LibraryAdministrationTest.ServiceTests
             mockContext.Setup(x => x.Books).Returns(mockSetBook.Object);
             mockContext.Setup(x => x.BookPublisher).Returns(mockSetBookPublisher.Object);
 
-            _service = new ReaderBookService(mockContext.Object, false);
-            var result = _service.CheckPastLoansForDomains(1, 4);
+            this.service = new ReaderBookService(mockContext.Object, false);
+            var result = this.service.CheckPastLoansForDomains(1, 4);
 
             Assert.IsTrue(result);
         }
 
+        /// <summary>
+        /// Tests the fail rent same book.
+        /// </summary>
         [TestMethod]
         public void TestFailRentSameBook()
         {
@@ -856,7 +903,7 @@ namespace LibraryAdministrationTest.ServiceTests
                 BookId = 1
             };
 
-            var bpData = new List<BookPublisher>
+            var bookPublishers = new List<BookPublisher>
             {
                 bookPublisher
             }.AsQueryable();
@@ -865,7 +912,7 @@ namespace LibraryAdministrationTest.ServiceTests
             {
                 new ReaderBook
                 {
-                    BookPublisher = bpData.ElementAt(0),
+                    BookPublisher = bookPublishers.ElementAt(0),
                     BookPublisherId = 2,
                     ReaderId = 2,
                     LoanDate = DateTime.Now,
@@ -873,7 +920,7 @@ namespace LibraryAdministrationTest.ServiceTests
                 },
                 new ReaderBook
                 {
-                    BookPublisher = bpData.ElementAt(0),
+                    BookPublisher = bookPublishers.ElementAt(0),
                     BookPublisherId = 2,
                     ReaderId = 1,
                     LoanDate = DateTime.Now,
@@ -881,7 +928,7 @@ namespace LibraryAdministrationTest.ServiceTests
                 },
                 new ReaderBook
                 {
-                    BookPublisher = bpData.ElementAt(0),
+                    BookPublisher = bookPublishers.ElementAt(0),
                     BookPublisherId = 2,
                     ReaderId = 1,
                     LoanDate = DateTime.Now,
@@ -896,22 +943,24 @@ namespace LibraryAdministrationTest.ServiceTests
             mockSet.As<IQueryable<ReaderBook>>().Setup(m => m.GetEnumerator()).Returns(data.GetEnumerator());
 
             var mockSetBp = new Mock<DbSet<BookPublisher>>();
-            mockSetBp.As<IQueryable<BookPublisher>>().Setup(m => m.Provider).Returns(bpData.Provider);
-            mockSetBp.As<IQueryable<BookPublisher>>().Setup(m => m.Expression).Returns(bpData.Expression);
-            mockSetBp.As<IQueryable<BookPublisher>>().Setup(m => m.ElementType).Returns(bpData.ElementType);
-            mockSetBp.As<IQueryable<BookPublisher>>().Setup(m => m.GetEnumerator()).Returns(bpData.GetEnumerator());
-
+            mockSetBp.As<IQueryable<BookPublisher>>().Setup(m => m.Provider).Returns(bookPublishers.Provider);
+            mockSetBp.As<IQueryable<BookPublisher>>().Setup(m => m.Expression).Returns(bookPublishers.Expression);
+            mockSetBp.As<IQueryable<BookPublisher>>().Setup(m => m.ElementType).Returns(bookPublishers.ElementType);
+            mockSetBp.As<IQueryable<BookPublisher>>().Setup(m => m.GetEnumerator()).Returns(bookPublishers.GetEnumerator());
 
             var mockContext = new Mock<LibraryContext>();
             mockContext.Setup(x => x.ReaderBooks).Returns(mockSet.Object);
             mockContext.Setup(x => x.BookPublisher).Returns(mockSetBp.Object);
 
-            _service = new ReaderBookService(mockContext.Object);
-            var result = _service.CheckSameBookRented(1, 1);
+            this.service = new ReaderBookService(mockContext.Object);
+            var result = this.service.CheckSameBookRented(1, 1);
 
             Assert.IsFalse(result);
         }
 
+        /// <summary>
+        /// Tests the success rent same book already rent.
+        /// </summary>
         [TestMethod]
         public void TestSuccessRentSameBookAlreadyRent()
         {
@@ -921,7 +970,7 @@ namespace LibraryAdministrationTest.ServiceTests
                 BookId = 1
             };
 
-            var bpData = new List<BookPublisher>
+            var bookPublishers = new List<BookPublisher>
             {
                 bookPublisher
             }.AsQueryable();
@@ -930,7 +979,7 @@ namespace LibraryAdministrationTest.ServiceTests
             {
                 new ReaderBook
                 {
-                    BookPublisher = bpData.ElementAt(0),
+                    BookPublisher = bookPublishers.ElementAt(0),
                     BookPublisherId = 2,
                     ReaderId = 1,
                     LoanDate = DateTime.Now.AddDays(-14),
@@ -945,22 +994,24 @@ namespace LibraryAdministrationTest.ServiceTests
             mockSet.As<IQueryable<ReaderBook>>().Setup(m => m.GetEnumerator()).Returns(data.GetEnumerator());
 
             var mockSetBp = new Mock<DbSet<BookPublisher>>();
-            mockSetBp.As<IQueryable<BookPublisher>>().Setup(m => m.Provider).Returns(bpData.Provider);
-            mockSetBp.As<IQueryable<BookPublisher>>().Setup(m => m.Expression).Returns(bpData.Expression);
-            mockSetBp.As<IQueryable<BookPublisher>>().Setup(m => m.ElementType).Returns(bpData.ElementType);
-            mockSetBp.As<IQueryable<BookPublisher>>().Setup(m => m.GetEnumerator()).Returns(bpData.GetEnumerator());
-
+            mockSetBp.As<IQueryable<BookPublisher>>().Setup(m => m.Provider).Returns(bookPublishers.Provider);
+            mockSetBp.As<IQueryable<BookPublisher>>().Setup(m => m.Expression).Returns(bookPublishers.Expression);
+            mockSetBp.As<IQueryable<BookPublisher>>().Setup(m => m.ElementType).Returns(bookPublishers.ElementType);
+            mockSetBp.As<IQueryable<BookPublisher>>().Setup(m => m.GetEnumerator()).Returns(bookPublishers.GetEnumerator());
 
             var mockContext = new Mock<LibraryContext>();
             mockContext.Setup(x => x.ReaderBooks).Returns(mockSet.Object);
             mockContext.Setup(x => x.BookPublisher).Returns(mockSetBp.Object);
 
-            _service = new ReaderBookService(mockContext.Object);
-            var result = _service.CheckSameBookRented(1, 1);
+            this.service = new ReaderBookService(mockContext.Object);
+            var result = this.service.CheckSameBookRented(1, 1);
 
             Assert.IsTrue(result);
         }
 
+        /// <summary>
+        /// Tests the success rent same book never rent.
+        /// </summary>
         [TestMethod]
         public void TestSuccessRentSameBookNeverRent()
         {
@@ -970,7 +1021,7 @@ namespace LibraryAdministrationTest.ServiceTests
                 BookId = 2
             };
 
-            var bpData = new List<BookPublisher>
+            var bookPublishers = new List<BookPublisher>
             {
                 bookPublisher
             }.AsQueryable();
@@ -979,7 +1030,7 @@ namespace LibraryAdministrationTest.ServiceTests
             {
                 new ReaderBook
                 {
-                    BookPublisher = bpData.ElementAt(0),
+                    BookPublisher = bookPublishers.ElementAt(0),
                     BookPublisherId = 2,
                     ReaderId = 1,
                     LoanDate = DateTime.Now.AddDays(-14),
@@ -994,28 +1045,30 @@ namespace LibraryAdministrationTest.ServiceTests
             mockSet.As<IQueryable<ReaderBook>>().Setup(m => m.GetEnumerator()).Returns(data.GetEnumerator());
 
             var mockSetBp = new Mock<DbSet<BookPublisher>>();
-            mockSetBp.As<IQueryable<BookPublisher>>().Setup(m => m.Provider).Returns(bpData.Provider);
-            mockSetBp.As<IQueryable<BookPublisher>>().Setup(m => m.Expression).Returns(bpData.Expression);
-            mockSetBp.As<IQueryable<BookPublisher>>().Setup(m => m.ElementType).Returns(bpData.ElementType);
-            mockSetBp.As<IQueryable<BookPublisher>>().Setup(m => m.GetEnumerator()).Returns(bpData.GetEnumerator());
-
+            mockSetBp.As<IQueryable<BookPublisher>>().Setup(m => m.Provider).Returns(bookPublishers.Provider);
+            mockSetBp.As<IQueryable<BookPublisher>>().Setup(m => m.Expression).Returns(bookPublishers.Expression);
+            mockSetBp.As<IQueryable<BookPublisher>>().Setup(m => m.ElementType).Returns(bookPublishers.ElementType);
+            mockSetBp.As<IQueryable<BookPublisher>>().Setup(m => m.GetEnumerator()).Returns(bookPublishers.GetEnumerator());
 
             var mockContext = new Mock<LibraryContext>();
             mockContext.Setup(x => x.ReaderBooks).Returns(mockSet.Object);
             mockContext.Setup(x => x.BookPublisher).Returns(mockSetBp.Object);
 
-            _service = new ReaderBookService(mockContext.Object);
-            var result = _service.CheckSameBookRented(1, 1);
+            this.service = new ReaderBookService(mockContext.Object);
+            var result = this.service.CheckSameBookRented(1, 1);
 
             Assert.IsTrue(result);
         }
 
+        /// <summary>
+        /// Tests the same account.
+        /// </summary>
         [TestMethod]
         public void TestSameAccount()
         {
             var mockContext = new Mock<LibraryContext>();
 
-            _service = new ReaderBookService(mockContext.Object);
+            this.service = new ReaderBookService(mockContext.Object);
 
             var per = int.Parse(ConfigurationManager.AppSettings["PER"]);
             var nmc = int.Parse(ConfigurationManager.AppSettings["NMC"]);
@@ -1027,7 +1080,7 @@ namespace LibraryAdministrationTest.ServiceTests
             var lim = int.Parse(ConfigurationManager.AppSettings["LIM"]);
             var persimp = int.Parse(ConfigurationManager.AppSettings["PERSIMP"]);
 
-            var details = _service.GetRentDetails();
+            var details = this.service.GetRentDetails();
 
             Assert.IsTrue(details.C == 2 * c);
             Assert.IsTrue(details.NMC == 2 * nmc);
@@ -1037,12 +1090,15 @@ namespace LibraryAdministrationTest.ServiceTests
             Assert.IsTrue(details.PER == per / 2);
         }
 
+        /// <summary>
+        /// Tests the different account.
+        /// </summary>
         [TestMethod]
         public void TestDifferentAccount()
         {
             var mockContext = new Mock<LibraryContext>();
 
-            _service = new ReaderBookService(mockContext.Object, false);
+            this.service = new ReaderBookService(mockContext.Object, false);
 
             var per = int.Parse(ConfigurationManager.AppSettings["PER"]);
             var nmc = int.Parse(ConfigurationManager.AppSettings["NMC"]);
@@ -1054,7 +1110,7 @@ namespace LibraryAdministrationTest.ServiceTests
             var lim = int.Parse(ConfigurationManager.AppSettings["LIM"]);
             var persimp = int.Parse(ConfigurationManager.AppSettings["PERSIMP"]);
 
-            var details = _service.GetRentDetails();
+            var details = this.service.GetRentDetails();
 
             Assert.IsTrue(details.C == c);
             Assert.IsTrue(details.NMC == nmc);
@@ -1064,98 +1120,122 @@ namespace LibraryAdministrationTest.ServiceTests
             Assert.IsTrue(details.PER == per);
         }
 
+        /// <summary>
+        /// Tests the check before loan wrong parameter.
+        /// </summary>
         [TestMethod]
         public void TestCheckBeforeLoanWrongParam()
         {
-            const int id = -1;
+            const int Id = -1;
 
             var context = new Mock<LibraryContext>();
 
             var service = new ReaderBookService(context.Object);
 
-            Assert.ThrowsException<LibraryArgumentException>(() => service.CheckBeforeLoan(id));
+            Assert.ThrowsException<LibraryArgumentException>(() => service.CheckBeforeLoan(Id));
         }
 
+        /// <summary>
+        /// Tests the check books rented today wrong parameter.
+        /// </summary>
         [TestMethod]
         public void TestCheckBooksRentedTodayWrongParam()
         {
-            const int id = -1;
+            const int Id = -1;
 
             var context = new Mock<LibraryContext>();
 
             var service = new ReaderBookService(context.Object);
 
-            Assert.ThrowsException<LibraryArgumentException>(() => service.CheckBooksRentedToday(id));
+            Assert.ThrowsException<LibraryArgumentException>(() => service.CheckBooksRentedToday(Id));
         }
 
+        /// <summary>
+        /// Tests the check past loans for domains wrong domain identifier parameter.
+        /// </summary>
         [TestMethod]
         public void TestCheckPastLoansForDomainsWrongDomainIdParam()
         {
-            const int domainId = -1;
+            const int DomainId = -1;
 
-            const int readerId = 1;
+            const int ReaderId = 1;
 
             var context = new Mock<LibraryContext>();
 
             var service = new ReaderBookService(context.Object);
 
-            Assert.ThrowsException<LibraryArgumentException>(() => service.CheckPastLoansForDomains(readerId, domainId));
+            Assert.ThrowsException<LibraryArgumentException>(() => service.CheckPastLoansForDomains(ReaderId, DomainId));
         }
 
+        /// <summary>
+        /// Tests the check past loans for domains wrong reader identifier parameter.
+        /// </summary>
         [TestMethod]
         public void TestCheckPastLoansForDomainsWrongReaderIdParam()
         {
-            const int domainId = 1;
+            const int DomainId = 1;
 
-            const int readerId = -1;
+            const int ReaderId = -1;
 
             var context = new Mock<LibraryContext>();
 
             var service = new ReaderBookService(context.Object);
 
-            Assert.ThrowsException<LibraryArgumentException>(() => service.CheckPastLoansForDomains(readerId, domainId));
+            Assert.ThrowsException<LibraryArgumentException>(() => service.CheckPastLoansForDomains(ReaderId, DomainId));
         }
 
+        /// <summary>
+        /// Tests the check same book rented wrong reader identifier parameter.
+        /// </summary>
         [TestMethod]
         public void TestCheckSameBookRentedWrongReaderIdParam()
         {
-            const int bookId = 1;
+            const int BookId = 1;
 
-            const int readerId = -1;
+            const int ReaderId = -1;
 
             var context = new Mock<LibraryContext>();
 
             var service = new ReaderBookService(context.Object);
 
-            Assert.ThrowsException<LibraryArgumentException>(() => service.CheckSameBookRented(bookId, readerId));
+            Assert.ThrowsException<LibraryArgumentException>(() => service.CheckSameBookRented(BookId, ReaderId));
         }
 
+        /// <summary>
+        /// Tests the check same book rented wrong book identifier parameter.
+        /// </summary>
         [TestMethod]
         public void TestCheckSameBookRentedWrongBookIdParam()
         {
-            const int bookId = -1;
+            const int BookId = -1;
 
-            const int readerId = 1;
+            const int ReaderId = 1;
 
             var context = new Mock<LibraryContext>();
 
             var service = new ReaderBookService(context.Object);
 
-            Assert.ThrowsException<LibraryArgumentException>(() => service.CheckSameBookRented(bookId, readerId));
+            Assert.ThrowsException<LibraryArgumentException>(() => service.CheckSameBookRented(BookId, ReaderId));
         }
 
+        /// <summary>
+        /// Tests the get all books on loan wrong parameter.
+        /// </summary>
         [TestMethod]
         public void TestGetAllBooksOnLoanWrongParam()
         {
-            const int readerId = -1;
+            const int ReaderId = -1;
 
             var context = new Mock<LibraryContext>();
 
             var service = new ReaderBookService(context.Object);
 
-            Assert.ThrowsException<LibraryArgumentException>(() => service.GetAllBooksOnLoan(readerId));
+            Assert.ThrowsException<LibraryArgumentException>(() => service.GetAllBooksOnLoan(ReaderId));
         }
 
+        /// <summary>
+        /// Tests the check loan extension success employee.
+        /// </summary>
         [TestMethod]
         public void TestCheckLoanExtensionSuccessEmployee()
         {
@@ -1181,12 +1261,15 @@ namespace LibraryAdministrationTest.ServiceTests
             var mockContext = new Mock<LibraryContext>();
             mockContext.Setup(x => x.ReaderBooks).Returns(mockSet.Object);
 
-            _service = new ReaderBookService(mockContext.Object);
-            var result = _service.CheckLoanExtension(1, 7);
+            this.service = new ReaderBookService(mockContext.Object);
+            var result = this.service.CheckLoanExtension(1, 7);
 
             Assert.IsTrue(result);
         }
 
+        /// <summary>
+        /// Tests the check loan extension success reader.
+        /// </summary>
         [TestMethod]
         public void TestCheckLoanExtensionSuccessReader()
         {
@@ -1212,12 +1295,15 @@ namespace LibraryAdministrationTest.ServiceTests
             var mockContext = new Mock<LibraryContext>();
             mockContext.Setup(x => x.ReaderBooks).Returns(mockSet.Object);
 
-            _service = new ReaderBookService(mockContext.Object, false);
-            var result = _service.CheckLoanExtension(1, 7);
+            this.service = new ReaderBookService(mockContext.Object, false);
+            var result = this.service.CheckLoanExtension(1, 7);
 
             Assert.IsTrue(result);
         }
 
+        /// <summary>
+        /// Tests the check loan extension fail employee overextension.
+        /// </summary>
         [TestMethod]
         public void TestCheckLoanExtensionFailEmployeeOverextension()
         {
@@ -1243,10 +1329,13 @@ namespace LibraryAdministrationTest.ServiceTests
             var mockContext = new Mock<LibraryContext>();
             mockContext.Setup(x => x.ReaderBooks).Returns(mockSet.Object);
 
-            _service = new ReaderBookService(mockContext.Object);
-            Assert.ThrowsException<LoanExtensionException>(() => _service.CheckLoanExtension(1, 7));
+            this.service = new ReaderBookService(mockContext.Object);
+            Assert.ThrowsException<LoanExtensionException>(() => this.service.CheckLoanExtension(1, 7));
         }
 
+        /// <summary>
+        /// Tests the check loan extension fail reader overextension.
+        /// </summary>
         [TestMethod]
         public void TestCheckLoanExtensionFailReaderOverextension()
         {
@@ -1272,10 +1361,13 @@ namespace LibraryAdministrationTest.ServiceTests
             var mockContext = new Mock<LibraryContext>();
             mockContext.Setup(x => x.ReaderBooks).Returns(mockSet.Object);
 
-            _service = new ReaderBookService(mockContext.Object, false);
-            Assert.ThrowsException<LoanExtensionException>(() => _service.CheckLoanExtension(1, 7));
+            this.service = new ReaderBookService(mockContext.Object, false);
+            Assert.ThrowsException<LoanExtensionException>(() => this.service.CheckLoanExtension(1, 7));
         }
 
+        /// <summary>
+        /// Tests the check loan extension fail employee wrong parameter.
+        /// </summary>
         [TestMethod]
         public void TestCheckLoanExtensionFailEmployeeWrongParam()
         {
@@ -1301,10 +1393,13 @@ namespace LibraryAdministrationTest.ServiceTests
             var mockContext = new Mock<LibraryContext>();
             mockContext.Setup(x => x.ReaderBooks).Returns(mockSet.Object);
 
-            _service = new ReaderBookService(mockContext.Object);
-            Assert.ThrowsException<LibraryArgumentException>(() => _service.CheckLoanExtension(-1, 7));
+            this.service = new ReaderBookService(mockContext.Object);
+            Assert.ThrowsException<LibraryArgumentException>(() => this.service.CheckLoanExtension(-1, 7));
         }
 
+        /// <summary>
+        /// Tests the check loan extension fail reader wrong parameter.
+        /// </summary>
         [TestMethod]
         public void TestCheckLoanExtensionFailReaderWrongParam()
         {
@@ -1330,10 +1425,13 @@ namespace LibraryAdministrationTest.ServiceTests
             var mockContext = new Mock<LibraryContext>();
             mockContext.Setup(x => x.ReaderBooks).Returns(mockSet.Object);
 
-            _service = new ReaderBookService(mockContext.Object, false);
-            Assert.ThrowsException<LibraryArgumentException>(() => _service.CheckLoanExtension(-1, 7));
+            this.service = new ReaderBookService(mockContext.Object, false);
+            Assert.ThrowsException<LibraryArgumentException>(() => this.service.CheckLoanExtension(-1, 7));
         }
 
+        /// <summary>
+        /// Tests the check loan extension fail employee not found.
+        /// </summary>
         [TestMethod]
         public void TestCheckLoanExtensionFailEmployeeNotFound()
         {
@@ -1359,10 +1457,13 @@ namespace LibraryAdministrationTest.ServiceTests
             var mockContext = new Mock<LibraryContext>();
             mockContext.Setup(x => x.ReaderBooks).Returns(mockSet.Object);
 
-            _service = new ReaderBookService(mockContext.Object);
-            Assert.ThrowsException<ObjectNotFoundException>(() => _service.CheckLoanExtension(100, 7));
+            this.service = new ReaderBookService(mockContext.Object);
+            Assert.ThrowsException<ObjectNotFoundException>(() => this.service.CheckLoanExtension(100, 7));
         }
 
+        /// <summary>
+        /// Tests the check loan extension fail reader not found.
+        /// </summary>
         [TestMethod]
         public void TestCheckLoanExtensionFailReaderNotFound()
         {
@@ -1388,15 +1489,16 @@ namespace LibraryAdministrationTest.ServiceTests
             var mockContext = new Mock<LibraryContext>();
             mockContext.Setup(x => x.ReaderBooks).Returns(mockSet.Object);
 
-            _service = new ReaderBookService(mockContext.Object, false);
-            Assert.ThrowsException<ObjectNotFoundException>(() => _service.CheckLoanExtension(100, 7));
+            this.service = new ReaderBookService(mockContext.Object, false);
+            Assert.ThrowsException<ObjectNotFoundException>(() => this.service.CheckLoanExtension(100, 7));
         }
 
+        /// <summary>
+        /// Tests the check multiple books domain match reader lower than Threshold.
+        /// </summary>
         [TestMethod]
-        public void TestCheckMultipleBooksDomainMatchReaderLowerThanTrashold()
+        public void TestCheckMultipleBooksDomainMatchReaderLowerThanThreshold()
         {
-            #region mock data
-
             var domains = new List<Domain>
             {
                 new Domain
@@ -1494,19 +1596,18 @@ namespace LibraryAdministrationTest.ServiceTests
             mockContext.Setup(x => x.BookPublisher).Returns(mockSetBookPublisherMock.Object);
             mockContext.Setup(x => x.ReaderBooks).Returns(mockSetReaderBookMock.Object);
 
-            #endregion
-
-            _service = new ReaderBookService(mockContext.Object, false);
-            var result = _service.CheckMultipleBooksDomainMatch(bookPublishers.Select(x => x.Id).ToList());
+            this.service = new ReaderBookService(mockContext.Object, false);
+            var result = this.service.CheckMultipleBooksDomainMatch(bookPublishers.Select(x => x.Id).ToList());
 
             Assert.IsTrue(result);
         }
 
+        /// <summary>
+        /// Tests the check multiple books domain match employee lower than Threshold.
+        /// </summary>
         [TestMethod]
-        public void TestCheckMultipleBooksDomainMatchEmployeeLowerThanTrashold()
+        public void TestCheckMultipleBooksDomainMatchEmployeeLowerThanThreshold()
         {
-            #region mock data
-
             var domains = new List<Domain>
             {
                 new Domain
@@ -1604,19 +1705,18 @@ namespace LibraryAdministrationTest.ServiceTests
             mockContext.Setup(x => x.BookPublisher).Returns(mockSetBookPublisherMock.Object);
             mockContext.Setup(x => x.ReaderBooks).Returns(mockSetReaderBookMock.Object);
 
-            #endregion
-
-            _service = new ReaderBookService(mockContext.Object, true);
-            var result = _service.CheckMultipleBooksDomainMatch(bookPublishers.Select(x => x.Id).ToList());
+            this.service = new ReaderBookService(mockContext.Object, true);
+            var result = this.service.CheckMultipleBooksDomainMatch(bookPublishers.Select(x => x.Id).ToList());
 
             Assert.IsTrue(result);
         }
 
+        /// <summary>
+        /// Tests the check multiple books domain match reader fails constraint for domain.
+        /// </summary>
         [TestMethod]
         public void TestCheckMultipleBooksDomainMatchReaderFailsConstraintForDomain()
         {
-            #region mock data
-
             var domains = new List<Domain>
             {
                 new Domain
@@ -1700,19 +1800,18 @@ namespace LibraryAdministrationTest.ServiceTests
             mockContext.Setup(x => x.Books).Returns(mockSetBookMock.Object);
             mockContext.Setup(x => x.BookPublisher).Returns(mockSetBookPublisherMock.Object);
 
-            #endregion
-
-            _service = new ReaderBookService(mockContext.Object, false);
-            var result = _service.CheckMultipleBooksDomainMatch(bookPublishers.Select(x => x.Id).ToList());
+            this.service = new ReaderBookService(mockContext.Object, false);
+            var result = this.service.CheckMultipleBooksDomainMatch(bookPublishers.Select(x => x.Id).ToList());
 
             Assert.IsFalse(result);
         }
 
+        /// <summary>
+        /// Tests the check multiple books domain match employee fails constraint for domain.
+        /// </summary>
         [TestMethod]
         public void TestCheckMultipleBooksDomainMatchEmployeeFailsConstraintForDomain()
         {
-            #region mock data
-
             var domains = new List<Domain>
             {
                 new Domain
@@ -1808,19 +1907,18 @@ namespace LibraryAdministrationTest.ServiceTests
             mockContext.Setup(x => x.Books).Returns(mockSetBookMock.Object);
             mockContext.Setup(x => x.BookPublisher).Returns(mockSetBookPublisherMock.Object);
 
-            #endregion
-
-            _service = new ReaderBookService(mockContext.Object, true);
-            var result = _service.CheckMultipleBooksDomainMatch(bookPublishers.Select(x => x.Id).ToList());
+            this.service = new ReaderBookService(mockContext.Object, true);
+            var result = this.service.CheckMultipleBooksDomainMatch(bookPublishers.Select(x => x.Id).ToList());
 
             Assert.IsFalse(result);
         }
 
+        /// <summary>
+        /// Tests the check multiple books domain match reader success.
+        /// </summary>
         [TestMethod]
         public void TestCheckMultipleBooksDomainMatchReaderSuccess()
         {
-            #region mock data
-
             var domains = new List<Domain>
             {
                 new Domain
@@ -1904,19 +2002,18 @@ namespace LibraryAdministrationTest.ServiceTests
             mockContext.Setup(x => x.Books).Returns(mockSetBookMock.Object);
             mockContext.Setup(x => x.BookPublisher).Returns(mockSetBookPublisherMock.Object);
 
-            #endregion
-
-            _service = new ReaderBookService(mockContext.Object, false);
-            var result = _service.CheckMultipleBooksDomainMatch(bookPublishers.Select(x => x.Id).ToList());
+            this.service = new ReaderBookService(mockContext.Object, false);
+            var result = this.service.CheckMultipleBooksDomainMatch(bookPublishers.Select(x => x.Id).ToList());
 
             Assert.IsTrue(result);
         }
 
+        /// <summary>
+        /// Tests the check multiple books domain match employee success.
+        /// </summary>
         [TestMethod]
         public void TestCheckMultipleBooksDomainMatchEmployeeSuccess()
         {
-            #region mock data
-
             var domains = new List<Domain>
             {
                 new Domain
@@ -2000,14 +2097,15 @@ namespace LibraryAdministrationTest.ServiceTests
             mockContext.Setup(x => x.Books).Returns(mockSetBookMock.Object);
             mockContext.Setup(x => x.BookPublisher).Returns(mockSetBookPublisherMock.Object);
 
-            #endregion
-
-            _service = new ReaderBookService(mockContext.Object, true);
-            var result = _service.CheckMultipleBooksDomainMatch(bookPublishers.Select(x => x.Id).ToList());
+            this.service = new ReaderBookService(mockContext.Object, true);
+            var result = this.service.CheckMultipleBooksDomainMatch(bookPublishers.Select(x => x.Id).ToList());
 
             Assert.IsTrue(result);
         }
 
+        /// <summary>
+        /// Tests the check multiple books domain match fails null parameter.
+        /// </summary>
         [TestMethod]
         public void TestCheckMultipleBooksDomainMatchFailsNullParam()
         {
@@ -2016,10 +2114,13 @@ namespace LibraryAdministrationTest.ServiceTests
             var mockContext = new Mock<LibraryContext>();
             mockContext.Setup(x => x.ReaderBooks).Returns(mockSet.Object);
 
-            _service = new ReaderBookService(mockContext.Object);
-            Assert.ThrowsException<LibraryArgumentException>(() => _service.CheckMultipleBooksDomainMatch(null));
+            this.service = new ReaderBookService(mockContext.Object);
+            Assert.ThrowsException<LibraryArgumentException>(() => this.service.CheckMultipleBooksDomainMatch(null));
         }
 
+        /// <summary>
+        /// Tests the check multiple books domain match fails wrong parameter.
+        /// </summary>
         [TestMethod]
         public void TestCheckMultipleBooksDomainMatchFailsWrongParam()
         {
@@ -2030,8 +2131,8 @@ namespace LibraryAdministrationTest.ServiceTests
             var mockContext = new Mock<LibraryContext>();
             mockContext.Setup(x => x.ReaderBooks).Returns(mockSet.Object);
 
-            _service = new ReaderBookService(mockContext.Object);
-            Assert.ThrowsException<LibraryArgumentException>(() => _service.CheckMultipleBooksDomainMatch(wrongParameter));
+            this.service = new ReaderBookService(mockContext.Object);
+            Assert.ThrowsException<LibraryArgumentException>(() => this.service.CheckMultipleBooksDomainMatch(wrongParameter));
         }
     }
 }

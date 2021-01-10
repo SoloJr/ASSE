@@ -1,34 +1,55 @@
-﻿using LibraryAdministration.BusinessLayer;
-using LibraryAdministration.DataMapper;
-using LibraryAdministration.DomainModel;
-using LibraryAdministration.Startup;
-using LibraryAdministrationTest.Mocks;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
-using Moq;
-using System.Collections.Generic;
-using System.Data.Entity;
-using System.Linq;
+﻿//---------------------------------------------------------------------
+// <copyright file="PersonalInfoServiceTest.cs" company="Transilvania University of Brasov">
+//     Mircea Solovastru
+// </copyright>
+//-----------------------------------------------------------------------
 
 namespace LibraryAdministrationTest.ServiceTests
 {
+    using System.Collections.Generic;
+    using System.Data.Entity;
+    using System.Linq;
+    using LibraryAdministration.BusinessLayer;
+    using LibraryAdministration.DataMapper;
+    using LibraryAdministration.DomainModel;
+    using LibraryAdministration.Startup;
+    using Microsoft.VisualStudio.TestTools.UnitTesting;
+    using Mocks;
+    using Moq;
+
+    /// <summary>
+    /// PersonalInfoServiceTest class
+    /// </summary>
     [TestClass]
     public class PersonalInfoServiceTest
     {
-        private PersonalInfo _personalInfo;
+        /// <summary>
+        /// The personal information
+        /// </summary>
+        private PersonalInfo personalInfo;
 
-        private PersonalInfoService _service;
+        /// <summary>
+        /// The service
+        /// </summary>
+        private PersonalInfoService service;
 
+        /// <summary>
+        /// Initializes this instance.
+        /// </summary>
         [TestInitialize]
         public void Init()
         {
             Injector.Inject(new MockBindings());
-            _personalInfo = new PersonalInfo
+            this.personalInfo = new PersonalInfo
             {
                 PhoneNumber = "0731233233",
                 Email = "mircea.solo1995@gmail.com"
             };
         }
 
+        /// <summary>
+        /// Tests the insert personal information.
+        /// </summary>
         [TestMethod]
         public void TestInsertPersonalInfo()
         {
@@ -37,11 +58,11 @@ namespace LibraryAdministrationTest.ServiceTests
             var mockContext = new Mock<LibraryContext>();
             mockContext.Setup(x => x.Set<PersonalInfo>()).Returns(mockSet.Object);
 
-            _service = new PersonalInfoService(mockContext.Object);
-            var result = _service.Insert(_personalInfo);
+            this.service = new PersonalInfoService(mockContext.Object);
+            var result = this.service.Insert(this.personalInfo);
             try
             {
-                mockSet.Verify(m => m.Add((It.IsAny<PersonalInfo>())), Times.Once());
+                mockSet.Verify(m => m.Add(It.IsAny<PersonalInfo>()), Times.Once());
                 mockContext.Verify(m => m.SaveChanges(), Times.Once());
             }
             catch (MockException e)
@@ -54,6 +75,9 @@ namespace LibraryAdministrationTest.ServiceTests
             Assert.IsTrue(result.Errors.Count == 0);
         }
 
+        /// <summary>
+        /// Tests the update personal information.
+        /// </summary>
         [TestMethod]
         public void TestUpdatePersonalInfo()
         {
@@ -62,13 +86,13 @@ namespace LibraryAdministrationTest.ServiceTests
             var mockContext = new Mock<LibraryContext>();
             mockContext.Setup(x => x.Set<PersonalInfo>()).Returns(mockSet.Object);
 
-            _personalInfo.PhoneNumber = "0731233234";
+            this.personalInfo.PhoneNumber = "0731233234";
 
-            _service = new PersonalInfoService(mockContext.Object);
-            var result = _service.Update(_personalInfo);
+            this.service = new PersonalInfoService(mockContext.Object);
+            var result = this.service.Update(this.personalInfo);
             try
             {
-                mockSet.Verify(m => m.Attach((It.IsAny<PersonalInfo>())), Times.Once());
+                mockSet.Verify(m => m.Attach(It.IsAny<PersonalInfo>()), Times.Once());
                 mockContext.Verify(m => m.SaveChanges(), Times.Once());
             }
             catch (MockException e)
@@ -81,6 +105,9 @@ namespace LibraryAdministrationTest.ServiceTests
             Assert.IsTrue(result.Errors.Count == 0);
         }
 
+        /// <summary>
+        /// Tests the delete personal information.
+        /// </summary>
         [TestMethod]
         public void TestDeletePersonalInfo()
         {
@@ -89,11 +116,11 @@ namespace LibraryAdministrationTest.ServiceTests
             var mockContext = new Mock<LibraryContext>();
             mockContext.Setup(x => x.Set<PersonalInfo>()).Returns(mockSet.Object);
 
-            _service = new PersonalInfoService(mockContext.Object);
-            _service.Delete(_personalInfo);
+            this.service = new PersonalInfoService(mockContext.Object);
+            this.service.Delete(this.personalInfo);
             try
             {
-                mockSet.Verify(m => m.Remove((It.IsAny<PersonalInfo>())), Times.Once());
+                mockSet.Verify(m => m.Remove(It.IsAny<PersonalInfo>()), Times.Once());
             }
             catch (MockException e)
             {
@@ -101,12 +128,15 @@ namespace LibraryAdministrationTest.ServiceTests
             }
         }
 
+        /// <summary>
+        /// Tests the get all personal info.
+        /// </summary>
         [TestMethod]
         public void TestGetAllPersonalInfos()
         {
             var data = new List<PersonalInfo>
             {
-                _personalInfo,
+                this.personalInfo,
                 new PersonalInfo
                 {
                     Email = "cevaaa@mail.com",
@@ -123,9 +153,9 @@ namespace LibraryAdministrationTest.ServiceTests
             var mockContext = new Mock<LibraryContext>();
             mockContext.Setup(x => x.Set<PersonalInfo>()).Returns(mockSet.Object);
 
-            _service = new PersonalInfoService(mockContext.Object);
+            this.service = new PersonalInfoService(mockContext.Object);
 
-            var authors = _service.GetAll();
+            var authors = this.service.GetAll();
 
             Assert.IsNotNull(authors);
             Assert.AreEqual(authors.Count(), 2);

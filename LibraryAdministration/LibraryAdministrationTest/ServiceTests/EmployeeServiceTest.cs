@@ -1,28 +1,46 @@
-﻿using LibraryAdministration.BusinessLayer;
-using LibraryAdministration.DataMapper;
-using LibraryAdministration.DomainModel;
-using LibraryAdministration.Startup;
-using LibraryAdministrationTest.Mocks;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
-using Moq;
-using System.Collections.Generic;
-using System.Data.Entity;
-using System.Linq;
+﻿//---------------------------------------------------------------------
+// <copyright file="EmployeeServiceTest.cs" company="Transilvania University of Brasov">
+//     Mircea Solovastru
+// </copyright>
+//-----------------------------------------------------------------------
 
 namespace LibraryAdministrationTest.ServiceTests
 {
+    using System.Collections.Generic;
+    using System.Data.Entity;
+    using System.Linq;
+    using LibraryAdministration.BusinessLayer;
+    using LibraryAdministration.DataMapper;
+    using LibraryAdministration.DomainModel;
+    using LibraryAdministration.Startup;
+    using Microsoft.VisualStudio.TestTools.UnitTesting;
+    using Mocks;
+    using Moq;
+
+    /// <summary>
+    /// EmployeeServiceTest class
+    /// </summary>
     [TestClass]
     public class EmployeeServiceTest
     {
-        private Employee _employee;
+        /// <summary>
+        /// The employee
+        /// </summary>
+        private Employee employee;
 
-        private EmployeeService _service;
+        /// <summary>
+        /// The service
+        /// </summary>
+        private EmployeeService service;
 
+        /// <summary>
+        /// Initializes this instance.
+        /// </summary>
         [TestInitialize]
         public void Init()
         {
             Injector.Inject(new MockBindings());
-            _employee = new Employee
+            this.employee = new Employee
             {
                 Info = new PersonalInfo
                 {
@@ -35,6 +53,9 @@ namespace LibraryAdministrationTest.ServiceTests
             };
         }
 
+        /// <summary>
+        /// Tests the insert employee.
+        /// </summary>
         [TestMethod]
         public void TestInsertEmployee()
         {
@@ -43,11 +64,11 @@ namespace LibraryAdministrationTest.ServiceTests
             var mockContext = new Mock<LibraryContext>();
             mockContext.Setup(x => x.Set<Employee>()).Returns(mockSet.Object);
 
-            _service = new EmployeeService(mockContext.Object);
-            var result = _service.Insert(_employee);
+            this.service = new EmployeeService(mockContext.Object);
+            var result = this.service.Insert(this.employee);
             try
             {
-                mockSet.Verify(m => m.Add((It.IsAny<Employee>())), Times.Once());
+                mockSet.Verify(m => m.Add(It.IsAny<Employee>()), Times.Once());
                 mockContext.Verify(m => m.SaveChanges(), Times.Once());
             }
             catch (MockException e)
@@ -60,6 +81,9 @@ namespace LibraryAdministrationTest.ServiceTests
             Assert.IsTrue(result.Errors.Count == 0);
         }
 
+        /// <summary>
+        /// Tests the update employee.
+        /// </summary>
         [TestMethod]
         public void TestUpdateEmployee()
         {
@@ -68,13 +92,13 @@ namespace LibraryAdministrationTest.ServiceTests
             var mockContext = new Mock<LibraryContext>();
             mockContext.Setup(x => x.Set<Employee>()).Returns(mockSet.Object);
 
-            _employee.FirstName = "Update";
+            this.employee.FirstName = "Update";
 
-            _service = new EmployeeService(mockContext.Object);
-            var result = _service.Update(_employee);
+            this.service = new EmployeeService(mockContext.Object);
+            var result = this.service.Update(this.employee);
             try
             {
-                mockSet.Verify(m => m.Attach((It.IsAny<Employee>())), Times.Once());
+                mockSet.Verify(m => m.Attach(It.IsAny<Employee>()), Times.Once());
                 mockContext.Verify(m => m.SaveChanges(), Times.Once());
             }
             catch (MockException e)
@@ -87,6 +111,9 @@ namespace LibraryAdministrationTest.ServiceTests
             Assert.IsTrue(result.Errors.Count == 0);
         }
 
+        /// <summary>
+        /// Tests the delete employee.
+        /// </summary>
         [TestMethod]
         public void TestDeleteEmployee()
         {
@@ -95,11 +122,11 @@ namespace LibraryAdministrationTest.ServiceTests
             var mockContext = new Mock<LibraryContext>();
             mockContext.Setup(x => x.Set<Employee>()).Returns(mockSet.Object);
 
-            _service = new EmployeeService(mockContext.Object);
-            _service.Delete(_employee);
+            this.service = new EmployeeService(mockContext.Object);
+            this.service.Delete(this.employee);
             try
             {
-                mockSet.Verify(m => m.Remove((It.IsAny<Employee>())), Times.Once());
+                mockSet.Verify(m => m.Remove(It.IsAny<Employee>()), Times.Once());
                 mockContext.Verify(m => m.SaveChanges(), Times.Once());
             }
             catch (MockException e)
@@ -108,12 +135,15 @@ namespace LibraryAdministrationTest.ServiceTests
             }
         }
 
+        /// <summary>
+        /// Tests the get all employees.
+        /// </summary>
         [TestMethod]
         public void TestGetAllEmployees()
         {
             var data = new List<Employee>
             {
-                _employee,
+                this.employee,
                 new Employee
                 {
                     Address = "str 124521332",
@@ -133,9 +163,9 @@ namespace LibraryAdministrationTest.ServiceTests
             var mockContext = new Mock<LibraryContext>();
             mockContext.Setup(x => x.Set<Employee>()).Returns(mockSet.Object);
 
-            _service = new EmployeeService(mockContext.Object);
+            this.service = new EmployeeService(mockContext.Object);
 
-            var pubs = _service.GetAll();
+            var pubs = this.service.GetAll();
 
             Assert.IsNotNull(pubs);
             Assert.AreEqual(pubs.Count(), 2);

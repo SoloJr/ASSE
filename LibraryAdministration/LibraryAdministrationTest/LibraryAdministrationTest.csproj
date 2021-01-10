@@ -98,7 +98,9 @@
     <Compile Include="ServiceTests\PersonalInfoServiceTest.cs" />
     <Compile Include="ServiceTests\PublisherServiceTest.cs" />
     <Compile Include="ServiceTests\ReaderBookServiceTest.cs" />
-    <Compile Include="ServiceTests\ReaderServiceTest.cs" />
+    <Compile Include="ServiceTests\ReaderServiceTest.cs">
+      <ExcludeFromStyleCop>True</ExcludeFromStyleCop>
+    </Compile>
     <Compile Include="StartupTests\NinjectBindingsTests.cs" />
   </ItemGroup>
   <ItemGroup>

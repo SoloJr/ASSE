@@ -1,31 +1,49 @@
-﻿using LibraryAdministration.BusinessLayer;
-using LibraryAdministration.DataMapper;
-using LibraryAdministration.DomainModel;
-using LibraryAdministration.Helper;
-using LibraryAdministration.Startup;
-using LibraryAdministrationTest.Mocks;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
-using Moq;
-using System;
-using System.Collections.Generic;
-using System.Data.Entity;
-using System.Data.Entity.Core;
-using System.Linq;
+﻿//---------------------------------------------------------------------
+// <copyright file="BookPublisherServiceTest.cs" company="Transilvania University of Brasov">
+//     Mircea Solovastru
+// </copyright>
+//-----------------------------------------------------------------------
 
 namespace LibraryAdministrationTest.ServiceTests
 {
+    using System;
+    using System.Collections.Generic;
+    using System.Data.Entity;
+    using System.Data.Entity.Core;
+    using System.Linq;
+    using LibraryAdministration.BusinessLayer;
+    using LibraryAdministration.DataMapper;
+    using LibraryAdministration.DomainModel;
+    using LibraryAdministration.Helper;
+    using LibraryAdministration.Startup;
+    using Microsoft.VisualStudio.TestTools.UnitTesting;
+    using Mocks;
+    using Moq;
+
+    /// <summary>
+    /// BookPublisherServiceTest class
+    /// </summary>
     [TestClass]
     public class BookPublisherServiceTest
     {
-        private BookPublisherService _service;
+        /// <summary>
+        /// The service
+        /// </summary>
+        private BookPublisherService service;
 
-        private BookPublisher _bookPublisher;
+        /// <summary>
+        /// The book publisher
+        /// </summary>
+        private BookPublisher bookPublisher;
 
+        /// <summary>
+        /// Initializes this instance.
+        /// </summary>
         [TestInitialize]
         public void Init()
         {
             Injector.Inject(new MockBindings());
-            _bookPublisher = new BookPublisher
+            this.bookPublisher = new BookPublisher
             {
                 BookId = 1,
                 RentCount = 10,
@@ -38,6 +56,9 @@ namespace LibraryAdministrationTest.ServiceTests
             };
         }
 
+        /// <summary>
+        /// Tests the insert book publisher.
+        /// </summary>
         [TestMethod]
         public void TestInsertBookPublisher()
         {
@@ -46,11 +67,11 @@ namespace LibraryAdministrationTest.ServiceTests
             var mockContext = new Mock<LibraryContext>();
             mockContext.Setup(x => x.Set<BookPublisher>()).Returns(mockSet.Object);
 
-            _service = new BookPublisherService(mockContext.Object);
-            var result = _service.Insert(_bookPublisher);
+            this.service = new BookPublisherService(mockContext.Object);
+            var result = this.service.Insert(this.bookPublisher);
             try
             {
-                mockSet.Verify(m => m.Add((It.IsAny<BookPublisher>())), Times.Once());
+                mockSet.Verify(m => m.Add(It.IsAny<BookPublisher>()), Times.Once());
                 mockContext.Verify(m => m.SaveChanges(), Times.Once());
             }
             catch (MockException e)
@@ -63,6 +84,9 @@ namespace LibraryAdministrationTest.ServiceTests
             Assert.IsTrue(result.Errors.Count == 0);
         }
 
+        /// <summary>
+        /// Tests the update book publisher.
+        /// </summary>
         [TestMethod]
         public void TestUpdateBookPublisher()
         {
@@ -71,13 +95,13 @@ namespace LibraryAdministrationTest.ServiceTests
             var mockContext = new Mock<LibraryContext>();
             mockContext.Setup(x => x.Set<BookPublisher>()).Returns(mockSet.Object);
 
-            _bookPublisher.ReleaseDate = DateTime.Now;
+            this.bookPublisher.ReleaseDate = DateTime.Now;
 
-            _service = new BookPublisherService(mockContext.Object);
-            var result = _service.Update(_bookPublisher);
+            this.service = new BookPublisherService(mockContext.Object);
+            var result = this.service.Update(this.bookPublisher);
             try
             {
-                mockSet.Verify(m => m.Attach((It.IsAny<BookPublisher>())), Times.Once());
+                mockSet.Verify(m => m.Attach(It.IsAny<BookPublisher>()), Times.Once());
                 mockContext.Verify(m => m.SaveChanges(), Times.Once());
             }
             catch (MockException e)
@@ -90,6 +114,9 @@ namespace LibraryAdministrationTest.ServiceTests
             Assert.IsTrue(result.Errors.Count == 0);
         }
 
+        /// <summary>
+        /// Tests the delete book publisher.
+        /// </summary>
         [TestMethod]
         public void TestDeleteBookPublisher()
         {
@@ -98,11 +125,11 @@ namespace LibraryAdministrationTest.ServiceTests
             var mockContext = new Mock<LibraryContext>();
             mockContext.Setup(x => x.Set<BookPublisher>()).Returns(mockSet.Object);
 
-            _service = new BookPublisherService(mockContext.Object);
-            _service.Delete(_bookPublisher);
+            this.service = new BookPublisherService(mockContext.Object);
+            this.service.Delete(this.bookPublisher);
             try
             {
-                mockSet.Verify(m => m.Remove((It.IsAny<BookPublisher>())), Times.Once());
+                mockSet.Verify(m => m.Remove(It.IsAny<BookPublisher>()), Times.Once());
                 mockContext.Verify(m => m.SaveChanges(), Times.Once());
             }
             catch (MockException e)
@@ -111,12 +138,15 @@ namespace LibraryAdministrationTest.ServiceTests
             }
         }
 
+        /// <summary>
+        /// Tests the get all book publishers.
+        /// </summary>
         [TestMethod]
         public void TestGetAllBookPublishers()
         {
             var data = new List<BookPublisher>
             {
-                _bookPublisher,
+                this.bookPublisher,
                 new BookPublisher
                 {
                     BookId = 1,
@@ -155,14 +185,17 @@ namespace LibraryAdministrationTest.ServiceTests
             var mockContext = new Mock<LibraryContext>();
             mockContext.Setup(x => x.Set<BookPublisher>()).Returns(mockSet.Object);
 
-            _service = new BookPublisherService(mockContext.Object);
+            this.service = new BookPublisherService(mockContext.Object);
 
-            var bps = _service.GetAll();
+            var bps = this.service.GetAll();
 
             Assert.IsNotNull(bps);
             Assert.AreEqual(bps.Count(), 4);
         }
 
+        /// <summary>
+        /// Tests the get all versions of book success.
+        /// </summary>
         [TestMethod]
         public void TestGetAllVersionsOfBookSuccess()
         {
@@ -213,14 +246,17 @@ namespace LibraryAdministrationTest.ServiceTests
             mockContext.Setup(x => x.Books).Returns(mockSet.Object);
             mockContext.Setup(x => x.BookPublisher).Returns(mockSetBp.Object);
 
-            _service = new BookPublisherService(mockContext.Object);
+            this.service = new BookPublisherService(mockContext.Object);
 
-            var result = _service.GetAllEditionsOfBook(data.ElementAt(0).Id);
+            var result = this.service.GetAllEditionsOfBook(data.ElementAt(0).Id);
 
             Assert.IsNotNull(result);
             Assert.AreEqual(result.Count(), 2);
         }
 
+        /// <summary>
+        /// Tests the get all versions of book fails wrong book identifier.
+        /// </summary>
         [TestMethod]
         public void TestGetAllVersionsOfBookFailsWrongBookId()
         {
@@ -271,11 +307,14 @@ namespace LibraryAdministrationTest.ServiceTests
             mockContext.Setup(x => x.Books).Returns(mockSet.Object);
             mockContext.Setup(x => x.BookPublisher).Returns(mockSetBp.Object);
 
-            _service = new BookPublisherService(mockContext.Object);
+            this.service = new BookPublisherService(mockContext.Object);
 
-            Assert.ThrowsException<ObjectNotFoundException>(() => _service.GetAllEditionsOfBook(123));
+            Assert.ThrowsException<ObjectNotFoundException>(() => this.service.GetAllEditionsOfBook(123));
         }
 
+        /// <summary>
+        /// Tests the get all versions of book fails wrong parameter.
+        /// </summary>
         [TestMethod]
         public void TestGetAllVersionsOfBookFailsWrongParam()
         {
@@ -288,6 +327,9 @@ namespace LibraryAdministrationTest.ServiceTests
             Assert.ThrowsException<LibraryArgumentException>(() => service.GetAllEditionsOfBook(wrongParam));
         }
 
+        /// <summary>
+        /// Tests the check book details for availability success.
+        /// </summary>
         [TestMethod]
         public void TestCheckBookDetailsForAvailabilitySuccess()
         {
@@ -315,14 +357,17 @@ namespace LibraryAdministrationTest.ServiceTests
             var mockContext = new Mock<LibraryContext>();
             mockContext.Setup(x => x.BookPublisher).Returns(mockSetBp.Object);
 
-            _service = new BookPublisherService(mockContext.Object);
+            this.service = new BookPublisherService(mockContext.Object);
 
-            var result = _service.CheckBookDetailsForAvailability(publisherData[0].Id);
+            var result = this.service.CheckBookDetailsForAvailability(publisherData[0].Id);
 
             Assert.IsNotNull(result);
             Assert.IsTrue(result);
         }
 
+        /// <summary>
+        /// Tests the check book details for availability wrong book identifier.
+        /// </summary>
         [TestMethod]
         public void TestCheckBookDetailsForAvailabilityWrongBookId()
         {
@@ -350,11 +395,14 @@ namespace LibraryAdministrationTest.ServiceTests
             var mockContext = new Mock<LibraryContext>();
             mockContext.Setup(x => x.BookPublisher).Returns(mockSetBp.Object);
 
-            _service = new BookPublisherService(mockContext.Object);
+            this.service = new BookPublisherService(mockContext.Object);
 
-            Assert.ThrowsException<ObjectNotFoundException>(() => _service.CheckBookDetailsForAvailability(123));
+            Assert.ThrowsException<ObjectNotFoundException>(() => this.service.CheckBookDetailsForAvailability(123));
         }
 
+        /// <summary>
+        /// Tests the check book details for availability fails wrong parameter.
+        /// </summary>
         [TestMethod]
         public void TestCheckBookDetailsForAvailabilityFailsWrongParam()
         {
@@ -367,6 +415,9 @@ namespace LibraryAdministrationTest.ServiceTests
             Assert.ThrowsException<LibraryArgumentException>(() => service.CheckBookDetailsForAvailability(wrongParam));
         }
 
+        /// <summary>
+        /// Tests the check book details for availability fail no rent.
+        /// </summary>
         [TestMethod]
         public void TestCheckBookDetailsForAvailabilityFailNoRent()
         {
@@ -394,14 +445,17 @@ namespace LibraryAdministrationTest.ServiceTests
             var mockContext = new Mock<LibraryContext>();
             mockContext.Setup(x => x.BookPublisher).Returns(mockSetBp.Object);
 
-            _service = new BookPublisherService(mockContext.Object);
+            this.service = new BookPublisherService(mockContext.Object);
 
-            var result = _service.CheckBookDetailsForAvailability(publisherData[0].Id);
+            var result = this.service.CheckBookDetailsForAvailability(publisherData[0].Id);
 
             Assert.IsNotNull(result);
             Assert.IsFalse(result);
         }
 
+        /// <summary>
+        /// Tests the check book details for availability fail already too many rented.
+        /// </summary>
         [TestMethod]
         public void TestCheckBookDetailsForAvailabilityFailAlreadyTooManyRented()
         {
@@ -429,9 +483,9 @@ namespace LibraryAdministrationTest.ServiceTests
             var mockContext = new Mock<LibraryContext>();
             mockContext.Setup(x => x.BookPublisher).Returns(mockSetBp.Object);
 
-            _service = new BookPublisherService(mockContext.Object);
+            this.service = new BookPublisherService(mockContext.Object);
 
-            var result = _service.CheckBookDetailsForAvailability(publisherData[0].Id);
+            var result = this.service.CheckBookDetailsForAvailability(publisherData[0].Id);
 
             Assert.IsNotNull(result);
             Assert.IsFalse(result);

@@ -1,32 +1,49 @@
-﻿using LibraryAdministration.BusinessLayer;
-using LibraryAdministration.DataMapper;
-using LibraryAdministration.DomainModel;
-using LibraryAdministration.Helper;
-using LibraryAdministration.Interfaces.Business;
-using LibraryAdministration.Startup;
-using LibraryAdministrationTest.Mocks;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
-using Moq;
-using System;
-using System.Collections.Generic;
-using System.Data.Entity;
-using System.Linq;
+﻿//---------------------------------------------------------------------
+// <copyright file="BookServiceTest.cs" company="Transilvania University of Brasov">
+//     Mircea Solovastru
+// </copyright>
+//-----------------------------------------------------------------------
 
 namespace LibraryAdministrationTest.ServiceTests
 {
+    using System;
+    using System.Collections.Generic;
+    using System.Data.Entity;
+    using System.Linq;
+    using LibraryAdministration.BusinessLayer;
+    using LibraryAdministration.DataMapper;
+    using LibraryAdministration.DomainModel;
+    using LibraryAdministration.Helper;
+    using LibraryAdministration.Interfaces.Business;
+    using LibraryAdministration.Startup;
+    using Microsoft.VisualStudio.TestTools.UnitTesting;
+    using Mocks;
+    using Moq;
+
+    /// <summary>
+    /// BookServiceTest class
+    /// </summary>
     [TestClass]
     public class BookServiceTest
     {
-        private Book _book;
+        /// <summary>
+        /// The book
+        /// </summary>
+        private Book book;
 
-        private IBookService _service;
+        /// <summary>
+        /// The service
+        /// </summary>
+        private IBookService service;
 
-
+        /// <summary>
+        /// Initializes this instance.
+        /// </summary>
         [TestInitialize]
         public void Init()
         {
             Injector.Inject(new MockBindings());
-            _book = new Book
+            this.book = new Book
             {
                 Name = "Arta Subtila a Nepasarii",
                 Authors = new List<Author>
@@ -66,6 +83,9 @@ namespace LibraryAdministrationTest.ServiceTests
             };
         }
 
+        /// <summary>
+        /// Tests the insert book.
+        /// </summary>
         [TestMethod]
         public void TestInsertBook()
         {
@@ -74,11 +94,11 @@ namespace LibraryAdministrationTest.ServiceTests
             var mockContext = new Mock<LibraryContext>();
             mockContext.Setup(x => x.Set<Book>()).Returns(mockSet.Object);
 
-            _service = new BookService(mockContext.Object);
-            var result = _service.Insert(_book);
+            this.service = new BookService(mockContext.Object);
+            var result = this.service.Insert(this.book);
             try
             {
-                mockSet.Verify(m => m.Add((It.IsAny<Book>())), Times.Once());
+                mockSet.Verify(m => m.Add(It.IsAny<Book>()), Times.Once());
                 mockContext.Verify(m => m.SaveChanges(), Times.Once());
             }
             catch (MockException e)
@@ -91,6 +111,9 @@ namespace LibraryAdministrationTest.ServiceTests
             Assert.IsTrue(result.Errors.Count == 0);
         }
 
+        /// <summary>
+        /// Tests the update book.
+        /// </summary>
         [TestMethod]
         public void TestUpdateBook()
         {
@@ -99,13 +122,13 @@ namespace LibraryAdministrationTest.ServiceTests
             var mockContext = new Mock<LibraryContext>();
             mockContext.Setup(x => x.Set<Book>()).Returns(mockSet.Object);
 
-            _book.Name = "Update";
+            this.book.Name = "Update";
 
-            _service = new BookService(mockContext.Object);
-            var result = _service.Update(_book);
+            this.service = new BookService(mockContext.Object);
+            var result = this.service.Update(this.book);
             try
             {
-                mockSet.Verify(m => m.Attach((It.IsAny<Book>())), Times.Once());
+                mockSet.Verify(m => m.Attach(It.IsAny<Book>()), Times.Once());
                 mockContext.Verify(m => m.SaveChanges(), Times.Once());
             }
             catch (MockException e)
@@ -118,6 +141,9 @@ namespace LibraryAdministrationTest.ServiceTests
             Assert.IsTrue(result.Errors.Count == 0);
         }
 
+        /// <summary>
+        /// Tests the delete book.
+        /// </summary>
         [TestMethod]
         public void TestDeleteBook()
         {
@@ -126,11 +152,11 @@ namespace LibraryAdministrationTest.ServiceTests
             var mockContext = new Mock<LibraryContext>();
             mockContext.Setup(x => x.Set<Book>()).Returns(mockSet.Object);
 
-            _service = new BookService(mockContext.Object);
-            _service.Delete(_book);
+            this.service = new BookService(mockContext.Object);
+            this.service.Delete(this.book);
             try
             {
-                mockSet.Verify(m => m.Remove((It.IsAny<Book>())), Times.Once());
+                mockSet.Verify(m => m.Remove(It.IsAny<Book>()), Times.Once());
                 mockContext.Verify(m => m.SaveChanges(), Times.Once());
             }
             catch (MockException e)
@@ -139,12 +165,15 @@ namespace LibraryAdministrationTest.ServiceTests
             }
         }
 
+        /// <summary>
+        /// Tests the get all books.
+        /// </summary>
         [TestMethod]
         public void TestGetAllBooks()
         {
             var data = new List<Book>
             {
-                _book,
+                this.book,
                 new Book
                 {
                     Name = "Arta Subtila a Seductiei",
@@ -184,14 +213,17 @@ namespace LibraryAdministrationTest.ServiceTests
             var mockContext = new Mock<LibraryContext>();
             mockContext.Setup(x => x.Set<Book>()).Returns(mockSet.Object);
 
-            _service = new BookService(mockContext.Object);
+            this.service = new BookService(mockContext.Object);
 
-            var authors = _service.GetAll();
+            var authors = this.service.GetAll();
 
             Assert.IsNotNull(authors);
             Assert.AreEqual(authors.Count(), 2);
         }
 
+        /// <summary>
+        /// Tests the insert book no authors null should fail.
+        /// </summary>
         [TestMethod]
         public void TestInsertBookNoAuthorsNullShouldFail()
         {
@@ -200,14 +232,14 @@ namespace LibraryAdministrationTest.ServiceTests
             var mockContext = new Mock<LibraryContext>();
             mockContext.Setup(x => x.Set<Book>()).Returns(mockSet.Object);
 
-            var testBook = _book;
+            var testBook = this.book;
             testBook.Authors = null;
 
-            _service = new BookService(mockContext.Object);
-            var result = _service.Insert(testBook);
+            this.service = new BookService(mockContext.Object);
+            var result = this.service.Insert(testBook);
             try
             {
-                mockSet.Verify(m => m.Add((It.IsAny<Book>())), Times.Never);
+                mockSet.Verify(m => m.Add(It.IsAny<Book>()), Times.Never);
                 mockContext.Verify(m => m.SaveChanges(), Times.Never);
             }
             catch (MockException e)
@@ -220,6 +252,9 @@ namespace LibraryAdministrationTest.ServiceTests
             Assert.IsTrue(result.Errors.Count > 0);
         }
 
+        /// <summary>
+        /// Tests the insert book no authors empty should fail.
+        /// </summary>
         [TestMethod]
         public void TestInsertBookNoAuthorsEmptyShouldFail()
         {
@@ -228,14 +263,14 @@ namespace LibraryAdministrationTest.ServiceTests
             var mockContext = new Mock<LibraryContext>();
             mockContext.Setup(x => x.Set<Book>()).Returns(mockSet.Object);
 
-            var testBook = _book;
+            var testBook = this.book;
             testBook.Authors = new List<Author>();
 
-            _service = new BookService(mockContext.Object);
-            var result = _service.Insert(testBook);
+            this.service = new BookService(mockContext.Object);
+            var result = this.service.Insert(testBook);
             try
             {
-                mockSet.Verify(m => m.Add((It.IsAny<Book>())), Times.Never);
+                mockSet.Verify(m => m.Add(It.IsAny<Book>()), Times.Never);
                 mockContext.Verify(m => m.SaveChanges(), Times.Never);
             }
             catch (MockException e)
@@ -248,6 +283,9 @@ namespace LibraryAdministrationTest.ServiceTests
             Assert.IsTrue(result.Errors.Count > 0);
         }
 
+        /// <summary>
+        /// Tests the get all domains of book.
+        /// </summary>
         [TestMethod]
         public void TestGetAllDomainsOfBook()
         {
@@ -275,7 +313,7 @@ namespace LibraryAdministrationTest.ServiceTests
 
             var data = new List<Book>
             {
-                _book,
+                this.book,
                 new Book
                 {
                     Name = "Arta Subtila a Seductiei",
@@ -326,14 +364,17 @@ namespace LibraryAdministrationTest.ServiceTests
             mockContext.Setup(x => x.Books).Returns(mockSet.Object);
             mockContext.Setup(x => x.Domains).Returns(mockSetDomain.Object);
 
-            _service = new BookService(mockContext.Object);
+            this.service = new BookService(mockContext.Object);
 
-            var result = _service.GetAllDomainsOfBook(2);
+            var result = this.service.GetAllDomainsOfBook(2);
 
             Assert.IsNotNull(result);
             Assert.AreEqual(result.Count(), 2);
         }
 
+        /// <summary>
+        /// Tests the get all domains of book wrong parameter.
+        /// </summary>
         [TestMethod]
         public void TestGetAllDomainsOfBookWrongParam()
         {

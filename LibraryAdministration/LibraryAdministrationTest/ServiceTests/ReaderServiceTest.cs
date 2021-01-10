@@ -1,29 +1,47 @@
-﻿using LibraryAdministration.BusinessLayer;
-using LibraryAdministration.DataMapper;
-using LibraryAdministration.DomainModel;
-using LibraryAdministration.Helper;
-using LibraryAdministration.Startup;
-using LibraryAdministrationTest.Mocks;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
-using Moq;
-using System.Collections.Generic;
-using System.Data.Entity;
-using System.Linq;
+﻿//---------------------------------------------------------------------
+// <copyright file="ReaderServiceTest.cs" company="Transilvania University of Brasov">
+//     Mircea Solovastru
+// </copyright>
+//-----------------------------------------------------------------------
 
 namespace LibraryAdministrationTest.ServiceTests
 {
+    using System.Collections.Generic;
+    using System.Data.Entity;
+    using System.Linq;
+    using LibraryAdministration.BusinessLayer;
+    using LibraryAdministration.DataMapper;
+    using LibraryAdministration.DomainModel;
+    using LibraryAdministration.Helper;
+    using LibraryAdministration.Startup;
+    using Microsoft.VisualStudio.TestTools.UnitTesting;
+    using Mocks;
+    using Moq;
+
+    /// <summary>
+    /// ReaderServiceTest class
+    /// </summary>
     [TestClass]
     public class ReaderServiceTest
     {
-        private Reader _reader;
+        /// <summary>
+        /// The this.reader
+        /// </summary>
+        private Reader reader;
 
-        private ReaderService _service;
+        /// <summary>
+        /// The this.service
+        /// </summary>
+        private ReaderService service;
 
+        /// <summary>
+        /// Initializes this instance.
+        /// </summary>
         [TestInitialize]
         public void Init()
         {
             Injector.Inject(new MockBindings());
-            _reader = new Reader
+            this.reader = new Reader
             {
                 Info = new PersonalInfo
                 {
@@ -39,7 +57,9 @@ namespace LibraryAdministrationTest.ServiceTests
             };
         }
 
-
+        /// <summary>
+        /// Tests the insert reader.
+        /// </summary>
         [TestMethod]
         public void TestInsertReader()
         {
@@ -48,11 +68,11 @@ namespace LibraryAdministrationTest.ServiceTests
             var mockContext = new Mock<LibraryContext>();
             mockContext.Setup(x => x.Set<Reader>()).Returns(mockSet.Object);
 
-            _service = new ReaderService(mockContext.Object);
-            var result = _service.Insert(_reader);
+            this.service = new ReaderService(mockContext.Object);
+            var result = this.service.Insert(this.reader);
             try
             {
-                mockSet.Verify(m => m.Add((It.IsAny<Reader>())), Times.Once());
+                mockSet.Verify(m => m.Add(It.IsAny<Reader>()), Times.Once());
                 mockContext.Verify(m => m.SaveChanges(), Times.Once());
             }
             catch (MockException e)
@@ -65,6 +85,9 @@ namespace LibraryAdministrationTest.ServiceTests
             Assert.IsTrue(result.Errors.Count == 0);
         }
 
+        /// <summary>
+        /// Tests the update reader.
+        /// </summary>
         [TestMethod]
         public void TestUpdateReader()
         {
@@ -73,13 +96,13 @@ namespace LibraryAdministrationTest.ServiceTests
             var mockContext = new Mock<LibraryContext>();
             mockContext.Setup(x => x.Set<Reader>()).Returns(mockSet.Object);
 
-            _reader.FirstName = "Update";
+            this.reader.FirstName = "Update";
 
-            _service = new ReaderService(mockContext.Object);
-            var result = _service.Update(_reader);
+            this.service = new ReaderService(mockContext.Object);
+            var result = this.service.Update(this.reader);
             try
             {
-                mockSet.Verify(m => m.Attach((It.IsAny<Reader>())), Times.Once());
+                mockSet.Verify(m => m.Attach(It.IsAny<Reader>()), Times.Once());
                 mockContext.Verify(m => m.SaveChanges(), Times.Once());
             }
             catch (MockException e)
@@ -92,6 +115,9 @@ namespace LibraryAdministrationTest.ServiceTests
             Assert.IsTrue(result.Errors.Count == 0);
         }
 
+        /// <summary>
+        /// Tests the delete reader.
+        /// </summary>
         [TestMethod]
         public void TestDeleteReader()
         {
@@ -100,11 +126,11 @@ namespace LibraryAdministrationTest.ServiceTests
             var mockContext = new Mock<LibraryContext>();
             mockContext.Setup(x => x.Set<Reader>()).Returns(mockSet.Object);
 
-            _service = new ReaderService(mockContext.Object);
-            _service.Delete(_reader);
+            this.service = new ReaderService(mockContext.Object);
+            this.service.Delete(this.reader);
             try
             {
-                mockSet.Verify(m => m.Remove((It.IsAny<Reader>())), Times.Once());
+                mockSet.Verify(m => m.Remove(It.IsAny<Reader>()), Times.Once());
                 mockContext.Verify(m => m.SaveChanges(), Times.Once());
             }
             catch (MockException e)
@@ -113,12 +139,15 @@ namespace LibraryAdministrationTest.ServiceTests
             }
         }
 
+        /// <summary>
+        /// Tests the get all readers.
+        /// </summary>
         [TestMethod]
         public void TestGetAllReaders()
         {
             var data = new List<Reader>
             {
-                _reader,
+                this.reader,
                 new Reader
                 {
                     Address = "str 124521332",
@@ -138,28 +167,31 @@ namespace LibraryAdministrationTest.ServiceTests
             var mockContext = new Mock<LibraryContext>();
             mockContext.Setup(x => x.Set<Reader>()).Returns(mockSet.Object);
 
-            _service = new ReaderService(mockContext.Object);
+            this.service = new ReaderService(mockContext.Object);
 
-            var pubs = _service.GetAll();
+            var pubs = this.service.GetAll();
 
             Assert.IsNotNull(pubs);
             Assert.AreEqual(pubs.Count(), 2);
         }
 
+        /// <summary>
+        /// Tests the reader is employee success.
+        /// </summary>
         [TestMethod]
         public void TestReaderIsEmployeeSuccess()
         {
             var data = new List<Reader>
             {
-                _reader
+                this.reader
             }.AsQueryable();
 
             var employee = new Employee
             {
-                Address = _reader.Address,
-                EmployeePersonalInfoId = _reader.ReaderPersonalInfoId,
-                FirstName = _reader.FirstName,
-                LastName = _reader.LastName,
+                Address = this.reader.Address,
+                EmployeePersonalInfoId = this.reader.ReaderPersonalInfoId,
+                FirstName = this.reader.FirstName,
+                LastName = this.reader.LastName,
                 Id = 1
             };
 
@@ -184,27 +216,30 @@ namespace LibraryAdministrationTest.ServiceTests
             mockContext.Setup(x => x.Readers).Returns(mockSet.Object);
             mockContext.Setup(x => x.Employees).Returns(mockSetEmployee.Object);
 
-            _service = new ReaderService(mockContext.Object);
+            this.service = new ReaderService(mockContext.Object);
 
-            var pubs = _service.CheckEmployeeStatus(_reader.Id, employee.Id);
+            var pubs = this.service.CheckEmployeeStatus(this.reader.Id, employee.Id);
 
             Assert.IsTrue(pubs);
         }
 
+        /// <summary>
+        /// Tests the reader is employee fail.
+        /// </summary>
         [TestMethod]
         public void TestReaderIsEmployeeFail()
         {
             var data = new List<Reader>
             {
-                _reader
+                this.reader
             }.AsQueryable();
 
             var employee = new Employee
             {
-                Address = _reader.Address,
+                Address = this.reader.Address,
                 EmployeePersonalInfoId = 3,
-                FirstName = _reader.FirstName,
-                LastName = _reader.LastName,
+                FirstName = this.reader.FirstName,
+                LastName = this.reader.LastName,
                 Id = 1
             };
 
@@ -229,39 +264,45 @@ namespace LibraryAdministrationTest.ServiceTests
             mockContext.Setup(x => x.Readers).Returns(mockSet.Object);
             mockContext.Setup(x => x.Employees).Returns(mockSetEmployee.Object);
 
-            _service = new ReaderService(mockContext.Object);
+            this.service = new ReaderService(mockContext.Object);
 
-            var pubs = _service.CheckEmployeeStatus(_reader.Id, employee.Id);
+            var pubs = this.service.CheckEmployeeStatus(this.reader.Id, employee.Id);
 
             Assert.IsFalse(pubs);
         }
 
+        /// <summary>
+        /// Tests the check employee status wrong parameter employee identifier.
+        /// </summary>
         [TestMethod]
         public void TestCheckEmployeeStatusWrongParamEmployeeId()
         {
-            const int employeeId = -1;
+            const int EmployeeId = -1;
 
-            const int readerId = 1;
+            const int ReaderId = 1;
 
             var context = new Mock<LibraryContext>();
 
-            var service = new ReaderService(context.Object);
+            this.service = new ReaderService(context.Object);
 
-            Assert.ThrowsException<LibraryArgumentException>(() => service.CheckEmployeeStatus(readerId, employeeId));
+            Assert.ThrowsException<LibraryArgumentException>(() => this.service.CheckEmployeeStatus(ReaderId, EmployeeId));
         }
 
+        /// <summary>
+        /// Tests the check employee status wrong parameter reader identifier.
+        /// </summary>
         [TestMethod]
         public void TestCheckEmployeeStatusWrongParamReaderId()
         {
-            const int employeeId = 1;
+            const int EmployeeId = 1;
 
-            const int readerId = -1;
+            const int ReaderId = -1;
 
             var context = new Mock<LibraryContext>();
 
-            var service = new ReaderService(context.Object);
+            this.service = new ReaderService(context.Object);
 
-            Assert.ThrowsException<LibraryArgumentException>(() => service.CheckEmployeeStatus(readerId, employeeId));
+            Assert.ThrowsException<LibraryArgumentException>(() => this.service.CheckEmployeeStatus(ReaderId, EmployeeId));
         }
     }
 }
