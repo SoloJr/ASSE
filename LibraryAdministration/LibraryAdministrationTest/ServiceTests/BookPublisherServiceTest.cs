@@ -490,5 +490,115 @@ namespace LibraryAdministrationTest.ServiceTests
             Assert.IsNotNull(result);
             Assert.IsFalse(result);
         }
+
+        /// <summary>
+        /// Tests the get all book publishers.
+        /// </summary>
+        [TestMethod]
+        public void TestGetAllBooksByType()
+        {
+            var data = new List<BookPublisher>
+            {
+                this.bookPublisher,
+                new BookPublisher
+                {
+                    BookId = 1,
+                    RentCount = 10,
+                    Pages = 200,
+                    PublisherId = 2,
+                    ReleaseDate = DateTime.Now,
+                    Type = BookType.Ebook
+                },
+                new BookPublisher
+                {
+                    BookId = 1,
+                    RentCount = 10,
+                    Pages = 200,
+                    PublisherId = 3,
+                    ReleaseDate = DateTime.Now,
+                    Type = BookType.Ebook
+                },
+                new BookPublisher
+                {
+                    BookId = 2,
+                    RentCount = 10,
+                    Pages = 200,
+                    PublisherId = 1,
+                    ReleaseDate = DateTime.Now,
+                    Type = BookType.Paperback
+                }
+            }.AsQueryable();
+
+            var mockSet = new Mock<DbSet<BookPublisher>>();
+            mockSet.As<IQueryable<BookPublisher>>().Setup(m => m.Provider).Returns(data.Provider);
+            mockSet.As<IQueryable<BookPublisher>>().Setup(m => m.Expression).Returns(data.Expression);
+            mockSet.As<IQueryable<BookPublisher>>().Setup(m => m.ElementType).Returns(data.ElementType);
+            mockSet.As<IQueryable<BookPublisher>>().Setup(m => m.GetEnumerator()).Returns(data.GetEnumerator());
+
+            var mockContext = new Mock<LibraryContext>();
+            mockContext.Setup(x => x.BookPublisher).Returns(mockSet.Object);
+
+            this.service = new BookPublisherService(mockContext.Object);
+
+            var bps = this.service.GetBooksByType(BookType.Ebook);
+
+            Assert.IsNotNull(bps);
+            Assert.AreEqual(bps.Count(), 3);
+        }
+
+        /// <summary>
+        /// Tests the get all book publishers receives null.
+        /// </summary>
+        [TestMethod]
+        public void TestGetAllBooksByTypeReceivesNull()
+        {
+            var data = new List<BookPublisher>
+            {
+                this.bookPublisher,
+                new BookPublisher
+                {
+                    BookId = 1,
+                    RentCount = 10,
+                    Pages = 200,
+                    PublisherId = 2,
+                    ReleaseDate = DateTime.Now,
+                    Type = BookType.Ebook
+                },
+                new BookPublisher
+                {
+                    BookId = 1,
+                    RentCount = 10,
+                    Pages = 200,
+                    PublisherId = 3,
+                    ReleaseDate = DateTime.Now,
+                    Type = BookType.Ebook
+                },
+                new BookPublisher
+                {
+                    BookId = 2,
+                    RentCount = 10,
+                    Pages = 200,
+                    PublisherId = 1,
+                    ReleaseDate = DateTime.Now,
+                    Type = BookType.Paperback
+                }
+            }.AsQueryable();
+
+            var mockSet = new Mock<DbSet<BookPublisher>>();
+            mockSet.As<IQueryable<BookPublisher>>().Setup(m => m.Provider).Returns(data.Provider);
+            mockSet.As<IQueryable<BookPublisher>>().Setup(m => m.Expression).Returns(data.Expression);
+            mockSet.As<IQueryable<BookPublisher>>().Setup(m => m.ElementType).Returns(data.ElementType);
+            mockSet.As<IQueryable<BookPublisher>>().Setup(m => m.GetEnumerator()).Returns(data.GetEnumerator());
+
+            var mockContext = new Mock<LibraryContext>();
+            mockContext.Setup(x => x.BookPublisher).Returns(mockSet.Object);
+
+            this.service = new BookPublisherService(mockContext.Object);
+
+            var bps = this.service.GetBooksByType(BookType.Audiobook);
+
+            Assert.IsNotNull(bps);
+            Assert.AreEqual(bps.Count(), 0);
+        }
     }
 }

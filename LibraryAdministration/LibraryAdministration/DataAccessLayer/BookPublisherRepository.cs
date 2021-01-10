@@ -60,5 +60,15 @@ namespace LibraryAdministration.DataAccessLayer
 
             return bp.RentCount < (bp.ForRent - (bp.ForRent / 10));
         }
+
+        /// <summary>
+        /// Gets the type of the books by.
+        /// </summary>
+        /// <param name="type">The type.</param>
+        /// <returns>List of books</returns>
+        public List<BookPublisher> GetBooksByType(BookType type)
+        {
+            return Context.BookPublisher.Where(x => x.Type == type).ToList();
+        }
     }
 }

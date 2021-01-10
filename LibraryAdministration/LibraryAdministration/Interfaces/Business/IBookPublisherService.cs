@@ -28,5 +28,12 @@ namespace LibraryAdministration.Interfaces.Business
         /// <param name="bookPublisherId">The book publisher identifier.</param>
         /// <returns>boolean value</returns>
         bool CheckBookDetailsForAvailability(int bookPublisherId);
+
+        /// <summary>
+        /// Gets the type of the books by.
+        /// </summary>
+        /// <param name="type">The type.</param>
+        /// <returns>all books by type</returns>
+        List<BookPublisher> GetBooksByType(BookType type);
     }
 }

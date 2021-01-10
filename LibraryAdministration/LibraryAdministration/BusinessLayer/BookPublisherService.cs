@@ -62,5 +62,18 @@ namespace LibraryAdministration.BusinessLayer
 
             return Repository.CheckBookDetailsForAvailability(bookPublisherId);
         }
+
+        /// <summary>
+        /// Gets the type of the books by.
+        /// </summary>
+        /// <param name="type">The type.</param>
+        /// <returns>
+        /// all books by type
+        /// </returns>
+        /// <exception cref="System.NotImplementedException"></exception>
+        public List<BookPublisher> GetBooksByType(BookType type)
+        {
+            return Repository.GetBooksByType(type);
+        }
     }
 }
