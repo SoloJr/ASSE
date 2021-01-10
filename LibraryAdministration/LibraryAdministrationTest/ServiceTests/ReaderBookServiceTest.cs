@@ -31,11 +31,12 @@ namespace LibraryAdministrationTest.ServiceTests
             Injector.Inject(new MockBindings());
             _readerBook = new ReaderBook
             {
-                LoanDate = DateTime.Now.AddDays(-3),
+                LoanDate = DateTime.Now,
                 DueDate = DateTime.Now.AddDays(14),
                 Id = 1,
                 ReaderId = 1,
-                BookPublisherId = 1
+                BookPublisherId = 1,
+                ExtensionDays = 0
             };
         }
 
@@ -202,20 +203,6 @@ namespace LibraryAdministrationTest.ServiceTests
                     ReaderId = 2,
                     LoanDate = DateTime.Now,
                     Id = 3
-                },
-                new ReaderBook
-                {
-                    BookPublisherId = 2,
-                    ReaderId = 1,
-                    LoanDate = DateTime.Now,
-                    Id = 3
-                },
-                new ReaderBook
-                {
-                    BookPublisherId = 2,
-                    ReaderId = 1,
-                    LoanDate = DateTime.Now,
-                    Id = 3
                 }
             }.AsQueryable();
 
@@ -228,7 +215,7 @@ namespace LibraryAdministrationTest.ServiceTests
             var mockContext = new Mock<LibraryContext>();
             mockContext.Setup(x => x.ReaderBooks).Returns(mockSet.Object);
 
-            _service = new ReaderBookService(mockContext.Object);
+            _service = new ReaderBookService(mockContext.Object, true);
             var result = _service.CheckBooksRentedToday(1);
 
             Assert.IsTrue(result);
@@ -1760,7 +1747,7 @@ namespace LibraryAdministrationTest.ServiceTests
                 {
                     Domains = new List<Domain>
                     {
-                        domains.ElementAt(0)
+                        domains.ElementAt(1)
                     },
                     Id = 2
                 }
@@ -1783,6 +1770,18 @@ namespace LibraryAdministrationTest.ServiceTests
                 new BookPublisher()
                 {
                     Id = 3,
+                    Book = books.ElementAt(1),
+                    BookId = 2
+                },
+                new BookPublisher()
+                {
+                    Id = 4,
+                    Book = books.ElementAt(1),
+                    BookId = 2
+                },
+                new BookPublisher()
+                {
+                    Id = 5,
                     Book = books.ElementAt(1),
                     BookId = 2
                 }
