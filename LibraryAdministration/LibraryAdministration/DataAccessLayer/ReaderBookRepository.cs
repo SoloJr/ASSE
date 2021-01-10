@@ -1,90 +1,84 @@
-﻿using LibraryAdministration.BusinessLayer;
-using LibraryAdministration.DataMapper;
-using LibraryAdministration.DomainModel;
-using LibraryAdministration.Helper;
-using LibraryAdministration.Interfaces.DataAccess;
-using System;
-using System.Collections.Generic;
-using System.Configuration;
-using System.Data.Entity.Core;
-using System.Linq;
+﻿//-----------------------------------------------------------------------
+// <copyright file="ReaderBookRepository.cs" company="Transilvania University of Brasov">
+//     Mircea Solovastru
+// </copyright>
+//-----------------------------------------------------------------------
 
 namespace LibraryAdministration.DataAccessLayer
 {
+    using System;
+    using System.Collections.Generic;
+    using System.Configuration;
+    using System.Data.Entity.Core;
+    using System.Linq;
+    using BusinessLayer;
+    using DataMapper;
+    using DomainModel;
+    using Helper;
+    using Interfaces.DataAccess;
+
+    /// <summary>
+    /// ReaderBook Repository class
+    /// </summary>
+    /// <seealso cref="LibraryAdministration.DataAccessLayer.BaseRepository{LibraryAdministration.DomainModel.ReaderBook}" />
+    /// <seealso cref="LibraryAdministration.Interfaces.DataAccess.IReaderBookRepository" />
     public class ReaderBookRepository : BaseRepository<ReaderBook>, IReaderBookRepository
     {
-        public RentDetails Details { get; private set; }
-
+        /// <summary>
+        /// Initializes a new instance of the <see cref="ReaderBookRepository"/> class.
+        /// </summary>
+        /// <param name="context">The context.</param>
+        /// <param name="isSameAccount">if set to <c>true</c> [is same account].</param>
         public ReaderBookRepository(LibraryContext context, bool isSameAccount = true)
             : base(context)
         {
-            InitRentDetails(isSameAccount);
+            this.InitRentDetails(isSameAccount);
         }
 
-        private void InitRentDetails(bool isSameAccount)
-        {
-            var per = ConfigurationManager.AppSettings["PER"];
-            var nmc = ConfigurationManager.AppSettings["NMC"];
-            var d = ConfigurationManager.AppSettings["D"];
-            var l = ConfigurationManager.AppSettings["L"];
-            var ncz = ConfigurationManager.AppSettings["NCZ"];
-            var delta = ConfigurationManager.AppSettings["DELTA"];
-            var c = ConfigurationManager.AppSettings["C"];
-            var lim = ConfigurationManager.AppSettings["LIM"];
-            var persimp = ConfigurationManager.AppSettings["PERSIMP"];
-            Details = new RentDetails
-            {
-                C = int.Parse(c),
-                D = int.Parse(d),
-                DELTA = int.Parse(delta),
-                LIM = int.Parse(lim),
-                NCZ = int.Parse(ncz),
-                NMC = int.Parse(nmc),
-                PER = int.Parse(per),
-                PERSIMP = int.Parse(persimp),
-                L = int.Parse(l)
-            };
+        /// <summary>
+        /// Gets the details.
+        /// </summary>
+        /// <value>
+        /// The details.
+        /// </value>
+        public RentDetails Details { get; private set; }
 
-            if (isSameAccount != true) return;
-
-            Details.NMC *= 2;
-            Details.C *= 2;
-            Details.D *= 2;
-            Details.LIM *= 2;
-            Details.DELTA = (int)(Details.DELTA / 2);
-            Details.PER = (int)(Details.PER / 2);
-        }
-
+        /// <summary>
+        /// Gets all books on loan.
+        /// </summary>
+        /// <param name="readerId">The reader identifier.</param>
+        /// <returns>List of books on loan</returns>
         public List<ReaderBook> GetAllBooksOnLoan(int readerId)
         {
-            using (_context)
-            {
-                var date = DateTime.Now.AddDays(-(Details.PER));
-                return _context.ReaderBooks.Where(x => x.ReaderId == readerId && x.LoanDate >= date && x.LoanReturnDate == null).ToList();
-            }
+            var date = DateTime.Now.AddDays(-this.Details.PER);
+            return Context.ReaderBooks.Where(x => x.ReaderId == readerId && x.LoanDate >= date && x.LoanReturnDate == null).ToList();
         }
 
+        /// <summary>
+        /// Checks the before loan.
+        /// </summary>
+        /// <param name="readerId">The reader identifier.</param>
+        /// <returns>boolean value</returns>
         public bool CheckBeforeLoan(int readerId)
         {
-            using (_context)
-            {
-                var date = DateTime.Now.AddDays(-(Details.PER));
-                var result = _context.ReaderBooks.Where(x => x.ReaderId == readerId && x.LoanDate >= date && x.LoanReturnDate == null).ToList();
-                if (result.Count > Details.NMC)
-                {
-                    return false;
-                }
-            }
+            var date = DateTime.Now.AddDays(-this.Details.PER);
+            var result = Context.ReaderBooks.Where(x => x.ReaderId == readerId && x.LoanDate >= date && x.LoanReturnDate == null).ToList();
 
-            return true;
+            return result.Count <= this.Details.NMC;
         }
 
+        /// <summary>
+        /// Checks the past loans for domains.
+        /// </summary>
+        /// <param name="readerId">The reader identifier.</param>
+        /// <param name="domainId">The domain identifier.</param>
+        /// <returns>boolean value</returns>
         public bool CheckPastLoansForDomains(int readerId, int domainId)
         {
-            var date = DateTime.Now.AddMonths(-(Details.L));
-            var domainService = new DomainService(_context);
+            var date = DateTime.Now.AddMonths(-this.Details.L);
+            var domainService = new DomainService(Context);
             var domains = domainService.GetAllParentDomains(domainId);
-            var allLoans = _context.ReaderBooks.Where(x => x.ReaderId == readerId && x.LoanDate >= date && x.LoanReturnDate == null).ToList();
+            var allLoans = Context.ReaderBooks.Where(x => x.ReaderId == readerId && x.LoanDate >= date && x.LoanReturnDate == null).ToList();
             var count = 0;
             var domainIds = domains.Select(x => x.Id).ToList();
             foreach (var loan in allLoans)
@@ -98,42 +92,55 @@ namespace LibraryAdministration.DataAccessLayer
                         count++;
                     }
 
-                    foreach (var it in parentDomains)
-                    {
-                        if (domainIds.Contains(it))
-                        {
-                            count++;
-                        }
-                    }
+                    count += parentDomains.Count(it => domainIds.Contains(it));
                 }
             }
 
-            return count <= Details.D;
+            return count <= this.Details.D;
         }
 
+        /// <summary>
+        /// Checks the books rented today.
+        /// </summary>
+        /// <param name="readerId">The reader identifier.</param>
+        /// <returns>boolean value</returns>
         public bool CheckBooksRentedToday(int readerId)
         {
             var date = DateTime.Today;
-            var result = _context.ReaderBooks.Where(x => x.ReaderId == readerId && x.LoanDate >= date && x.LoanReturnDate == null).ToList();
+            var result = Context.ReaderBooks.Where(x => x.ReaderId == readerId && x.LoanDate >= date && x.LoanReturnDate == null).ToList();
 
-            return result.Count <= Details.NCZ;
+            return result.Count <= this.Details.NCZ;
         }
 
+        /// <summary>
+        /// Checks the same book rented.
+        /// </summary>
+        /// <param name="bookId">The book identifier.</param>
+        /// <param name="readerId">The reader identifier.</param>
+        /// <returns>boolean value</returns>
         public bool CheckSameBookRented(int bookId, int readerId)
         {
-            var data = _context.ReaderBooks.Where(x => x.ReaderId == readerId && x.BookPublisher.BookId == bookId).ToList();
+            var data = Context.ReaderBooks.Where(x => x.ReaderId == readerId && x.BookPublisher.BookId == bookId).ToList();
 
-            var ddlDate = DateTime.Now.AddDays(-(Details.DELTA));
+            var ddlDate = DateTime.Now.AddDays(-this.Details.DELTA);
 
             return data.Count == 0 || data.All(rb => rb.LoanDate <= ddlDate);
         }
 
+        /// <summary>
+        /// Checks the loan extension.
+        /// </summary>
+        /// <param name="id">The identifier.</param>
+        /// <param name="days">The days.</param>
+        /// <returns>boolean value</returns>
+        /// <exception cref="ObjectNotFoundException">Loan object not found</exception>
+        /// <exception cref="LoanExtensionException">Error in extending loan availability</exception>
         public bool CheckLoanExtension(int id, int days)
         {
-            var loan = _context.ReaderBooks.FirstOrDefault(x => x.Id == id) ??
+            var loan = Context.ReaderBooks.FirstOrDefault(x => x.Id == id) ??
                        throw new ObjectNotFoundException("Loan not found");
 
-            if (loan.ExtensionDays + days > Details.LIM)
+            if (loan.ExtensionDays + days > this.Details.LIM)
             {
                 throw new LoanExtensionException();
             }
@@ -141,9 +148,16 @@ namespace LibraryAdministration.DataAccessLayer
             return true;
         }
 
+        /// <summary>
+        /// Extends the loan.
+        /// </summary>
+        /// <param name="id">The identifier.</param>
+        /// <param name="days">The days.</param>
+        /// <returns>The ReaderBook updated object</returns>
+        /// <exception cref="ObjectNotFoundException">Loan not found</exception>
         public ReaderBook ExtendLoan(int id, int days)
         {
-            var loan = _context.ReaderBooks.First(x => x.Id == id)
+            var loan = Context.ReaderBooks.First(x => x.Id == id)
                 ?? throw new ObjectNotFoundException("Loan not found");
 
             loan.ExtensionDays = days;
@@ -155,17 +169,22 @@ namespace LibraryAdministration.DataAccessLayer
             return loan;
         }
 
+        /// <summary>
+        /// Checks the multiple books domain match.
+        /// </summary>
+        /// <param name="bookPublisherIds">The book publisher ids.</param>
+        /// <returns>boolean value</returns>
         public bool CheckMultipleBooksDomainMatch(List<int> bookPublisherIds)
         {
-            if (bookPublisherIds.Count <= Details.C)
+            if (bookPublisherIds.Count <= this.Details.C)
             {
                 return true;
             }
 
             var list = bookPublisherIds
-                .Select(id => _context.BookPublisher.FirstOrDefault(x => x.Id == id) ?? throw new ObjectNotFoundException()).ToList();
+                .Select(id => Context.BookPublisher.FirstOrDefault(x => x.Id == id) ?? throw new ObjectNotFoundException()).ToList();
 
-            var books = list.Select(id => _context.Books.FirstOrDefault(x => x.Id == id.BookId)).Distinct().ToList();
+            var books = list.Select(id => Context.Books.FirstOrDefault(x => x.Id == id.BookId)).Distinct().ToList();
 
             var domainIds = new HashSet<int>();
 
@@ -175,6 +194,47 @@ namespace LibraryAdministration.DataAccessLayer
             }
 
             return domainIds.Count >= 2;
+        }
+
+        /// <summary>
+        /// Initializes the rent details.
+        /// </summary>
+        /// <param name="isSameAccount">if set to <c>true</c> [is same account].</param>
+        private void InitRentDetails(bool isSameAccount)
+        {
+            var per = ConfigurationManager.AppSettings["PER"];
+            var nmc = ConfigurationManager.AppSettings["NMC"];
+            var d = ConfigurationManager.AppSettings["D"];
+            var l = ConfigurationManager.AppSettings["L"];
+            var ncz = ConfigurationManager.AppSettings["NCZ"];
+            var delta = ConfigurationManager.AppSettings["DELTA"];
+            var c = ConfigurationManager.AppSettings["C"];
+            var lim = ConfigurationManager.AppSettings["LIM"];
+            var persimp = ConfigurationManager.AppSettings["PERSIMP"];
+            this.Details = new RentDetails
+            {
+                C = int.Parse(c),
+                D = int.Parse(d),
+                DELTA = int.Parse(delta),
+                LIM = int.Parse(lim),
+                NCZ = int.Parse(ncz),
+                NMC = int.Parse(nmc),
+                PER = int.Parse(per),
+                PERSIMP = int.Parse(persimp),
+                L = int.Parse(l)
+            };
+
+            if (isSameAccount != true)
+            {
+                return;
+            }
+
+            this.Details.NMC *= 2;
+            this.Details.C *= 2;
+            this.Details.D *= 2;
+            this.Details.LIM *= 2;
+            this.Details.DELTA = (int)(this.Details.DELTA / 2);
+            this.Details.PER = (int)(this.Details.PER / 2);
         }
     }
 }

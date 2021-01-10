@@ -1,82 +1,117 @@
-﻿using LibraryAdministration.DataMapper;
-using LibraryAdministration.Interfaces.DataAccess;
-using System.Collections.Generic;
-using System.Data.Entity;
-using System.Linq;
+﻿//-----------------------------------------------------------------------
+// <copyright file="BaseRepository.cs" company="Transilvania University of Brasov">
+//     Mircea Solovastru
+// </copyright>
+//-----------------------------------------------------------------------
 
 namespace LibraryAdministration.DataAccessLayer
 {
+    using System.Collections.Generic;
+    using System.Data.Entity;
+    using System.Linq;
+    using DataMapper;
+    using Interfaces.DataAccess;
+
+    /// <summary>
+    /// BaseRepository class
+    /// </summary>
+    /// <typeparam name="T">Domain Model class</typeparam>
+    /// <seealso cref="LibraryAdministration.Interfaces.DataAccess.IRepository{T}" />
     public abstract class BaseRepository<T> : IRepository<T>
         where T : class
     {
-        protected LibraryContext _context;
-
+        /// <summary>
+        /// Initializes a new instance of the <see cref="BaseRepository{T}"/> class.
+        /// </summary>
+        /// <param name="context">The context.</param>
         protected BaseRepository(LibraryContext context)
         {
-            _context = context;
+            this.Context = context;
         }
 
+        /// <summary>
+        /// Gets or sets the context.
+        /// </summary>
+        /// <value>
+        /// The context.
+        /// </value>
+        protected LibraryContext Context { get; set; }
+
+        /// <summary>
+        /// Inserts the specified entity.
+        /// </summary>
+        /// <param name="entity">The entity.</param>
         public virtual void Insert(T entity)
         {
-            using (_context)
-            {
-                var dbSet = _context.Set<T>();
-                dbSet.Add(entity);
+            var set = this.Context.Set<T>();
+            set.Add(entity);
 
-                _context.SaveChanges();
-            }
+            this.Context.SaveChanges();
         }
 
+        /// <summary>
+        /// Updates the specified item.
+        /// </summary>
+        /// <param name="item">The item.</param>
         public virtual void Update(T item)
         {
-            using (_context)
-            {
-                var dbSet = _context.Set<T>();
-                dbSet.Attach(item);
-                _context.Entry(item).State = EntityState.Modified;
+            var set = this.Context.Set<T>();
+            set.Attach(item);
+            this.Context.Entry(item).State = EntityState.Modified;
 
-                _context.SaveChanges();
-            }
+            this.Context.SaveChanges();
         }
 
+        /// <summary>
+        /// Deletes the specified identifier.
+        /// </summary>
+        /// <param name="id">The identifier.</param>
         public virtual void Delete(object id)
         {
-            Delete(GetById(id));
+            this.Delete(this.GetById(id));
         }
 
+        /// <summary>
+        /// Deletes the specified entity to delete.
+        /// </summary>
+        /// <param name="entityToDelete">The entity to delete.</param>
         public virtual void Delete(T entityToDelete)
         {
-            using (_context)
+            var set = this.Context.Set<T>();
+
+            if (this.Context.Entry(entityToDelete).State == EntityState.Detached)
             {
-                var dbSet = _context.Set<T>();
-
-                if (_context.Entry(entityToDelete).State == EntityState.Detached)
-                {
-                    dbSet.Attach(entityToDelete);
-                }
-
-                dbSet.Remove(entityToDelete);
-
-                _context.SaveChanges();
+                set.Attach(entityToDelete);
             }
+
+            set.Remove(entityToDelete);
+
+            this.Context.SaveChanges();
         }
 
+        /// <summary>
+        /// Gets the by identifier.
+        /// </summary>
+        /// <param name="id">The identifier.</param>
+        /// <returns>
+        /// The object
+        /// </returns>
         public virtual T GetById(object id)
         {
-            using (_context)
-            {
-                return _context.Set<T>().Find(id);
-            }
+            return this.Context.Set<T>().Find(id);
         }
 
+        /// <summary>
+        /// Gets all.
+        /// </summary>
+        /// <returns>
+        /// All the objects
+        /// </returns>
         public IEnumerable<T> GetAll()
         {
-            using (_context)
-            {
-                var dbSet = _context.Set<T>();
+            var set = this.Context.Set<T>();
 
-                return dbSet.ToList();
-            }
+            return set.ToList();
         }
     }
 }

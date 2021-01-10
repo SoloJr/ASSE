@@ -1,26 +1,56 @@
-﻿using LibraryAdministration.DataMapper;
-using LibraryAdministration.DomainModel;
-using LibraryAdministration.Interfaces.DataAccess;
-using System.Collections.Generic;
-using System.Data.Entity.Core;
-using System.Linq;
+﻿//-----------------------------------------------------------------------
+// <copyright file="BookPublisherRepository.cs" company="Transilvania University of Brasov">
+//     Mircea Solovastru
+// </copyright>
+//-----------------------------------------------------------------------
+
 namespace LibraryAdministration.DataAccessLayer
 {
+    using System.Collections.Generic;
+    using System.Data.Entity.Core;
+    using System.Linq;
+    using DataMapper;
+    using DomainModel;
+    using Interfaces.DataAccess;
+
+    /// <summary>
+    /// BookPublisher Repository class
+    /// </summary>
+    /// <seealso cref="LibraryAdministration.DataAccessLayer.BaseRepository{LibraryAdministration.DomainModel.BookPublisher}" />
+    /// <seealso cref="LibraryAdministration.Interfaces.DataAccess.IBookPublisherRepository" />
     public class BookPublisherRepository : BaseRepository<BookPublisher>, IBookPublisherRepository
     {
-        public BookPublisherRepository(LibraryContext context) : base(context) { }
-
-
-        public IEnumerable<BookPublisher> GetAllEditionsOfBook(int bookId)
+        /// <summary>
+        /// Initializes a new instance of the <see cref="BookPublisherRepository"/> class.
+        /// </summary>
+        /// <param name="context">The context.</param>
+        public BookPublisherRepository(LibraryContext context)
+            : base(context)
         {
-            var book = _context.Books.FirstOrDefault(x => x.Id == bookId) ?? throw new ObjectNotFoundException("Book not found");
-
-            return _context.BookPublisher.Where(x => x.BookId == book.Id).ToList();
         }
 
+        /// <summary>
+        /// Gets all editions of book.
+        /// </summary>
+        /// <param name="bookId">The book identifier.</param>
+        /// <returns>All editions of a book</returns>
+        /// <exception cref="ObjectNotFoundException">Book not found</exception>
+        public IEnumerable<BookPublisher> GetAllEditionsOfBook(int bookId)
+        {
+            var book = Context.Books.FirstOrDefault(x => x.Id == bookId) ?? throw new ObjectNotFoundException("Book not found");
+
+            return Context.BookPublisher.Where(x => x.BookId == book.Id).ToList();
+        }
+
+        /// <summary>
+        /// Checks the book details for availability.
+        /// </summary>
+        /// <param name="bookPublisherId">The book publisher identifier.</param>
+        /// <returns>boolean value</returns>
+        /// <exception cref="ObjectNotFoundException">Book not found</exception>
         public bool CheckBookDetailsForAvailability(int bookPublisherId)
         {
-            var bp = _context.BookPublisher.FirstOrDefault(x => x.Id == bookPublisherId)
+            var bp = Context.BookPublisher.FirstOrDefault(x => x.Id == bookPublisherId)
                 ?? throw new ObjectNotFoundException("Book not found");
 
             if (bp.ForRent <= 0)
