@@ -11,7 +11,7 @@ namespace LibraryAdministration.Interfaces.DataAccess
     /// <summary>
     /// Base Repository Generic Interface
     /// </summary>
-    /// <typeparam name="T"></typeparam>
+    /// <typeparam name="T">Domain Model class</typeparam>
     public interface IRepository<T>
     {
         /// <summary>
