@@ -4,8 +4,6 @@
 // </copyright>
 //-----------------------------------------------------------------------
 
-
-
 namespace LibraryAdministration.Interfaces.Business
 {
     using System.Collections.Generic;

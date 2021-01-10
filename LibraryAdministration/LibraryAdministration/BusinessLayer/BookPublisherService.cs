@@ -70,7 +70,6 @@ namespace LibraryAdministration.BusinessLayer
         /// <returns>
         /// all books by type
         /// </returns>
-        /// <exception cref="System.NotImplementedException"></exception>
         public List<BookPublisher> GetBooksByType(BookType type)
         {
             return Repository.GetBooksByType(type);

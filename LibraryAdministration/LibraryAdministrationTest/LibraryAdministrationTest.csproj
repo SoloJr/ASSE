@@ -79,6 +79,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="StartupTests\DataMapperTests.cs" />
     <Compile Include="DomainModelTests\AuthorTest.cs" />
     <Compile Include="DomainModelTests\BookPublisherTest.cs" />
     <Compile Include="DomainModelTests\BookTest.cs" />

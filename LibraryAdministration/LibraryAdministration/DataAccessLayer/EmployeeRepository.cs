@@ -4,11 +4,10 @@
 // </copyright>
 //-----------------------------------------------------------------------
 
-using System.Linq;
-
 namespace LibraryAdministration.DataAccessLayer
 {
     using System.Collections.Generic;
+    using System.Linq;
     using DataMapper;
     using DomainModel;
     using Interfaces.DataAccess;

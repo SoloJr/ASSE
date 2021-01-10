@@ -4,10 +4,9 @@
 // </copyright>
 //-----------------------------------------------------------------------
 
-using System.Collections.Generic;
-
 namespace LibraryAdministration.BusinessLayer
 {
+    using System.Collections.Generic;
     using DataAccessLayer;
     using DataMapper;
     using DomainModel;

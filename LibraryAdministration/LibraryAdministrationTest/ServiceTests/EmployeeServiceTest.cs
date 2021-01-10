@@ -190,7 +190,7 @@ namespace LibraryAdministrationTest.ServiceTests
                     Info = new PersonalInfo
                     {
                         Email = "mircea@google.com",
-                        PhoneNumber = ""
+                        PhoneNumber = string.Empty
                     }
                 },
                 new Employee
@@ -203,7 +203,7 @@ namespace LibraryAdministrationTest.ServiceTests
                     Info = new PersonalInfo
                     {
                         PhoneNumber = "0752365981",
-                        Email = ""
+                        Email = string.Empty
                     }
                 }
             }.AsQueryable();
@@ -244,7 +244,7 @@ namespace LibraryAdministrationTest.ServiceTests
                     Info = new PersonalInfo
                     {
                         Email = "mircea@google.com",
-                        PhoneNumber = ""
+                        PhoneNumber = string.Empty
                     }
                 },
                 new Employee
@@ -257,7 +257,7 @@ namespace LibraryAdministrationTest.ServiceTests
                     Info = new PersonalInfo
                     {
                         PhoneNumber = "0752365981",
-                        Email = ""
+                        Email = string.Empty
                     }
                 }
             }.AsQueryable();
@@ -298,7 +298,7 @@ namespace LibraryAdministrationTest.ServiceTests
                     Info = new PersonalInfo
                     {
                         Email = "mircea@google.com",
-                        PhoneNumber = ""
+                        PhoneNumber = string.Empty
                     }
                 },
                 new Employee
@@ -311,7 +311,7 @@ namespace LibraryAdministrationTest.ServiceTests
                     Info = new PersonalInfo
                     {
                         PhoneNumber = "0752365981",
-                        Email = ""
+                        Email = string.Empty
                     }
                 }
             }.AsQueryable();
