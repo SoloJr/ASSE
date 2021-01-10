@@ -1,19 +1,35 @@
-﻿using LibraryAdministration.BusinessLayer;
-using LibraryAdministration.DataAccessLayer;
-using LibraryAdministration.Interfaces.Business;
-using LibraryAdministration.Interfaces.DataAccess;
-using Ninject.Modules;
+﻿//---------------------------------------------------------------------
+// <copyright file="MockBindings.cs" company="Transilvania University of Brasov">
+//     Mircea Solovastru
+// </copyright>
+//-----------------------------------------------------------------------
 
 namespace LibraryAdministrationTest.Mocks
 {
+    using LibraryAdministration.BusinessLayer;
+    using LibraryAdministration.DataAccessLayer;
+    using LibraryAdministration.Interfaces.Business;
+    using LibraryAdministration.Interfaces.DataAccess;
+    using Ninject.Modules;
+
+    /// <summary>
+    /// MockBindings class
+    /// </summary>
+    /// <seealso cref="Ninject.Modules.NinjectModule" />
     internal class MockBindings : NinjectModule
     {
+        /// <summary>
+        /// Loads the module into the kernel.
+        /// </summary>
         public override void Load()
         {
-            LoadRepositoryLayer();
-            LoadServiceLayer();
+            this.LoadRepositoryLayer();
+            this.LoadServiceLayer();
         }
 
+        /// <summary>
+        /// Loads the repository layer.
+        /// </summary>
         private void LoadRepositoryLayer()
         {
             Bind<IAuthorService>().To<AuthorService>();
@@ -27,6 +43,9 @@ namespace LibraryAdministrationTest.Mocks
             Bind<IReaderBookService>().To<ReaderBookService>();
         }
 
+        /// <summary>
+        /// Loads the service layer.
+        /// </summary>
         private void LoadServiceLayer()
         {
             Bind<IAuthorRepository>().To<AuthorRepository>();
