@@ -1,23 +1,41 @@
-﻿using LibraryAdministration.DomainModel;
-using LibraryAdministration.Validators;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
-using System;
-using System.Collections.Generic;
-using System.Linq;
+﻿//---------------------------------------------------------------------
+// <copyright file="BookTest.cs" company="Transilvania University of Brasov">
+//     Mircea Solovastru
+// </copyright>
+//-----------------------------------------------------------------------
 
 namespace LibraryAdministrationTest.DomainModelTests
 {
+    using System;
+    using System.Collections.Generic;
+    using System.Linq;
+    using LibraryAdministration.DomainModel;
+    using LibraryAdministration.Validators;
+    using Microsoft.VisualStudio.TestTools.UnitTesting;
+
+    /// <summary>
+    /// Book Test for Domain Model
+    /// </summary>
     [TestClass]
     public class BookTest
     {
-        private BookValidator _bookValidator;
+        /// <summary>
+        /// The validator
+        /// </summary>
+        private BookValidator validator;
 
+        /// <summary>
+        /// Initializes this instance.
+        /// </summary>
         [TestInitialize]
         public void Init()
         {
-            _bookValidator = new BookValidator();
+            this.validator = new BookValidator();
         }
 
+        /// <summary>
+        /// Tests the create book without authors publishers domains.
+        /// </summary>
         [TestMethod]
         public void TestCreateBookWithoutAuthorsPublishersDomains()
         {
@@ -28,13 +46,16 @@ namespace LibraryAdministrationTest.DomainModelTests
                 Year = 1885
             };
 
-            var result = _bookValidator.Validate(book);
+            var result = this.validator.Validate(book);
 
             Assert.IsNotNull(result);
             Assert.AreEqual(result.IsValid, false);
             Assert.IsTrue(result.Errors.Count > 0);
         }
 
+        /// <summary>
+        /// Tests the name of the create book without.
+        /// </summary>
         [TestMethod]
         public void TestCreateBookWithoutName()
         {
@@ -44,13 +65,16 @@ namespace LibraryAdministrationTest.DomainModelTests
                 Year = 1885
             };
 
-            var result = _bookValidator.Validate(book);
+            var result = this.validator.Validate(book);
 
             Assert.IsNotNull(result);
             Assert.AreEqual(result.IsValid, false);
             Assert.IsTrue(result.Errors.Any(x => x.ErrorMessage.Contains("must not be empty")));
         }
 
+        /// <summary>
+        /// Tests the create book without year.
+        /// </summary>
         [TestMethod]
         public void TestCreateBookWithoutYear()
         {
@@ -60,13 +84,16 @@ namespace LibraryAdministrationTest.DomainModelTests
                 Name = "Amintiri din Copilarie"
             };
 
-            var result = _bookValidator.Validate(book);
+            var result = this.validator.Validate(book);
 
             Assert.IsNotNull(result);
             Assert.AreEqual(result.IsValid, false);
             Assert.IsTrue(result.Errors.Any(x => x.ErrorMessage.Contains("must not be empty")));
         }
 
+        /// <summary>
+        /// Tests the create book without language.
+        /// </summary>
         [TestMethod]
         public void TestCreateBookWithoutLanguage()
         {
@@ -76,13 +103,16 @@ namespace LibraryAdministrationTest.DomainModelTests
                 Name = "Amintiri din Copilarie"
             };
 
-            var result = _bookValidator.Validate(book);
+            var result = this.validator.Validate(book);
 
             Assert.IsNotNull(result);
             Assert.AreEqual(result.IsValid, false);
             Assert.IsTrue(result.Errors.Any(x => x.ErrorMessage.Contains("must not be empty")));
         }
 
+        /// <summary>
+        /// Tests the create book with too many domains.
+        /// </summary>
         [TestMethod]
         public void TestCreateBookWithTooManyDomains()
         {
@@ -118,13 +148,16 @@ namespace LibraryAdministrationTest.DomainModelTests
                 }
             };
 
-            var result = _bookValidator.Validate(book);
+            var result = this.validator.Validate(book);
 
             Assert.IsNotNull(result);
             Assert.AreEqual(result.IsValid, false);
             Assert.IsTrue(result.Errors.Any(x => x.ErrorMessage.Contains("The book cannot be in more")));
         }
 
+        /// <summary>
+        /// Tests the kind of the create book with many domains of same.
+        /// </summary>
         [TestMethod]
         public void TestCreateBookWithManyDomainsOfSameKind()
         {
@@ -158,13 +191,16 @@ namespace LibraryAdministrationTest.DomainModelTests
                 }
             };
 
-            var result = _bookValidator.Validate(book);
+            var result = this.validator.Validate(book);
 
             Assert.IsNotNull(result);
             Assert.AreEqual(result.IsValid, false);
             Assert.IsTrue(result.Errors.Any(x => x.ErrorMessage.Contains("The book cannot be in more")));
         }
 
+        /// <summary>
+        /// Tests the book identifier.
+        /// </summary>
         [TestMethod]
         public void TestBookId()
         {
@@ -179,12 +215,11 @@ namespace LibraryAdministrationTest.DomainModelTests
                 {
                     new Author
                     {
-
                     }
                 }
             };
 
-            var result = _bookValidator.Validate(book);
+            var result = this.validator.Validate(book);
 
             Assert.AreEqual(bookId, book.Id);
             Assert.IsNotNull(result);
@@ -192,6 +227,9 @@ namespace LibraryAdministrationTest.DomainModelTests
             Assert.AreEqual(result.Errors.Count, 0);
         }
 
+        /// <summary>
+        /// Tests the book with authors.
+        /// </summary>
         [TestMethod]
         public void TestBookWithAuthors()
         {
@@ -211,13 +249,16 @@ namespace LibraryAdministrationTest.DomainModelTests
 
             book.Authors.Add(author);
 
-            var result = _bookValidator.Validate(book);
+            var result = this.validator.Validate(book);
 
             Assert.IsNotNull(result);
             Assert.AreEqual(result.IsValid, true);
             Assert.AreEqual(result.Errors.Count, 0);
         }
 
+        /// <summary>
+        /// Tests the book with publishers.
+        /// </summary>
         [TestMethod]
         public void TestBookWithPublishers()
         {
@@ -250,7 +291,7 @@ namespace LibraryAdministrationTest.DomainModelTests
 
             book.Publishers.Add(bookPublisher);
 
-            var result = _bookValidator.Validate(book);
+            var result = this.validator.Validate(book);
 
             Assert.IsNotNull(result);
             Assert.AreEqual(result.IsValid, true);

@@ -1,22 +1,40 @@
-﻿using LibraryAdministration.DomainModel;
-using LibraryAdministration.Validators;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
-using System;
-using System.Linq;
+﻿//-----------------------------------------------------------------------
+// <copyright file="AuthorTest.cs" company="Transilvania University of Brasov">
+//     Mircea Solovastru
+// </copyright>
+//-----------------------------------------------------------------------
 
 namespace LibraryAdministrationTest.DomainModelTests
 {
+    using System;
+    using System.Linq;
+    using LibraryAdministration.DomainModel;
+    using LibraryAdministration.Validators;
+    using Microsoft.VisualStudio.TestTools.UnitTesting;
+
+    /// <summary>
+    /// Author Tests for Domain Model
+    /// </summary>
     [TestClass]
     public class AuthorTest
     {
-        private AuthorValidator _validator;
+        /// <summary>
+        /// The validator
+        /// </summary>
+        private AuthorValidator validator;
 
+        /// <summary>
+        /// Initializes this instance.
+        /// </summary>
         [TestInitialize]
         public void Init()
         {
-            _validator = new AuthorValidator(); ;
+            this.validator = new AuthorValidator();
         }
 
+        /// <summary>
+        /// Tests the create author success.
+        /// </summary>
         [TestMethod]
         public void TestCreateAuthorSuccess()
         {
@@ -30,7 +48,7 @@ namespace LibraryAdministrationTest.DomainModelTests
                 Id = authorId
             };
 
-            var result = _validator.Validate(author);
+            var result = this.validator.Validate(author);
 
             Assert.IsTrue(authorId == author.Id);
             Assert.IsNotNull(result);
@@ -38,6 +56,9 @@ namespace LibraryAdministrationTest.DomainModelTests
             Assert.IsTrue(result.Errors.Count == 0);
         }
 
+        /// <summary>
+        /// Tests the name of the create author fail no.
+        /// </summary>
         [TestMethod]
         public void TestCreateAuthorFailNoName()
         {
@@ -47,13 +68,16 @@ namespace LibraryAdministrationTest.DomainModelTests
                 Country = "Romania"
             };
 
-            var result = _validator.Validate(author);
+            var result = this.validator.Validate(author);
 
             Assert.IsNotNull(result);
             Assert.IsFalse(result.IsValid);
             Assert.IsFalse(result.Errors.Count == 0);
         }
 
+        /// <summary>
+        /// Tests the create author fail no country.
+        /// </summary>
         [TestMethod]
         public void TestCreateAuthorFailNoCountry()
         {
@@ -63,13 +87,16 @@ namespace LibraryAdministrationTest.DomainModelTests
                 Name = "Ion Creanga"
             };
 
-            var result = _validator.Validate(author);
+            var result = this.validator.Validate(author);
 
             Assert.IsNotNull(result);
             Assert.IsFalse(result.IsValid);
             Assert.IsFalse(result.Errors.Count == 0);
         }
 
+        /// <summary>
+        /// Tests the create author fail no birth date.
+        /// </summary>
         [TestMethod]
         public void TestCreateAuthorFailNoBirthDate()
         {
@@ -79,13 +106,16 @@ namespace LibraryAdministrationTest.DomainModelTests
                 Name = "Ion Creanga"
             };
 
-            var result = _validator.Validate(author);
+            var result = this.validator.Validate(author);
 
             Assert.IsNotNull(result);
             Assert.IsFalse(result.IsValid);
             Assert.IsFalse(result.Errors.Count == 0);
         }
 
+        /// <summary>
+        /// Tests the create author fail name too short.
+        /// </summary>
         [TestMethod]
         public void TestCreateAuthorFailNameTooShort()
         {
@@ -96,13 +126,16 @@ namespace LibraryAdministrationTest.DomainModelTests
                 Name = "IC"
             };
 
-            var result = _validator.Validate(author);
+            var result = this.validator.Validate(author);
 
             Assert.IsNotNull(result);
             Assert.IsFalse(result.IsValid);
             Assert.IsFalse(result.Errors.Count == 0);
         }
 
+        /// <summary>
+        /// Tests the create author fail name too long.
+        /// </summary>
         [TestMethod]
         public void TestCreateAuthorFailNameTooLong()
         {
@@ -113,13 +146,16 @@ namespace LibraryAdministrationTest.DomainModelTests
                 Name = "Ion Creanga Romania Ion Creanga Romania Ion Creanga Romania Ion Creanga Romania Ion Creanga Romania Ion Creanga Romania"
             };
 
-            var result = _validator.Validate(author);
+            var result = this.validator.Validate(author);
 
             Assert.IsNotNull(result);
             Assert.IsFalse(result.IsValid);
             Assert.IsFalse(result.Errors.Count == 0);
         }
 
+        /// <summary>
+        /// Tests the create author with books success.
+        /// </summary>
         [TestMethod]
         public void TestCreateAuthorWithBooksSuccess()
         {
@@ -143,7 +179,7 @@ namespace LibraryAdministrationTest.DomainModelTests
             author.Books.Add(book);
             book.Authors.Add(author);
 
-            var result = _validator.Validate(author);
+            var result = this.validator.Validate(author);
 
             Assert.IsTrue(authorId == author.Id);
             Assert.IsNotNull(result);

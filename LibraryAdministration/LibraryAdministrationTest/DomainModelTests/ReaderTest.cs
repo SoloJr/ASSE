@@ -1,23 +1,38 @@
-﻿using LibraryAdministration.DomainModel;
-using LibraryAdministration.Validators;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+﻿//---------------------------------------------------------------------
+// <copyright file="ReaderTest.cs" company="Transilvania University of Brasov">
+//     Mircea Solovastru
+// </copyright>
+//-----------------------------------------------------------------------
 
 namespace LibraryAdministrationTest.DomainModelTests
 {
+    using LibraryAdministration.DomainModel;
+    using LibraryAdministration.Validators;
+    using Microsoft.VisualStudio.TestTools.UnitTesting;
+
+    /// <summary>
+    /// Reader Domain Model Tests
+    /// </summary>
     [TestClass]
     public class ReaderTest
     {
-        private ReaderValidator _readerValidator;
+        /// <summary>
+        /// The reader validator
+        /// </summary>
+        private ReaderValidator readerValidator;
 
-        private ReaderBookValidator _readerBookValidator;
-
+        /// <summary>
+        /// Initializes this instance.
+        /// </summary>
         [TestInitialize]
         public void Init()
         {
-            _readerValidator = new ReaderValidator();
-            _readerBookValidator = new ReaderBookValidator();
+            this.readerValidator = new ReaderValidator();
         }
 
+        /// <summary>
+        /// Tests the create reader success.
+        /// </summary>
         [TestMethod]
         public void TestCreateReaderSuccess()
         {
@@ -36,7 +51,7 @@ namespace LibraryAdministrationTest.DomainModelTests
 
             reader.ReaderPersonalInfoId = reader.Info.Id;
 
-            var result = _readerValidator.Validate(reader);
+            var result = this.readerValidator.Validate(reader);
 
             Assert.IsNotNull(result);
             Assert.IsTrue(result.IsValid);
@@ -44,6 +59,9 @@ namespace LibraryAdministrationTest.DomainModelTests
             Assert.IsNotNull(reader.Info);
         }
 
+        /// <summary>
+        /// Tests the create reader success but with only one personal information.
+        /// </summary>
         [TestMethod]
         public void TestCreateReaderSuccessButWithOnlyOnePersonalInfo()
         {
@@ -58,13 +76,16 @@ namespace LibraryAdministrationTest.DomainModelTests
                 LastName = "Solovastru"
             };
 
-            var result = _readerValidator.Validate(reader);
+            var result = this.readerValidator.Validate(reader);
 
             Assert.IsNotNull(result);
             Assert.IsTrue(result.IsValid);
             Assert.IsTrue(result.Errors.Count == 0);
         }
 
+        /// <summary>
+        /// Tests the create reader fail with no address.
+        /// </summary>
         [TestMethod]
         public void TestCreateReaderFailWithNoAddress()
         {
@@ -79,13 +100,16 @@ namespace LibraryAdministrationTest.DomainModelTests
                 LastName = "Solovastru"
             };
 
-            var result = _readerValidator.Validate(reader);
+            var result = this.readerValidator.Validate(reader);
 
             Assert.IsNotNull(result);
             Assert.IsFalse(result.IsValid);
             Assert.IsFalse(result.Errors.Count == 0);
         }
 
+        /// <summary>
+        /// Tests the first name of the create reader fail with no.
+        /// </summary>
         [TestMethod]
         public void TestCreateReaderFailWithNoFirstName()
         {
@@ -100,13 +124,16 @@ namespace LibraryAdministrationTest.DomainModelTests
                 LastName = "Solovastru"
             };
 
-            var result = _readerValidator.Validate(reader);
+            var result = this.readerValidator.Validate(reader);
 
             Assert.IsNotNull(result);
             Assert.IsFalse(result.IsValid);
             Assert.IsFalse(result.Errors.Count == 0);
         }
 
+        /// <summary>
+        /// Tests the last name of the create reader fail with.
+        /// </summary>
         [TestMethod]
         public void TestCreateReaderFailWithLastName()
         {
@@ -121,13 +148,16 @@ namespace LibraryAdministrationTest.DomainModelTests
                 FirstName = "Mircea",
             };
 
-            var result = _readerValidator.Validate(reader);
+            var result = this.readerValidator.Validate(reader);
 
             Assert.IsNotNull(result);
             Assert.IsFalse(result.IsValid);
             Assert.IsFalse(result.Errors.Count == 0);
         }
 
+        /// <summary>
+        /// Tests the create reader fail with address too long.
+        /// </summary>
         [TestMethod]
         public void TestCreateReaderFailWithAddressTooLong()
         {
@@ -143,13 +173,16 @@ namespace LibraryAdministrationTest.DomainModelTests
                 LastName = "Solovastru"
             };
 
-            var result = _readerValidator.Validate(reader);
+            var result = this.readerValidator.Validate(reader);
 
             Assert.IsNotNull(result);
             Assert.IsFalse(result.IsValid);
             Assert.IsFalse(result.Errors.Count == 0);
         }
 
+        /// <summary>
+        /// Tests the create reader fail with address too short.
+        /// </summary>
         [TestMethod]
         public void TestCreateReaderFailWithAddressTooShort()
         {
@@ -165,13 +198,16 @@ namespace LibraryAdministrationTest.DomainModelTests
                 LastName = "Solovastru"
             };
 
-            var result = _readerValidator.Validate(reader);
+            var result = this.readerValidator.Validate(reader);
 
             Assert.IsNotNull(result);
             Assert.IsFalse(result.IsValid);
             Assert.IsFalse(result.Errors.Count == 0);
         }
 
+        /// <summary>
+        /// Tests the create reader fail with first name too long.
+        /// </summary>
         [TestMethod]
         public void TestCreateReaderFailWithFirstNameTooLong()
         {
@@ -187,13 +223,16 @@ namespace LibraryAdministrationTest.DomainModelTests
                 LastName = "Solovastru"
             };
 
-            var result = _readerValidator.Validate(reader);
+            var result = this.readerValidator.Validate(reader);
 
             Assert.IsNotNull(result);
             Assert.IsFalse(result.IsValid);
             Assert.IsFalse(result.Errors.Count == 0);
         }
 
+        /// <summary>
+        /// Tests the create reader fail with first name too short.
+        /// </summary>
         [TestMethod]
         public void TestCreateReaderFailWithFirstNameTooShort()
         {
@@ -209,13 +248,16 @@ namespace LibraryAdministrationTest.DomainModelTests
                 LastName = "Solovastru"
             };
 
-            var result = _readerValidator.Validate(reader);
+            var result = this.readerValidator.Validate(reader);
 
             Assert.IsNotNull(result);
             Assert.IsFalse(result.IsValid);
             Assert.IsFalse(result.Errors.Count == 0);
         }
 
+        /// <summary>
+        /// Tests the create reader fail with last name too long.
+        /// </summary>
         [TestMethod]
         public void TestCreateReaderFailWithLastNameTooLong()
         {
@@ -231,13 +273,16 @@ namespace LibraryAdministrationTest.DomainModelTests
                 LastName = "Solovastruuuuuuuuuuuuuuu"
             };
 
-            var result = _readerValidator.Validate(reader);
+            var result = this.readerValidator.Validate(reader);
 
             Assert.IsNotNull(result);
             Assert.IsFalse(result.IsValid);
             Assert.IsFalse(result.Errors.Count == 0);
         }
 
+        /// <summary>
+        /// Tests the create reader fail with last name too short.
+        /// </summary>
         [TestMethod]
         public void TestCreateReaderFailWithLastNameTooShort()
         {
@@ -253,7 +298,7 @@ namespace LibraryAdministrationTest.DomainModelTests
                 LastName = "S"
             };
 
-            var result = _readerValidator.Validate(reader);
+            var result = this.readerValidator.Validate(reader);
 
             Assert.IsNotNull(result);
             Assert.IsFalse(result.IsValid);

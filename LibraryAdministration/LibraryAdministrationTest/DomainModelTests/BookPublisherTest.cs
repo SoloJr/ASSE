@@ -1,22 +1,40 @@
-﻿using LibraryAdministration.DomainModel;
-using LibraryAdministration.Validators;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
-using System;
-using System.Collections.Generic;
+﻿//---------------------------------------------------------------------
+// <copyright file="BookPublisherTest.cs" company="Transilvania University of Brasov">
+//     Mircea Solovastru
+// </copyright>
+//-----------------------------------------------------------------------
 
 namespace LibraryAdministrationTest.DomainModelTests
 {
+    using System;
+    using System.Collections.Generic;
+    using LibraryAdministration.DomainModel;
+    using LibraryAdministration.Validators;
+    using Microsoft.VisualStudio.TestTools.UnitTesting;
+
+    /// <summary>
+    /// BookPublisher tests for Domain Model
+    /// </summary>
     [TestClass]
     public class BookPublisherTest
     {
-        private BookPublisherValidator _bookPublisherValidator;
+        /// <summary>
+        /// The validator
+        /// </summary>
+        private BookPublisherValidator validator;
 
+        /// <summary>
+        /// Initializes this instance.
+        /// </summary>
         [TestInitialize]
         public void Init()
         {
-            _bookPublisherValidator = new BookPublisherValidator();
+            this.validator = new BookPublisherValidator();
         }
 
+        /// <summary>
+        /// Tests the book publisher create.
+        /// </summary>
         [TestMethod]
         public void TestBookPublisherCreate()
         {
@@ -54,7 +72,7 @@ namespace LibraryAdministrationTest.DomainModelTests
 
             book.Publishers.Add(bookPublisher);
 
-            var result = _bookPublisherValidator.Validate(bookPublisher);
+            var result = this.validator.Validate(bookPublisher);
 
             Assert.IsNotNull(result);
             Assert.AreEqual(result.IsValid, true);
@@ -62,6 +80,9 @@ namespace LibraryAdministrationTest.DomainModelTests
             Assert.IsTrue(book.Publishers.Count > 0);
         }
 
+        /// <summary>
+        /// Tests the book publisher create with object not identifier.
+        /// </summary>
         [TestMethod]
         public void TestBookPublisherCreateWithObjectNotId()
         {
@@ -103,7 +124,7 @@ namespace LibraryAdministrationTest.DomainModelTests
 
             book.Publishers.Add(bookPublisher);
 
-            var result = _bookPublisherValidator.Validate(bookPublisher);
+            var result = this.validator.Validate(bookPublisher);
 
             Assert.IsNotNull(result);
             Assert.AreEqual(result.IsValid, true);
@@ -114,6 +135,9 @@ namespace LibraryAdministrationTest.DomainModelTests
             Assert.IsTrue(bookPublisherId == bookPublisher.Id);
         }
 
+        /// <summary>
+        /// Tests the book publisher fail without book identifier.
+        /// </summary>
         [TestMethod]
         public void TestBookPublisherFailWithoutBookId()
         {
@@ -129,13 +153,16 @@ namespace LibraryAdministrationTest.DomainModelTests
                 PublisherId = 1
             };
 
-            var result = _bookPublisherValidator.Validate(bookPublisher);
+            var result = this.validator.Validate(bookPublisher);
 
             Assert.IsNotNull(result);
             Assert.IsFalse(result.IsValid);
             Assert.IsFalse(result.Errors.Count == 0);
         }
 
+        /// <summary>
+        /// Tests the book publisher fail without publisher identifier.
+        /// </summary>
         [TestMethod]
         public void TestBookPublisherFailWithoutPublisherId()
         {
@@ -151,13 +178,16 @@ namespace LibraryAdministrationTest.DomainModelTests
                 BookId = 1
             };
 
-            var result = _bookPublisherValidator.Validate(bookPublisher);
+            var result = this.validator.Validate(bookPublisher);
 
             Assert.IsNotNull(result);
             Assert.IsFalse(result.IsValid);
             Assert.IsFalse(result.Errors.Count == 0);
         }
 
+        /// <summary>
+        /// Tests the type of the book publisher fail without.
+        /// </summary>
         [TestMethod]
         public void TestBookPublisherFailWithoutType()
         {
@@ -173,13 +203,16 @@ namespace LibraryAdministrationTest.DomainModelTests
                 PublisherId = 1
             };
 
-            var result = _bookPublisherValidator.Validate(bookPublisher);
+            var result = this.validator.Validate(bookPublisher);
 
             Assert.IsNotNull(result);
             Assert.IsFalse(result.IsValid);
             Assert.IsFalse(result.Errors.Count == 0);
         }
 
+        /// <summary>
+        /// Tests the book publisher fail without rent count.
+        /// </summary>
         [TestMethod]
         public void TestBookPublisherFailWithoutRentCount()
         {
@@ -195,13 +228,16 @@ namespace LibraryAdministrationTest.DomainModelTests
                 PublisherId = 1
             };
 
-            var result = _bookPublisherValidator.Validate(bookPublisher);
+            var result = this.validator.Validate(bookPublisher);
 
             Assert.IsNotNull(result);
             Assert.IsFalse(result.IsValid);
             Assert.IsFalse(result.Errors.Count == 0);
         }
 
+        /// <summary>
+        /// Tests the book publisher fail without for rent.
+        /// </summary>
         [TestMethod]
         public void TestBookPublisherFailWithoutForRent()
         {
@@ -217,13 +253,16 @@ namespace LibraryAdministrationTest.DomainModelTests
                 PublisherId = 1
             };
 
-            var result = _bookPublisherValidator.Validate(bookPublisher);
+            var result = this.validator.Validate(bookPublisher);
 
             Assert.IsNotNull(result);
             Assert.IsFalse(result.IsValid);
             Assert.IsFalse(result.Errors.Count == 0);
         }
 
+        /// <summary>
+        /// Tests the book publisher fail without for lecture.
+        /// </summary>
         [TestMethod]
         public void TestBookPublisherFailWithoutForLecture()
         {
@@ -239,13 +278,16 @@ namespace LibraryAdministrationTest.DomainModelTests
                 PublisherId = 1
             };
 
-            var result = _bookPublisherValidator.Validate(bookPublisher);
+            var result = this.validator.Validate(bookPublisher);
 
             Assert.IsNotNull(result);
             Assert.IsFalse(result.IsValid);
             Assert.IsFalse(result.Errors.Count == 0);
         }
 
+        /// <summary>
+        /// Tests the book publisher fail without release date.
+        /// </summary>
         [TestMethod]
         public void TestBookPublisherFailWithoutReleaseDate()
         {
@@ -261,13 +303,16 @@ namespace LibraryAdministrationTest.DomainModelTests
                 PublisherId = 1
             };
 
-            var result = _bookPublisherValidator.Validate(bookPublisher);
+            var result = this.validator.Validate(bookPublisher);
 
             Assert.IsNotNull(result);
             Assert.IsFalse(result.IsValid);
             Assert.IsFalse(result.Errors.Count == 0);
         }
 
+        /// <summary>
+        /// Tests the book publisher fail without pages.
+        /// </summary>
         [TestMethod]
         public void TestBookPublisherFailWithoutPages()
         {
@@ -283,7 +328,7 @@ namespace LibraryAdministrationTest.DomainModelTests
                 PublisherId = 1
             };
 
-            var result = _bookPublisherValidator.Validate(bookPublisher);
+            var result = this.validator.Validate(bookPublisher);
 
             Assert.IsNotNull(result);
             Assert.IsFalse(result.IsValid);

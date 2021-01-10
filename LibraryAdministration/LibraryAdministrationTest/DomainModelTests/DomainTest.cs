@@ -1,21 +1,39 @@
-﻿using LibraryAdministration.DomainModel;
-using LibraryAdministration.Validators;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
-using System.Linq;
+﻿//---------------------------------------------------------------------
+// <copyright file="DomainTest.cs" company="Transilvania University of Brasov">
+//     Mircea Solovastru
+// </copyright>
+//-----------------------------------------------------------------------
 
 namespace LibraryAdministrationTest.DomainModelTests
 {
+    using System.Linq;
+    using LibraryAdministration.DomainModel;
+    using LibraryAdministration.Validators;
+    using Microsoft.VisualStudio.TestTools.UnitTesting;
+
+    /// <summary>
+    /// Domain Tests for Domain Model
+    /// </summary>
     [TestClass]
     public class DomainTest
     {
-        private DomainValidator _validator;
+        /// <summary>
+        /// The validator
+        /// </summary>
+        private DomainValidator validator;
 
+        /// <summary>
+        /// Initializes this instance.
+        /// </summary>
         [TestInitialize]
         public void Init()
         {
-            _validator = new DomainValidator();
+            this.validator = new DomainValidator();
         }
 
+        /// <summary>
+        /// Tests the create domain success.
+        /// </summary>
         [TestMethod]
         public void TestCreateDomainSuccess()
         {
@@ -27,13 +45,16 @@ namespace LibraryAdministrationTest.DomainModelTests
                 EntireDomainId = null
             };
 
-            var result = _validator.Validate(domain);
+            var result = this.validator.Validate(domain);
 
             Assert.IsNotNull(result);
             Assert.IsTrue(result.IsValid);
             Assert.IsTrue(result.Errors.Count == 0);
         }
 
+        /// <summary>
+        /// Tests the create domain fail entire domain.
+        /// </summary>
         [TestMethod]
         public void TestCreateDomainFailEntireDomain()
         {
@@ -45,13 +66,16 @@ namespace LibraryAdministrationTest.DomainModelTests
                 EntireDomainId = null
             };
 
-            var result = _validator.Validate(domain);
+            var result = this.validator.Validate(domain);
 
             Assert.IsNotNull(result);
             Assert.IsFalse(result.IsValid);
             Assert.IsFalse(result.Errors.Count == 0);
         }
 
+        /// <summary>
+        /// Tests the create domain fail parent.
+        /// </summary>
         [TestMethod]
         public void TestCreateDomainFailParent()
         {
@@ -63,13 +87,16 @@ namespace LibraryAdministrationTest.DomainModelTests
                 EntireDomainId = 3
             };
 
-            var result = _validator.Validate(domain);
+            var result = this.validator.Validate(domain);
 
             Assert.IsNotNull(result);
             Assert.IsFalse(result.IsValid);
             Assert.IsFalse(result.Errors.Count == 0);
         }
 
+        /// <summary>
+        /// Tests the create with books.
+        /// </summary>
         [TestMethod]
         public void TestCreateWithBooks()
         {
@@ -92,7 +119,7 @@ namespace LibraryAdministrationTest.DomainModelTests
             book.Domains.Add(domain);
             domain.Books.Add(book);
 
-            var result = _validator.Validate(domain);
+            var result = this.validator.Validate(domain);
 
             Assert.IsNotNull(result);
             Assert.IsTrue(result.IsValid);

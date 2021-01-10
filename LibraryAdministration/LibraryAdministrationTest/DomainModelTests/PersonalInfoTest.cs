@@ -1,20 +1,38 @@
-﻿using LibraryAdministration.DomainModel;
-using LibraryAdministration.Validators;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+﻿//---------------------------------------------------------------------
+// <copyright file="PersonalInfoTest.cs" company="Transilvania University of Brasov">
+//     Mircea Solovastru
+// </copyright>
+//-----------------------------------------------------------------------
 
 namespace LibraryAdministrationTest.DomainModelTests
 {
+    using LibraryAdministration.DomainModel;
+    using LibraryAdministration.Validators;
+    using Microsoft.VisualStudio.TestTools.UnitTesting;
+
+    /// <summary>
+    /// PersonalInfoTest for Domain Model
+    /// </summary>
     [TestClass]
     public class PersonalInfoTest
     {
-        private PersonalInfoValidator _validator;
+        /// <summary>
+        /// The validator
+        /// </summary>
+        private PersonalInfoValidator validator;
 
+        /// <summary>
+        /// Initializes this instance.
+        /// </summary>
         [TestInitialize]
         public void Init()
         {
-            _validator = new PersonalInfoValidator(); ;
+            this.validator = new PersonalInfoValidator();
         }
 
+        /// <summary>
+        /// Tests the create personal information success.
+        /// </summary>
         [TestMethod]
         public void TestCreatePersonalInfoSuccess()
         {
@@ -24,13 +42,16 @@ namespace LibraryAdministrationTest.DomainModelTests
                 Email = "mircea.solo1995@gmail.com"
             };
 
-            var result = _validator.Validate(info);
+            var result = this.validator.Validate(info);
 
             Assert.IsNotNull(result);
             Assert.IsTrue(result.IsValid);
             Assert.IsTrue(result.Errors.Count == 0);
         }
 
+        /// <summary>
+        /// Tests the create personal information success phone number only.
+        /// </summary>
         [TestMethod]
         public void TestCreatePersonalInfoSuccessPhoneNumberOnly()
         {
@@ -39,13 +60,16 @@ namespace LibraryAdministrationTest.DomainModelTests
                 PhoneNumber = "0731233233"
             };
 
-            var result = _validator.Validate(info);
+            var result = this.validator.Validate(info);
 
             Assert.IsNotNull(result);
             Assert.IsTrue(result.IsValid);
             Assert.IsTrue(result.Errors.Count == 0);
         }
 
+        /// <summary>
+        /// Tests the create personal information success email only.
+        /// </summary>
         [TestMethod]
         public void TestCreatePersonalInfoSuccessEmailOnly()
         {
@@ -54,35 +78,41 @@ namespace LibraryAdministrationTest.DomainModelTests
                 Email = "mircea.solo1995@gmail.com"
             };
 
-            var result = _validator.Validate(info);
+            var result = this.validator.Validate(info);
 
             Assert.IsNotNull(result);
             Assert.IsTrue(result.IsValid);
             Assert.IsTrue(result.Errors.Count == 0);
         }
 
+        /// <summary>
+        /// Tests the create personal information fail null.
+        /// </summary>
         [TestMethod]
         public void TestCreatePersonalInfoFailNull()
         {
             var info = new PersonalInfo();
 
-            var result = _validator.Validate(info);
+            var result = this.validator.Validate(info);
 
             Assert.IsNotNull(result);
             Assert.IsFalse(result.IsValid);
             Assert.IsFalse(result.Errors.Count == 0);
         }
 
+        /// <summary>
+        /// Tests the create personal information fall empty.
+        /// </summary>
         [TestMethod]
         public void TestCreatePersonalInfoFallEmpty()
         {
             var info = new PersonalInfo
             {
-                PhoneNumber = "",
-                Email = ""
+                PhoneNumber = string.Empty,
+                Email = string.Empty
             };
 
-            var result = _validator.Validate(info);
+            var result = this.validator.Validate(info);
 
             Assert.IsNotNull(result);
             Assert.IsFalse(result.IsValid);

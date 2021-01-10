@@ -1,20 +1,38 @@
-﻿using LibraryAdministration.DomainModel;
-using LibraryAdministration.Validators;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+﻿//---------------------------------------------------------------------
+// <copyright file="EmployeeTest.cs" company="Transilvania University of Brasov">
+//     Mircea Solovastru
+// </copyright>
+//-----------------------------------------------------------------------
 
 namespace LibraryAdministrationTest.DomainModelTests
 {
+    using LibraryAdministration.DomainModel;
+    using LibraryAdministration.Validators;
+    using Microsoft.VisualStudio.TestTools.UnitTesting;
+
+    /// <summary>
+    /// EmployeeTest for Domain Model
+    /// </summary>
     [TestClass]
     public class EmployeeTest
     {
-        private EmployeeValidator _validator;
+        /// <summary>
+        /// The validator
+        /// </summary>
+        private EmployeeValidator validator;
 
+        /// <summary>
+        /// Initializes this instance.
+        /// </summary>
         [TestInitialize]
         public void Init()
         {
-            _validator = new EmployeeValidator(); ;
+            this.validator = new EmployeeValidator();
         }
 
+        /// <summary>
+        /// Tests the create employee success.
+        /// </summary>
         [TestMethod]
         public void TestCreateEmployeeSuccess()
         {
@@ -33,7 +51,7 @@ namespace LibraryAdministrationTest.DomainModelTests
                 EmployeePersonalInfoId = 1
             };
 
-            var result = _validator.Validate(employee);
+            var result = this.validator.Validate(employee);
 
             Assert.IsNotNull(result);
             Assert.IsTrue(result.IsValid);
@@ -41,6 +59,9 @@ namespace LibraryAdministrationTest.DomainModelTests
             Assert.IsNotNull(employee.Info);
         }
 
+        /// <summary>
+        /// Tests the create employee success but with only one personal information.
+        /// </summary>
         [TestMethod]
         public void TestCreateEmployeeSuccessButWithOnlyOnePersonalInfo()
         {
@@ -55,13 +76,16 @@ namespace LibraryAdministrationTest.DomainModelTests
                 LastName = "Solovastru"
             };
 
-            var result = _validator.Validate(employee);
+            var result = this.validator.Validate(employee);
 
             Assert.IsNotNull(result);
             Assert.IsTrue(result.IsValid);
             Assert.IsTrue(result.Errors.Count == 0);
         }
 
+        /// <summary>
+        /// Tests the create employee fail with no address.
+        /// </summary>
         [TestMethod]
         public void TestCreateEmployeeFailWithNoAddress()
         {
@@ -76,13 +100,16 @@ namespace LibraryAdministrationTest.DomainModelTests
                 LastName = "Solovastru"
             };
 
-            var result = _validator.Validate(employee);
+            var result = this.validator.Validate(employee);
 
             Assert.IsNotNull(result);
             Assert.IsFalse(result.IsValid);
             Assert.IsFalse(result.Errors.Count == 0);
         }
 
+        /// <summary>
+        /// Tests the first name of the create employee fail with no.
+        /// </summary>
         [TestMethod]
         public void TestCreateEmployeeFailWithNoFirstName()
         {
@@ -97,13 +124,16 @@ namespace LibraryAdministrationTest.DomainModelTests
                 LastName = "Solovastru"
             };
 
-            var result = _validator.Validate(employee);
+            var result = this.validator.Validate(employee);
 
             Assert.IsNotNull(result);
             Assert.IsFalse(result.IsValid);
             Assert.IsFalse(result.Errors.Count == 0);
         }
 
+        /// <summary>
+        /// Tests the last name of the create employee fail with.
+        /// </summary>
         [TestMethod]
         public void TestCreateEmployeeFailWithLastName()
         {
@@ -118,13 +148,16 @@ namespace LibraryAdministrationTest.DomainModelTests
                 FirstName = "Mircea",
             };
 
-            var result = _validator.Validate(employee);
+            var result = this.validator.Validate(employee);
 
             Assert.IsNotNull(result);
             Assert.IsFalse(result.IsValid);
             Assert.IsFalse(result.Errors.Count == 0);
         }
 
+        /// <summary>
+        /// Tests the create employee fail with address too long.
+        /// </summary>
         [TestMethod]
         public void TestCreateEmployeeFailWithAddressTooLong()
         {
@@ -140,13 +173,16 @@ namespace LibraryAdministrationTest.DomainModelTests
                 LastName = "Solovastru"
             };
 
-            var result = _validator.Validate(employee);
+            var result = this.validator.Validate(employee);
 
             Assert.IsNotNull(result);
             Assert.IsFalse(result.IsValid);
             Assert.IsFalse(result.Errors.Count == 0);
         }
 
+        /// <summary>
+        /// Tests the create employee fail with address too short.
+        /// </summary>
         [TestMethod]
         public void TestCreateEmployeeFailWithAddressTooShort()
         {
@@ -162,13 +198,16 @@ namespace LibraryAdministrationTest.DomainModelTests
                 LastName = "Solovastru"
             };
 
-            var result = _validator.Validate(employee);
+            var result = this.validator.Validate(employee);
 
             Assert.IsNotNull(result);
             Assert.IsFalse(result.IsValid);
             Assert.IsFalse(result.Errors.Count == 0);
         }
 
+        /// <summary>
+        /// Tests the create employee fail with first name too long.
+        /// </summary>
         [TestMethod]
         public void TestCreateEmployeeFailWithFirstNameTooLong()
         {
@@ -184,13 +223,16 @@ namespace LibraryAdministrationTest.DomainModelTests
                 LastName = "Solovastru"
             };
 
-            var result = _validator.Validate(employee);
+            var result = this.validator.Validate(employee);
 
             Assert.IsNotNull(result);
             Assert.IsFalse(result.IsValid);
             Assert.IsFalse(result.Errors.Count == 0);
         }
 
+        /// <summary>
+        /// Tests the create employee fail with first name too short.
+        /// </summary>
         [TestMethod]
         public void TestCreateEmployeeFailWithFirstNameTooShort()
         {
@@ -206,13 +248,16 @@ namespace LibraryAdministrationTest.DomainModelTests
                 LastName = "Solovastru"
             };
 
-            var result = _validator.Validate(employee);
+            var result = this.validator.Validate(employee);
 
             Assert.IsNotNull(result);
             Assert.IsFalse(result.IsValid);
             Assert.IsFalse(result.Errors.Count == 0);
         }
 
+        /// <summary>
+        /// Tests the create employee fail with last name too long.
+        /// </summary>
         [TestMethod]
         public void TestCreateEmployeeFailWithLastNameTooLong()
         {
@@ -228,13 +273,16 @@ namespace LibraryAdministrationTest.DomainModelTests
                 LastName = "Solovastruuuuuuuuuuuuuuuuu"
             };
 
-            var result = _validator.Validate(employee);
+            var result = this.validator.Validate(employee);
 
             Assert.IsNotNull(result);
             Assert.IsFalse(result.IsValid);
             Assert.IsFalse(result.Errors.Count == 0);
         }
 
+        /// <summary>
+        /// Tests the create employee fail with last name too short.
+        /// </summary>
         [TestMethod]
         public void TestCreateEmployeeFailWithLastNameTooShort()
         {
@@ -250,7 +298,7 @@ namespace LibraryAdministrationTest.DomainModelTests
                 LastName = "S"
             };
 
-            var result = _validator.Validate(employee);
+            var result = this.validator.Validate(employee);
 
             Assert.IsNotNull(result);
             Assert.IsFalse(result.IsValid);

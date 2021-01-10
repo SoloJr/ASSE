@@ -1,21 +1,39 @@
-﻿using LibraryAdministration.DomainModel;
-using LibraryAdministration.Validators;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
-using System;
+﻿//---------------------------------------------------------------------
+// <copyright file="ReaderBookTest.cs" company="Transilvania University of Brasov">
+//     Mircea Solovastru
+// </copyright>
+//-----------------------------------------------------------------------
 
 namespace LibraryAdministrationTest.DomainModelTests
 {
+    using System;
+    using LibraryAdministration.DomainModel;
+    using LibraryAdministration.Validators;
+    using Microsoft.VisualStudio.TestTools.UnitTesting;
+
+    /// <summary>
+    /// ReaderBookTest for Domain Model
+    /// </summary>
     [TestClass]
     public class ReaderBookTest
     {
-        private ReaderBookValidator _readerBookValidator;
+        /// <summary>
+        /// The validator
+        /// </summary>
+        private ReaderBookValidator validator;
 
+        /// <summary>
+        /// Initializes this instance.
+        /// </summary>
         [TestInitialize]
         public void Init()
         {
-            _readerBookValidator = new ReaderBookValidator();
+            this.validator = new ReaderBookValidator();
         }
 
+        /// <summary>
+        /// Tests the create success reader book.
+        /// </summary>
         [TestMethod]
         public void TestCreateSuccessReaderBook()
         {
@@ -50,13 +68,16 @@ namespace LibraryAdministrationTest.DomainModelTests
                 ExtensionDays = 0
             };
 
-            var result = _readerBookValidator.Validate(readerBook);
+            var result = this.validator.Validate(readerBook);
 
             Assert.IsNotNull(result);
             Assert.IsTrue(result.IsValid);
             Assert.IsTrue(result.Errors.Count == 0);
         }
 
+        /// <summary>
+        /// Tests the create reader success book with objects.
+        /// </summary>
         [TestMethod]
         public void TestCreateReaderSuccessBookWithObjects()
         {
@@ -97,7 +118,7 @@ namespace LibraryAdministrationTest.DomainModelTests
                 ExtensionDays = 0
             };
 
-            var result = _readerBookValidator.Validate(readerBook);
+            var result = this.validator.Validate(readerBook);
 
             Assert.IsNotNull(result);
             Assert.IsTrue(result.IsValid);
@@ -106,6 +127,9 @@ namespace LibraryAdministrationTest.DomainModelTests
             Assert.IsNotNull(readerBook.Reader);
         }
 
+        /// <summary>
+        /// Tests the create reader book fails due date.
+        /// </summary>
         [TestMethod]
         public void TestCreateReaderBookFailsDueDate()
         {
@@ -139,13 +163,16 @@ namespace LibraryAdministrationTest.DomainModelTests
                 Id = 1
             };
 
-            var result = _readerBookValidator.Validate(readerBook);
+            var result = this.validator.Validate(readerBook);
 
             Assert.IsNotNull(result);
             Assert.IsFalse(result.IsValid);
             Assert.IsFalse(result.Errors.Count == 0);
         }
 
+        /// <summary>
+        /// Tests the create reader book fails loan date.
+        /// </summary>
         [TestMethod]
         public void TestCreateReaderBookFailsLoanDate()
         {
@@ -178,13 +205,16 @@ namespace LibraryAdministrationTest.DomainModelTests
                 Id = 1
             };
 
-            var result = _readerBookValidator.Validate(readerBook);
+            var result = this.validator.Validate(readerBook);
 
             Assert.IsNotNull(result);
             Assert.IsFalse(result.IsValid);
             Assert.IsFalse(result.Errors.Count == 0);
         }
 
+        /// <summary>
+        /// Tests the create reader book fails no publisher identifier.
+        /// </summary>
         [TestMethod]
         public void TestCreateReaderBookFailsNoPublisherId()
         {
@@ -217,13 +247,16 @@ namespace LibraryAdministrationTest.DomainModelTests
                 Id = 1
             };
 
-            var result = _readerBookValidator.Validate(readerBook);
+            var result = this.validator.Validate(readerBook);
 
             Assert.IsNotNull(result);
             Assert.IsFalse(result.IsValid);
             Assert.IsFalse(result.Errors.Count == 0);
         }
 
+        /// <summary>
+        /// Tests the create reader book fails no reader identifier.
+        /// </summary>
         [TestMethod]
         public void TestCreateReaderBookFailsNoReaderId()
         {
@@ -256,13 +289,16 @@ namespace LibraryAdministrationTest.DomainModelTests
                 Id = 1
             };
 
-            var result = _readerBookValidator.Validate(readerBook);
+            var result = this.validator.Validate(readerBook);
 
             Assert.IsNotNull(result);
             Assert.IsFalse(result.IsValid);
             Assert.IsFalse(result.Errors.Count == 0);
         }
 
+        /// <summary>
+        /// Tests the create reader book success with no loan return date.
+        /// </summary>
         [TestMethod]
         public void TestCreateReaderBookSuccessWithNoLoanReturnDate()
         {
@@ -297,13 +333,16 @@ namespace LibraryAdministrationTest.DomainModelTests
                 Id = 1
             };
 
-            var result = _readerBookValidator.Validate(readerBook);
+            var result = this.validator.Validate(readerBook);
 
             Assert.IsNotNull(result);
             Assert.IsTrue(result.IsValid);
             Assert.IsTrue(result.Errors.Count == 0);
         }
 
+        /// <summary>
+        /// Tests the create reader book fails due date not fourteen days.
+        /// </summary>
         [TestMethod]
         public void TestCreateReaderBookFailsDueDateNotFourteenDays()
         {
@@ -338,13 +377,16 @@ namespace LibraryAdministrationTest.DomainModelTests
                 Id = 1
             };
 
-            var result = _readerBookValidator.Validate(readerBook);
+            var result = this.validator.Validate(readerBook);
 
             Assert.IsNotNull(result);
             Assert.IsFalse(result.IsValid);
             Assert.IsFalse(result.Errors.Count == 0);
         }
 
+        /// <summary>
+        /// Tests the create reader book fails extension days not zero.
+        /// </summary>
         [TestMethod]
         public void TestCreateReaderBookFailsExtensionDaysNotZero()
         {
@@ -379,7 +421,7 @@ namespace LibraryAdministrationTest.DomainModelTests
                 Id = 1
             };
 
-            var result = _readerBookValidator.Validate(readerBook);
+            var result = this.validator.Validate(readerBook);
 
             Assert.IsNotNull(result);
             Assert.IsFalse(result.IsValid);
