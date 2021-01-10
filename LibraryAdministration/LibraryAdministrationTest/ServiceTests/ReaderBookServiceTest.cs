@@ -1430,6 +1430,38 @@ namespace LibraryAdministrationTest.ServiceTests
         }
 
         /// <summary>
+        /// Tests the extend loan fail reader wrong parameter.
+        /// </summary>
+        [TestMethod]
+        public void TestExtendLoanFailReaderWrongParam()
+        {
+            var data = new List<ReaderBook>
+            {
+                new ReaderBook
+                {
+                    Id = 1,
+                    ReaderId = 1,
+                    BookPublisherId = 1,
+                    DueDate = new DateTime(2021, 1, 11),
+                    ExtensionDays = 0,
+                    LoanDate = new DateTime(2020, 12, 30)
+                }
+            }.AsQueryable();
+
+            var mockSet = new Mock<DbSet<ReaderBook>>();
+            mockSet.As<IQueryable<ReaderBook>>().Setup(m => m.Provider).Returns(data.Provider);
+            mockSet.As<IQueryable<ReaderBook>>().Setup(m => m.Expression).Returns(data.Expression);
+            mockSet.As<IQueryable<ReaderBook>>().Setup(m => m.ElementType).Returns(data.ElementType);
+            mockSet.As<IQueryable<ReaderBook>>().Setup(m => m.GetEnumerator()).Returns(data.GetEnumerator());
+
+            var mockContext = new Mock<LibraryContext>();
+            mockContext.Setup(x => x.ReaderBooks).Returns(mockSet.Object);
+
+            this.service = new ReaderBookService(mockContext.Object, false);
+            Assert.ThrowsException<LibraryArgumentException>(() => this.service.ExtendLoan(-1, 7));
+        }
+
+        /// <summary>
         /// Tests the check loan extension fail employee not found.
         /// </summary>
         [TestMethod]
@@ -1462,6 +1494,38 @@ namespace LibraryAdministrationTest.ServiceTests
         }
 
         /// <summary>
+        /// Tests the extend loan fail employee not found.
+        /// </summary>
+        [TestMethod]
+        public void TestExtendLoanFailEmployeeNotFound()
+        {
+            var data = new List<ReaderBook>
+            {
+                new ReaderBook
+                {
+                    Id = 1,
+                    ReaderId = 1,
+                    BookPublisherId = 1,
+                    DueDate = new DateTime(2021, 1, 11),
+                    ExtensionDays = 0,
+                    LoanDate = new DateTime(2020, 12, 30)
+                }
+            }.AsQueryable();
+
+            var mockSet = new Mock<DbSet<ReaderBook>>();
+            mockSet.As<IQueryable<ReaderBook>>().Setup(m => m.Provider).Returns(data.Provider);
+            mockSet.As<IQueryable<ReaderBook>>().Setup(m => m.Expression).Returns(data.Expression);
+            mockSet.As<IQueryable<ReaderBook>>().Setup(m => m.ElementType).Returns(data.ElementType);
+            mockSet.As<IQueryable<ReaderBook>>().Setup(m => m.GetEnumerator()).Returns(data.GetEnumerator());
+
+            var mockContext = new Mock<LibraryContext>();
+            mockContext.Setup(x => x.ReaderBooks).Returns(mockSet.Object);
+
+            this.service = new ReaderBookService(mockContext.Object);
+            Assert.ThrowsException<ObjectNotFoundException>(() => this.service.ExtendLoan(100, 7));
+        }
+
+        /// <summary>
         /// Tests the check loan extension fail reader not found.
         /// </summary>
         [TestMethod]
@@ -1491,6 +1555,38 @@ namespace LibraryAdministrationTest.ServiceTests
 
             this.service = new ReaderBookService(mockContext.Object, false);
             Assert.ThrowsException<ObjectNotFoundException>(() => this.service.CheckLoanExtension(100, 7));
+        }
+
+        /// <summary>
+        /// Tests the extend loan fail reader not found.
+        /// </summary>
+        [TestMethod]
+        public void TestExtendLoanFailReaderNotFound()
+        {
+            var data = new List<ReaderBook>
+            {
+                new ReaderBook
+                {
+                    Id = 1,
+                    ReaderId = 1,
+                    BookPublisherId = 1,
+                    DueDate = new DateTime(2021, 1, 11),
+                    ExtensionDays = 0,
+                    LoanDate = new DateTime(2020, 12, 30)
+                }
+            }.AsQueryable();
+
+            var mockSet = new Mock<DbSet<ReaderBook>>();
+            mockSet.As<IQueryable<ReaderBook>>().Setup(m => m.Provider).Returns(data.Provider);
+            mockSet.As<IQueryable<ReaderBook>>().Setup(m => m.Expression).Returns(data.Expression);
+            mockSet.As<IQueryable<ReaderBook>>().Setup(m => m.ElementType).Returns(data.ElementType);
+            mockSet.As<IQueryable<ReaderBook>>().Setup(m => m.GetEnumerator()).Returns(data.GetEnumerator());
+
+            var mockContext = new Mock<LibraryContext>();
+            mockContext.Setup(x => x.ReaderBooks).Returns(mockSet.Object);
+
+            this.service = new ReaderBookService(mockContext.Object, false);
+            Assert.ThrowsException<ObjectNotFoundException>(() => this.service.ExtendLoan(100, 7));
         }
 
         /// <summary>
@@ -2133,6 +2229,172 @@ namespace LibraryAdministrationTest.ServiceTests
 
             this.service = new ReaderBookService(mockContext.Object);
             Assert.ThrowsException<LibraryArgumentException>(() => this.service.CheckMultipleBooksDomainMatch(wrongParameter));
+        }
+
+        /// <summary>
+        /// Tests the extend loan success employee.
+        /// </summary>
+        [TestMethod]
+        public void TestExtendLoanSuccessEmployee()
+        {
+            var data = new List<ReaderBook>
+            {
+                new ReaderBook
+                {
+                    Id = 1,
+                    ReaderId = 1,
+                    BookPublisherId = 1,
+                    DueDate = new DateTime(2021, 1, 11),
+                    ExtensionDays = 0,
+                    LoanDate = new DateTime(2020, 12, 30)
+                }
+            }.AsQueryable();
+
+            var mockSet = new Mock<DbSet<ReaderBook>>();
+            mockSet.As<IQueryable<ReaderBook>>().Setup(m => m.Provider).Returns(data.Provider);
+            mockSet.As<IQueryable<ReaderBook>>().Setup(m => m.Expression).Returns(data.Expression);
+            mockSet.As<IQueryable<ReaderBook>>().Setup(m => m.ElementType).Returns(data.ElementType);
+            mockSet.As<IQueryable<ReaderBook>>().Setup(m => m.GetEnumerator()).Returns(data.GetEnumerator());
+
+            var mockContext = new Mock<LibraryContext>();
+            mockContext.Setup(x => x.ReaderBooks).Returns(mockSet.Object);
+            mockContext.Setup(x => x.Set<ReaderBook>()).Returns(mockSet.Object);
+
+            this.service = new ReaderBookService(mockContext.Object);
+            var result = this.service.ExtendLoan(1, 7);
+
+            Assert.IsNotNull(result);
+        }
+
+        /// <summary>
+        /// Tests the extend loan success reader.
+        /// </summary>
+        [TestMethod]
+        public void TestExtendLoanSuccessReader()
+        {
+            var data = new List<ReaderBook>
+            {
+                new ReaderBook
+                {
+                    Id = 1,
+                    ReaderId = 1,
+                    BookPublisherId = 1,
+                    DueDate = new DateTime(2021, 1, 11),
+                    ExtensionDays = 0,
+                    LoanDate = new DateTime(2020, 12, 30)
+                }
+            }.AsQueryable();
+
+            var mockSet = new Mock<DbSet<ReaderBook>>();
+            mockSet.As<IQueryable<ReaderBook>>().Setup(m => m.Provider).Returns(data.Provider);
+            mockSet.As<IQueryable<ReaderBook>>().Setup(m => m.Expression).Returns(data.Expression);
+            mockSet.As<IQueryable<ReaderBook>>().Setup(m => m.ElementType).Returns(data.ElementType);
+            mockSet.As<IQueryable<ReaderBook>>().Setup(m => m.GetEnumerator()).Returns(data.GetEnumerator());
+
+            var mockContext = new Mock<LibraryContext>();
+            mockContext.Setup(x => x.ReaderBooks).Returns(mockSet.Object);
+            mockContext.Setup(x => x.Set<ReaderBook>()).Returns(mockSet.Object);
+
+            this.service = new ReaderBookService(mockContext.Object, false);
+            var result = this.service.ExtendLoan(1, 7);
+
+            Assert.IsNotNull(result);
+        }
+
+        /// <summary>
+        /// Tests the extend loan fail employee over extension.
+        /// </summary>
+        [TestMethod]
+        public void TestExtendLoanFailEmployeeOverExtension()
+        {
+            var data = new List<ReaderBook>
+            {
+                new ReaderBook
+                {
+                    Id = 1,
+                    ReaderId = 1,
+                    BookPublisherId = 1,
+                    DueDate = new DateTime(2021, 1, 11),
+                    ExtensionDays = 25,
+                    LoanDate = new DateTime(2020, 12, 30)
+                }
+            }.AsQueryable();
+
+            var mockSet = new Mock<DbSet<ReaderBook>>();
+            mockSet.As<IQueryable<ReaderBook>>().Setup(m => m.Provider).Returns(data.Provider);
+            mockSet.As<IQueryable<ReaderBook>>().Setup(m => m.Expression).Returns(data.Expression);
+            mockSet.As<IQueryable<ReaderBook>>().Setup(m => m.ElementType).Returns(data.ElementType);
+            mockSet.As<IQueryable<ReaderBook>>().Setup(m => m.GetEnumerator()).Returns(data.GetEnumerator());
+
+            var mockContext = new Mock<LibraryContext>();
+            mockContext.Setup(x => x.ReaderBooks).Returns(mockSet.Object);
+
+            this.service = new ReaderBookService(mockContext.Object);
+            Assert.ThrowsException<LoanExtensionException>(() => this.service.ExtendLoan(1, 7));
+        }
+
+        /// <summary>
+        /// Tests the extend loan reader over extension.
+        /// </summary>
+        [TestMethod]
+        public void TestExtendLoanReaderOverExtension()
+        {
+            var data = new List<ReaderBook>
+            {
+                new ReaderBook
+                {
+                    Id = 1,
+                    ReaderId = 1,
+                    BookPublisherId = 1,
+                    DueDate = new DateTime(2021, 1, 11),
+                    ExtensionDays = 10,
+                    LoanDate = new DateTime(2020, 12, 30)
+                }
+            }.AsQueryable();
+
+            var mockSet = new Mock<DbSet<ReaderBook>>();
+            mockSet.As<IQueryable<ReaderBook>>().Setup(m => m.Provider).Returns(data.Provider);
+            mockSet.As<IQueryable<ReaderBook>>().Setup(m => m.Expression).Returns(data.Expression);
+            mockSet.As<IQueryable<ReaderBook>>().Setup(m => m.ElementType).Returns(data.ElementType);
+            mockSet.As<IQueryable<ReaderBook>>().Setup(m => m.GetEnumerator()).Returns(data.GetEnumerator());
+
+            var mockContext = new Mock<LibraryContext>();
+            mockContext.Setup(x => x.ReaderBooks).Returns(mockSet.Object);
+
+            this.service = new ReaderBookService(mockContext.Object, false);
+            Assert.ThrowsException<LoanExtensionException>(() => this.service.ExtendLoan(1, 7));
+        }
+
+        /// <summary>
+        /// Tests the check loan extension fail employee wrong parameter.
+        /// </summary>
+        [TestMethod]
+        public void TestExtendLoanEmployeeWrongParam()
+        {
+            var data = new List<ReaderBook>
+            {
+                new ReaderBook
+                {
+                    Id = 1,
+                    ReaderId = 1,
+                    BookPublisherId = 1,
+                    DueDate = new DateTime(2021, 1, 11),
+                    ExtensionDays = 0,
+                    LoanDate = new DateTime(2020, 12, 30)
+                }
+            }.AsQueryable();
+
+            var mockSet = new Mock<DbSet<ReaderBook>>();
+            mockSet.As<IQueryable<ReaderBook>>().Setup(m => m.Provider).Returns(data.Provider);
+            mockSet.As<IQueryable<ReaderBook>>().Setup(m => m.Expression).Returns(data.Expression);
+            mockSet.As<IQueryable<ReaderBook>>().Setup(m => m.ElementType).Returns(data.ElementType);
+            mockSet.As<IQueryable<ReaderBook>>().Setup(m => m.GetEnumerator()).Returns(data.GetEnumerator());
+
+            var mockContext = new Mock<LibraryContext>();
+            mockContext.Setup(x => x.ReaderBooks).Returns(mockSet.Object);
+
+            this.service = new ReaderBookService(mockContext.Object);
+            Assert.ThrowsException<LibraryArgumentException>(() => this.service.ExtendLoan(-1, 7));
         }
     }
 }

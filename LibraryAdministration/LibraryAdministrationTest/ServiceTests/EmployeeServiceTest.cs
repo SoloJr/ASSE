@@ -327,7 +327,7 @@ namespace LibraryAdministrationTest.ServiceTests
 
             this.service = new EmployeeService(mockContext.Object);
 
-            var pubs = this.service.GetAllEmployeesThatHavePhoneNumbers();
+            var pubs = this.service.GetEmployeesThatHaveEmailAndPhoneNumbersSet();
 
             Assert.IsNotNull(pubs);
             Assert.AreEqual(pubs.Count(), 1);

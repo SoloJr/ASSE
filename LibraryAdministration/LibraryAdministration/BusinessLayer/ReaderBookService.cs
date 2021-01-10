@@ -157,7 +157,7 @@ namespace LibraryAdministration.BusinessLayer
                 throw new LibraryArgumentException(nameof(days));
             }
 
-            if (this.CheckLoanExtension(id, days))
+            if (this.CheckLoanExtension(id, days) == false)
             {
                 throw new Exception("Can't extend this loan");
             }

@@ -51,23 +51,5 @@ namespace LibraryAdministration.Validators
 
             return authors.Count != 0;
         }
-
-        /// <summary>
-        /// Rules for number of domains.
-        /// </summary>
-        /// <param name="domains">The domains.</param>
-        /// <returns>boolean value</returns>
-        private bool RuleForNumberOfDomains(ICollection<Domain> domains)
-        {
-            var dom = int.Parse(this.domain);
-            var count = domains.Count(d => d.EntireDomainId == null);
-
-            if (count > dom)
-            {
-                return false;
-            }
-
-            return count <= dom;
-        }
     }
 }

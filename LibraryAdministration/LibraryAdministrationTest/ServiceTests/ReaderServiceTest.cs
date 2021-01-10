@@ -461,7 +461,7 @@ namespace LibraryAdministrationTest.ServiceTests
 
             this.service = new ReaderService(mockContext.Object);
 
-            var pubs = this.service.GetAllEmployeesThatHavePhoneNumbers();
+            var pubs = this.service.GetEmployeesThatHaveEmailAndPhoneNumbersSet();
 
             Assert.IsNotNull(pubs);
             Assert.AreEqual(pubs.Count(), 1);
