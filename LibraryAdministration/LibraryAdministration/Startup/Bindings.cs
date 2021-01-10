@@ -1,19 +1,35 @@
-﻿using LibraryAdministration.BusinessLayer;
-using LibraryAdministration.DataAccessLayer;
-using LibraryAdministration.Interfaces.Business;
-using LibraryAdministration.Interfaces.DataAccess;
-using Ninject.Modules;
+﻿//----------------------------------------------------------------------
+// <copyright file="Bindings.cs" company="Transilvania University of Brasov">
+//     Mircea Solovastru
+// </copyright>
+//-----------------------------------------------------------------------
 
 namespace LibraryAdministration.Startup
 {
+    using BusinessLayer;
+    using DataAccessLayer;
+    using Interfaces.Business;
+    using Interfaces.DataAccess;
+    using Ninject.Modules;
+
+    /// <summary>
+    /// Create Bindings
+    /// </summary>
+    /// <seealso cref="Ninject.Modules.NinjectModule" />
     class Bindings : NinjectModule
     {
+        /// <summary>
+        /// Loads the module into the kernel.
+        /// </summary>
         public override void Load()
         {
-            LoadRepositoryLayer();
-            LoadServiceLayer();
+            this.LoadRepositoryLayer();
+            this.LoadServiceLayer();
         }
 
+        /// <summary>
+        /// Loads the service layer.
+        /// </summary>
         private void LoadServiceLayer()
         {
             Bind<IAuthorService>().To<AuthorService>();
@@ -27,6 +43,9 @@ namespace LibraryAdministration.Startup
             Bind<IReaderBookService>().To<ReaderBookService>();
         }
 
+        /// <summary>
+        /// Loads the repository layer.
+        /// </summary>
         private void LoadRepositoryLayer()
         {
             Bind<IAuthorRepository>().To<AuthorRepository>();
