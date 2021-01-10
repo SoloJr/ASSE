@@ -1,11 +1,17 @@
-﻿using FluentValidation;
-using FluentValidation.Results;
-using LibraryAdministration.Interfaces.Business;
-using LibraryAdministration.Interfaces.DataAccess;
-using System.Collections.Generic;
+﻿//-----------------------------------------------------------------------
+// <copyright file="BaseService.cs" company="Transilvania University of Brasov">
+//     Mircea Solovastru
+// </copyright>
+//-----------------------------------------------------------------------
 
 namespace LibraryAdministration.BusinessLayer
 {
+    using FluentValidation;
+    using FluentValidation.Results;
+    using Interfaces.Business;
+    using Interfaces.DataAccess;
+    using System.Collections.Generic;
+
     public abstract class BaseService<T, U> : IService<T>
         where T : class
         where U : IRepository<T>
@@ -23,6 +29,11 @@ namespace LibraryAdministration.BusinessLayer
             _validator = validator;
         }
 
+        /// <summary>
+        /// Inserts the specified entity.
+        /// </summary>
+        /// <param name="entity">The entity.</param>
+        /// <returns></returns>
         public ValidationResult Insert(T entity)
         {
             var result = _validator.Validate(entity);
@@ -34,6 +45,11 @@ namespace LibraryAdministration.BusinessLayer
             return result;
         }
 
+        /// <summary>
+        /// Updates the specified entity.
+        /// </summary>
+        /// <param name="entity">The entity.</param>
+        /// <returns></returns>
         public ValidationResult Update(T entity)
         {
             var result = _validator.Validate(entity);
@@ -45,16 +61,29 @@ namespace LibraryAdministration.BusinessLayer
             return result;
         }
 
+        /// <summary>
+        /// Deletes the specified entity.
+        /// </summary>
+        /// <param name="entity">The entity.</param>
         public void Delete(T entity)
         {
             _repository.Delete(entity);
         }
 
+        /// <summary>
+        /// Gets the by identifier.
+        /// </summary>
+        /// <param name="id">The identifier.</param>
+        /// <returns></returns>
         public T GetById(object id)
         {
             return _repository.GetById(id);
         }
 
+        /// <summary>
+        /// Gets all.
+        /// </summary>
+        /// <returns></returns>
         public IEnumerable<T> GetAll()
         {
             return _repository.GetAll();

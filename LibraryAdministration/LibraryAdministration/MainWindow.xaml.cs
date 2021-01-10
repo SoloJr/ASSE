@@ -7,7 +7,7 @@ using System.Windows;
 namespace LibraryAdministration
 {
     /// <summary>
-    /// Interaction logic for MainWindow.xaml
+    /// Interaction logic for MainWindow
     /// </summary>
     public partial class MainWindow : Window
     {

@@ -3,7 +3,7 @@
     <Analyzer AnalyzerId="StyleCop.CSharp.DocumentationRules">
       <AnalyzerSettings>
         <StringProperty Name="CompanyName">Transilvania University of Brasov</StringProperty>
-        <StringProperty Name="Copyright">Mircea Solovăstru</StringProperty>
+        <StringProperty Name="Copyright">Mircea Solovastru</StringProperty>
       </AnalyzerSettings>
     </Analyzer>
   </Analyzers>
