@@ -14,7 +14,7 @@ namespace LibraryAdministration.BusinessLayer
     using Validators;
 
     /// <summary>
-    /// 
+    /// Author Service class
     /// </summary>
     /// <seealso cref="LibraryAdministration.BusinessLayer.BaseService{LibraryAdministration.DomainModel.Author, LibraryAdministration.Interfaces.DataAccess.IAuthorRepository}" />
     /// <seealso cref="LibraryAdministration.Interfaces.Business.IAuthorService" />
@@ -27,7 +27,6 @@ namespace LibraryAdministration.BusinessLayer
         public AuthorService(LibraryContext context)
             : base(new AuthorRepository(context), new AuthorValidator())
         {
-
         }
     }
 }

@@ -15,7 +15,7 @@ namespace LibraryAdministration.BusinessLayer
     using Validators;
 
     /// <summary>
-    /// 
+    /// ReaderService class
     /// </summary>
     /// <seealso cref="LibraryAdministration.BusinessLayer.BaseService{LibraryAdministration.DomainModel.Reader, LibraryAdministration.Interfaces.DataAccess.IReaderRepository}" />
     /// <seealso cref="LibraryAdministration.Interfaces.Business.IReaderService" />
@@ -28,7 +28,6 @@ namespace LibraryAdministration.BusinessLayer
         public ReaderService(LibraryContext context)
             : base(new ReaderRepository(context), new ReaderValidator())
         {
-
         }
 
         /// <summary>
@@ -36,7 +35,7 @@ namespace LibraryAdministration.BusinessLayer
         /// </summary>
         /// <param name="readerId">The reader identifier.</param>
         /// <param name="employeeId">The employee identifier.</param>
-        /// <returns></returns>
+        /// <returns>boolean value</returns>
         /// <exception cref="LibraryArgumentException">
         /// readerId
         /// or
@@ -54,7 +53,7 @@ namespace LibraryAdministration.BusinessLayer
                 throw new LibraryArgumentException(nameof(employeeId));
             }
 
-            return _repository.CheckEmployeeStatus(readerId, employeeId);
+            return Repository.CheckEmployeeStatus(readerId, employeeId);
         }
     }
 }

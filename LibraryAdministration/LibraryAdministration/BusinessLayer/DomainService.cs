@@ -6,6 +6,7 @@
 
 namespace LibraryAdministration.BusinessLayer
 {
+    using System.Collections.Generic;
     using DataAccessLayer;
     using DataMapper;
     using DomainModel;
@@ -13,10 +14,9 @@ namespace LibraryAdministration.BusinessLayer
     using Interfaces.Business;
     using Interfaces.DataAccess;
     using Validators;
-    using System.Collections.Generic;
 
     /// <summary>
-    /// 
+    /// Domain Service class
     /// </summary>
     /// <seealso cref="LibraryAdministration.BusinessLayer.BaseService{LibraryAdministration.DomainModel.Domain, LibraryAdministration.Interfaces.DataAccess.IDomainRepository}" />
     /// <seealso cref="LibraryAdministration.Interfaces.Business.IDomainService" />
@@ -29,15 +29,14 @@ namespace LibraryAdministration.BusinessLayer
         public DomainService(LibraryContext context)
             : base(new DomainRepository(context), new DomainValidator())
         {
-
         }
 
         /// <summary>
         /// Gets all parent domains.
         /// </summary>
         /// <param name="domainId">The domain identifier.</param>
-        /// <returns></returns>
-        /// <exception cref="LibraryArgumentException">domainId</exception>
+        /// <returns>All parent domains of a domain</returns>
+        /// <exception cref="LibraryArgumentException">domainId is wrong</exception>
         public IEnumerable<Domain> GetAllParentDomains(int domainId)
         {
             if (domainId <= 0)
@@ -45,15 +44,15 @@ namespace LibraryAdministration.BusinessLayer
                 throw new LibraryArgumentException(nameof(domainId));
             }
 
-            return _repository.GetAllParentDomains(domainId);
+            return Repository.GetAllParentDomains(domainId);
         }
 
         /// <summary>
         /// Checks the domain constraint.
         /// </summary>
         /// <param name="domains">The domains.</param>
-        /// <returns></returns>
-        /// <exception cref="LibraryArgumentException">domains</exception>
+        /// <returns>boolean value</returns>
+        /// <exception cref="LibraryArgumentException">domains is null</exception>
         public bool CheckDomainConstraint(List<Domain> domains)
         {
             if (domains == null)
@@ -61,7 +60,7 @@ namespace LibraryAdministration.BusinessLayer
                 throw new LibraryArgumentException(nameof(domains));
             }
 
-            return _repository.CheckDomainConstraint(domains);
+            return Repository.CheckDomainConstraint(domains);
         }
     }
 }

@@ -14,7 +14,7 @@ namespace LibraryAdministration.BusinessLayer
     using Validators;
 
     /// <summary>
-    /// 
+    /// Employee service class
     /// </summary>
     /// <seealso cref="LibraryAdministration.BusinessLayer.BaseService{LibraryAdministration.DomainModel.Employee, LibraryAdministration.Interfaces.DataAccess.IEmployeeRepository}" />
     /// <seealso cref="LibraryAdministration.Interfaces.Business.IEmployeeService" />
@@ -27,7 +27,6 @@ namespace LibraryAdministration.BusinessLayer
         public EmployeeService(LibraryContext context)
             : base(new EmployeeRepository(context), new EmployeeValidator())
         {
-
         }
     }
 }

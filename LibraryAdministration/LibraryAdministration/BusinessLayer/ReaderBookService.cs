@@ -6,6 +6,8 @@
 
 namespace LibraryAdministration.BusinessLayer
 {
+    using System;
+    using System.Collections.Generic;
     using DataAccessLayer;
     using DataMapper;
     using DomainModel;
@@ -13,11 +15,9 @@ namespace LibraryAdministration.BusinessLayer
     using Interfaces.Business;
     using Interfaces.DataAccess;
     using Validators;
-    using System;
-    using System.Collections.Generic;
 
     /// <summary>
-    /// 
+    /// ReaderBook Service class
     /// </summary>
     /// <seealso cref="LibraryAdministration.BusinessLayer.BaseService{LibraryAdministration.DomainModel.ReaderBook, LibraryAdministration.Interfaces.DataAccess.IReaderBookRepository}" />
     /// <seealso cref="LibraryAdministration.Interfaces.Business.IReaderBookService" />
@@ -31,15 +31,14 @@ namespace LibraryAdministration.BusinessLayer
         public ReaderBookService(LibraryContext context, bool sameAccount = true)
             : base(new ReaderBookRepository(context, sameAccount), new ReaderBookValidator())
         {
-
         }
 
         /// <summary>
         /// Gets all books on loan.
         /// </summary>
         /// <param name="readerId">The reader identifier.</param>
-        /// <returns></returns>
-        /// <exception cref="LibraryArgumentException">readerId</exception>
+        /// <returns>All books on loan</returns>
+        /// <exception cref="LibraryArgumentException">readerId is wrong</exception>
         public List<ReaderBook> GetAllBooksOnLoan(int readerId)
         {
             if (readerId <= 0)
@@ -47,15 +46,15 @@ namespace LibraryAdministration.BusinessLayer
                 throw new LibraryArgumentException(nameof(readerId));
             }
 
-            return _repository.GetAllBooksOnLoan(readerId);
+            return Repository.GetAllBooksOnLoan(readerId);
         }
 
         /// <summary>
         /// Checks the before loan.
         /// </summary>
         /// <param name="readerId">The reader identifier.</param>
-        /// <returns></returns>
-        /// <exception cref="LibraryArgumentException">readerId</exception>
+        /// <returns>boolean value</returns>
+        /// <exception cref="LibraryArgumentException">readerId is wrong</exception>
         public bool CheckBeforeLoan(int readerId)
         {
             if (readerId <= 0)
@@ -63,7 +62,7 @@ namespace LibraryAdministration.BusinessLayer
                 throw new LibraryArgumentException(nameof(readerId));
             }
 
-            return _repository.CheckBeforeLoan(readerId);
+            return Repository.CheckBeforeLoan(readerId);
         }
 
         /// <summary>
@@ -71,7 +70,7 @@ namespace LibraryAdministration.BusinessLayer
         /// </summary>
         /// <param name="readerId">The reader identifier.</param>
         /// <param name="domainId">The domain identifier.</param>
-        /// <returns></returns>
+        /// <returns>boolean value</returns>
         /// <exception cref="LibraryArgumentException">
         /// readerId
         /// or
@@ -89,15 +88,15 @@ namespace LibraryAdministration.BusinessLayer
                 throw new LibraryArgumentException(nameof(domainId));
             }
 
-            return _repository.CheckPastLoansForDomains(readerId, domainId);
+            return Repository.CheckPastLoansForDomains(readerId, domainId);
         }
 
         /// <summary>
         /// Checks the books rented today.
         /// </summary>
         /// <param name="readerId">The reader identifier.</param>
-        /// <returns></returns>
-        /// <exception cref="LibraryArgumentException">readerId</exception>
+        /// <returns>boolean value</returns>
+        /// <exception cref="LibraryArgumentException">readerId was wrong</exception>
         public bool CheckBooksRentedToday(int readerId)
         {
             if (readerId <= 0)
@@ -105,7 +104,7 @@ namespace LibraryAdministration.BusinessLayer
                 throw new LibraryArgumentException(nameof(readerId));
             }
 
-            return _repository.CheckBooksRentedToday(readerId);
+            return Repository.CheckBooksRentedToday(readerId);
         }
 
         /// <summary>
@@ -113,7 +112,7 @@ namespace LibraryAdministration.BusinessLayer
         /// </summary>
         /// <param name="bookId">The book identifier.</param>
         /// <param name="readerId">The reader identifier.</param>
-        /// <returns></returns>
+        /// <returns>boolean value</returns>
         /// <exception cref="LibraryArgumentException">
         /// readerId
         /// or
@@ -131,7 +130,7 @@ namespace LibraryAdministration.BusinessLayer
                 throw new LibraryArgumentException(nameof(bookId));
             }
 
-            return _repository.CheckSameBookRented(bookId, readerId);
+            return Repository.CheckSameBookRented(bookId, readerId);
         }
 
         /// <summary>
@@ -139,7 +138,7 @@ namespace LibraryAdministration.BusinessLayer
         /// </summary>
         /// <param name="id">The identifier.</param>
         /// <param name="days">The days.</param>
-        /// <returns></returns>
+        /// <returns>Reader Book</returns>
         /// <exception cref="LibraryArgumentException">
         /// id
         /// or
@@ -163,7 +162,7 @@ namespace LibraryAdministration.BusinessLayer
                 throw new Exception("Can't extend this loan");
             }
 
-            return _repository.ExtendLoan(id, days);
+            return Repository.ExtendLoan(id, days);
         }
 
         /// <summary>
@@ -171,7 +170,7 @@ namespace LibraryAdministration.BusinessLayer
         /// </summary>
         /// <param name="id">The identifier.</param>
         /// <param name="days">The days.</param>
-        /// <returns></returns>
+        /// <returns>boolean value</returns>
         /// <exception cref="LibraryArgumentException">
         /// id
         /// or
@@ -189,15 +188,15 @@ namespace LibraryAdministration.BusinessLayer
                 throw new LibraryArgumentException(nameof(days));
             }
 
-            return _repository.CheckLoanExtension(id, days);
+            return Repository.CheckLoanExtension(id, days);
         }
 
         /// <summary>
         /// Checks the multiple books domain match.
         /// </summary>
         /// <param name="bookPublisherIds">The book publisher ids.</param>
-        /// <returns></returns>
-        /// <exception cref="LibraryArgumentException">bookPublisherIds</exception>
+        /// <returns>boolean value</returns>
+        /// <exception cref="LibraryArgumentException">bookPublisherIds is wrong</exception>
         public bool CheckMultipleBooksDomainMatch(List<int> bookPublisherIds)
         {
             if (bookPublisherIds == null || bookPublisherIds.Count <= 0)
@@ -205,16 +204,16 @@ namespace LibraryAdministration.BusinessLayer
                 throw new LibraryArgumentException(nameof(bookPublisherIds));
             }
 
-            return _repository.CheckMultipleBooksDomainMatch(bookPublisherIds);
+            return Repository.CheckMultipleBooksDomainMatch(bookPublisherIds);
         }
 
         /// <summary>
         /// Gets the rent details.
         /// </summary>
-        /// <returns></returns>
+        /// <returns>Rent Details Object</returns>
         public RentDetails GetRentDetails()
         {
-            var repo = (ReaderBookRepository)_repository;
+            var repo = (ReaderBookRepository)Repository;
             return repo.Details;
         }
     }

@@ -6,6 +6,7 @@
 
 namespace LibraryAdministration.BusinessLayer
 {
+    using System.Collections.Generic;
     using DataAccessLayer;
     using DataMapper;
     using DomainModel;
@@ -13,10 +14,9 @@ namespace LibraryAdministration.BusinessLayer
     using Interfaces.Business;
     using Interfaces.DataAccess;
     using Validators;
-    using System.Collections.Generic;
 
     /// <summary>
-    /// 
+    /// Book Service service
     /// </summary>
     /// <seealso cref="LibraryAdministration.BusinessLayer.BaseService{LibraryAdministration.DomainModel.Book, LibraryAdministration.Interfaces.DataAccess.IBookRepository}" />
     /// <seealso cref="LibraryAdministration.Interfaces.Business.IBookService" />
@@ -29,15 +29,14 @@ namespace LibraryAdministration.BusinessLayer
         public BookService(LibraryContext context)
             : base(new BookRepository(context), new BookValidator())
         {
-
         }
 
         /// <summary>
         /// Gets all domains of book.
         /// </summary>
         /// <param name="bookId">The book identifier.</param>
-        /// <returns></returns>
-        /// <exception cref="LibraryArgumentException">bookId</exception>
+        /// <returns>All domains of a book</returns>
+        /// <exception cref="LibraryArgumentException">bookId not correct</exception>
         public IEnumerable<Domain> GetAllDomainsOfBook(int bookId)
         {
             if (bookId <= 0)
@@ -45,7 +44,7 @@ namespace LibraryAdministration.BusinessLayer
                 throw new LibraryArgumentException(nameof(bookId));
             }
 
-            return _repository.GetAllDomainsOfBook(bookId);
+            return Repository.GetAllDomainsOfBook(bookId);
         }
     }
 }

@@ -14,7 +14,7 @@ namespace LibraryAdministration.BusinessLayer
     using Validators;
 
     /// <summary>
-    /// 
+    /// Personal Info Service Class
     /// </summary>
     /// <seealso cref="LibraryAdministration.BusinessLayer.BaseService{LibraryAdministration.DomainModel.PersonalInfo, LibraryAdministration.Interfaces.DataAccess.IPersonalInfoRepository}" />
     /// <seealso cref="LibraryAdministration.Interfaces.Business.IPersonalInfoService" />
@@ -27,7 +27,6 @@ namespace LibraryAdministration.BusinessLayer
         public PersonalInfoService(LibraryContext context)
             : base(new PersonalInfoRepository(context), new PersonalInfoValidator())
         {
-
         }
     }
 }

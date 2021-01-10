@@ -89,7 +89,9 @@
     <Compile Include="BusinessLayer\DomainService.cs" />
     <Compile Include="BusinessLayer\EmployeeService.cs" />
     <Compile Include="BusinessLayer\PersonalInfoService.cs" />
-    <Compile Include="BusinessLayer\PublisherService.cs" />
+    <Compile Include="BusinessLayer\PublisherService.cs">
+      <ExcludeFromStyleCop>False</ExcludeFromStyleCop>
+    </Compile>
     <Compile Include="BusinessLayer\ReaderBookService.cs" />
     <Compile Include="BusinessLayer\ReaderService.cs" />
     <Compile Include="DataAccessLayer\AuthorRepository.cs" />

@@ -6,6 +6,7 @@
 
 namespace LibraryAdministration.BusinessLayer
 {
+    using System.Collections.Generic;
     using DataAccessLayer;
     using DataMapper;
     using DomainModel;
@@ -13,10 +14,9 @@ namespace LibraryAdministration.BusinessLayer
     using Interfaces.Business;
     using Interfaces.DataAccess;
     using Validators;
-    using System.Collections.Generic;
 
     /// <summary>
-    /// 
+    /// BookPublisher service class
     /// </summary>
     /// <seealso cref="LibraryAdministration.BusinessLayer.BaseService{LibraryAdministration.DomainModel.BookPublisher, LibraryAdministration.Interfaces.DataAccess.IBookPublisherRepository}" />
     /// <seealso cref="LibraryAdministration.Interfaces.Business.IBookPublisherService" />
@@ -29,15 +29,14 @@ namespace LibraryAdministration.BusinessLayer
         public BookPublisherService(LibraryContext context)
             : base(new BookPublisherRepository(context), new BookPublisherValidator())
         {
-
         }
 
         /// <summary>
         /// Gets all editions of book.
         /// </summary>
         /// <param name="bookId">The book identifier.</param>
-        /// <returns></returns>
-        /// <exception cref="LibraryArgumentException">bookId</exception>
+        /// <returns>All editions of a book</returns>
+        /// <exception cref="LibraryArgumentException">bookId is wrong</exception>
         public IEnumerable<BookPublisher> GetAllEditionsOfBook(int bookId)
         {
             if (bookId <= 0)
@@ -45,15 +44,15 @@ namespace LibraryAdministration.BusinessLayer
                 throw new LibraryArgumentException(nameof(bookId));
             }
 
-            return _repository.GetAllEditionsOfBook(bookId);
+            return Repository.GetAllEditionsOfBook(bookId);
         }
 
         /// <summary>
         /// Checks the book details for availability.
         /// </summary>
         /// <param name="bookPublisherId">The book publisher identifier.</param>
-        /// <returns></returns>
-        /// <exception cref="LibraryArgumentException">bookPublisherId</exception>
+        /// <returns>True if it's available, false otherwise</returns>
+        /// <exception cref="LibraryArgumentException">bookPublisherId is wrong</exception>
         public bool CheckBookDetailsForAvailability(int bookPublisherId)
         {
             if (bookPublisherId <= 0)
@@ -61,7 +60,7 @@ namespace LibraryAdministration.BusinessLayer
                 throw new LibraryArgumentException(nameof(bookPublisherId));
             }
 
-            return _repository.CheckBookDetailsForAvailability(bookPublisherId);
+            return Repository.CheckBookDetailsForAvailability(bookPublisherId);
         }
     }
 }
