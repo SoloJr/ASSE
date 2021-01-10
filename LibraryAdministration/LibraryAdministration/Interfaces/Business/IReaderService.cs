@@ -4,14 +4,17 @@
 // </copyright>
 //-----------------------------------------------------------------------
 
+
+
 namespace LibraryAdministration.Interfaces.Business
 {
+    using System.Collections.Generic;
     using DomainModel;
 
     /// <summary>
     /// IReaderService interface
     /// </summary>
-    /// <seealso cref="LibraryAdministration.Interfaces.Business.IService{LibraryAdministration.DomainModel.Reader}" />
+    /// <seealso cref="Reader" />
     public interface IReaderService : IService<Reader>
     {
         /// <summary>
@@ -21,5 +24,23 @@ namespace LibraryAdministration.Interfaces.Business
         /// <param name="employeeId">The employee identifier.</param>
         /// <returns>the boolean value</returns>
         bool CheckEmployeeStatus(int readerId, int employeeId);
+
+        /// <summary>
+        /// Gets all employees that have phone numbers.
+        /// </summary>
+        /// <returns>Readers list</returns>
+        List<Reader> GetAllEmployeesThatHavePhoneNumbers();
+
+        /// <summary>
+        /// Gets all employees that have emails.
+        /// </summary>
+        /// <returns>Readers list</returns>
+        List<Reader> GetAllEmployeesThatHaveEmails();
+
+        /// <summary>
+        /// Gets the employees that have email and phone numbers set.
+        /// </summary>
+        /// <returns>Readers list</returns>
+        List<Reader> GetEmployeesThatHaveEmailAndPhoneNumbersSet();
     }
 }

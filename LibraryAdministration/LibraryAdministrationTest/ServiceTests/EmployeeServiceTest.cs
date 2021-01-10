@@ -170,5 +170,167 @@ namespace LibraryAdministrationTest.ServiceTests
             Assert.IsNotNull(pubs);
             Assert.AreEqual(pubs.Count(), 2);
         }
+
+        /// <summary>
+        /// Tests the get all employees that have phone number set.
+        /// </summary>
+        [TestMethod]
+        public void TestGetAllEmployeesThatHavePhoneNumberSet()
+        {
+            var data = new List<Employee>
+            {
+                this.employee,
+                new Employee
+                {
+                    Address = "str 124521332",
+                    FirstName = "aaa",
+                    LastName = "bbb",
+                    Id = 1,
+                    EmployeePersonalInfoId = 1,
+                    Info = new PersonalInfo
+                    {
+                        Email = "mircea@google.com",
+                        PhoneNumber = ""
+                    }
+                },
+                new Employee
+                {
+                    Address = "str 124521332",
+                    FirstName = "aaa",
+                    LastName = "bbb",
+                    Id = 1,
+                    EmployeePersonalInfoId = 1,
+                    Info = new PersonalInfo
+                    {
+                        PhoneNumber = "0752365981",
+                        Email = ""
+                    }
+                }
+            }.AsQueryable();
+
+            var mockSet = new Mock<DbSet<Employee>>();
+            mockSet.As<IQueryable<Employee>>().Setup(m => m.Provider).Returns(data.Provider);
+            mockSet.As<IQueryable<Employee>>().Setup(m => m.Expression).Returns(data.Expression);
+            mockSet.As<IQueryable<Employee>>().Setup(m => m.ElementType).Returns(data.ElementType);
+            mockSet.As<IQueryable<Employee>>().Setup(m => m.GetEnumerator()).Returns(data.GetEnumerator());
+
+            var mockContext = new Mock<LibraryContext>();
+            mockContext.Setup(x => x.Employees).Returns(mockSet.Object);
+
+            this.service = new EmployeeService(mockContext.Object);
+
+            var pubs = this.service.GetAllEmployeesThatHavePhoneNumbers();
+
+            Assert.IsNotNull(pubs);
+            Assert.AreEqual(pubs.Count(), 2);
+        }
+
+        /// <summary>
+        /// Tests the get all employees that have email set.
+        /// </summary>
+        [TestMethod]
+        public void TestGetAllEmployeesThatHaveEmailSet()
+        {
+            var data = new List<Employee>
+            {
+                this.employee,
+                new Employee
+                {
+                    Address = "str 124521332",
+                    FirstName = "aaa",
+                    LastName = "bbb",
+                    Id = 1,
+                    EmployeePersonalInfoId = 1,
+                    Info = new PersonalInfo
+                    {
+                        Email = "mircea@google.com",
+                        PhoneNumber = ""
+                    }
+                },
+                new Employee
+                {
+                    Address = "str 124521332",
+                    FirstName = "aaa",
+                    LastName = "bbb",
+                    Id = 1,
+                    EmployeePersonalInfoId = 1,
+                    Info = new PersonalInfo
+                    {
+                        PhoneNumber = "0752365981",
+                        Email = ""
+                    }
+                }
+            }.AsQueryable();
+
+            var mockSet = new Mock<DbSet<Employee>>();
+            mockSet.As<IQueryable<Employee>>().Setup(m => m.Provider).Returns(data.Provider);
+            mockSet.As<IQueryable<Employee>>().Setup(m => m.Expression).Returns(data.Expression);
+            mockSet.As<IQueryable<Employee>>().Setup(m => m.ElementType).Returns(data.ElementType);
+            mockSet.As<IQueryable<Employee>>().Setup(m => m.GetEnumerator()).Returns(data.GetEnumerator());
+
+            var mockContext = new Mock<LibraryContext>();
+            mockContext.Setup(x => x.Employees).Returns(mockSet.Object);
+
+            this.service = new EmployeeService(mockContext.Object);
+
+            var pubs = this.service.GetAllEmployeesThatHaveEmails();
+
+            Assert.IsNotNull(pubs);
+            Assert.AreEqual(pubs.Count(), 2);
+        }
+
+        /// <summary>
+        /// Tests the get all employees that have both set.
+        /// </summary>
+        [TestMethod]
+        public void TestGetAllEmployeesThatHaveBothSet()
+        {
+            var data = new List<Employee>
+            {
+                this.employee,
+                new Employee
+                {
+                    Address = "str 124521332",
+                    FirstName = "aaa",
+                    LastName = "bbb",
+                    Id = 1,
+                    EmployeePersonalInfoId = 1,
+                    Info = new PersonalInfo
+                    {
+                        Email = "mircea@google.com",
+                        PhoneNumber = ""
+                    }
+                },
+                new Employee
+                {
+                    Address = "str 124521332",
+                    FirstName = "aaa",
+                    LastName = "bbb",
+                    Id = 1,
+                    EmployeePersonalInfoId = 1,
+                    Info = new PersonalInfo
+                    {
+                        PhoneNumber = "0752365981",
+                        Email = ""
+                    }
+                }
+            }.AsQueryable();
+
+            var mockSet = new Mock<DbSet<Employee>>();
+            mockSet.As<IQueryable<Employee>>().Setup(m => m.Provider).Returns(data.Provider);
+            mockSet.As<IQueryable<Employee>>().Setup(m => m.Expression).Returns(data.Expression);
+            mockSet.As<IQueryable<Employee>>().Setup(m => m.ElementType).Returns(data.ElementType);
+            mockSet.As<IQueryable<Employee>>().Setup(m => m.GetEnumerator()).Returns(data.GetEnumerator());
+
+            var mockContext = new Mock<LibraryContext>();
+            mockContext.Setup(x => x.Employees).Returns(mockSet.Object);
+
+            this.service = new EmployeeService(mockContext.Object);
+
+            var pubs = this.service.GetAllEmployeesThatHavePhoneNumbers();
+
+            Assert.IsNotNull(pubs);
+            Assert.AreEqual(pubs.Count(), 1);
+        }
     }
 }

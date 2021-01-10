@@ -4,6 +4,8 @@
 // </copyright>
 //-----------------------------------------------------------------------
 
+using System.Collections.Generic;
+
 namespace LibraryAdministration.BusinessLayer
 {
     using DataAccessLayer;
@@ -27,6 +29,33 @@ namespace LibraryAdministration.BusinessLayer
         public EmployeeService(LibraryContext context)
             : base(new EmployeeRepository(context), new EmployeeValidator())
         {
+        }
+
+        /// <summary>
+        /// Gets all employees that have phone numbers.
+        /// </summary>
+        /// <returns>Employee list</returns>
+        public List<Employee> GetAllEmployeesThatHavePhoneNumbers()
+        {
+            return Repository.GetAllEmployeesThatHavePhoneNumbers();
+        }
+
+        /// <summary>
+        /// Gets all employees that have emails.
+        /// </summary>
+        /// <returns>Employee list</returns>
+        public List<Employee> GetAllEmployeesThatHaveEmails()
+        {
+            return Repository.GetAllEmployeesThatHaveEmails();
+        }
+
+        /// <summary>
+        /// Gets the employees that have email and phone numbers set.
+        /// </summary>
+        /// <returns>Employee list</returns>
+        public List<Employee> GetEmployeesThatHaveEmailAndPhoneNumbersSet()
+        {
+            return Repository.GetEmployeesThatHaveEmailAndPhoneNumbersSet();
         }
     }
 }

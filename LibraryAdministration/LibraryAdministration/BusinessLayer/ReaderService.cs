@@ -6,6 +6,7 @@
 
 namespace LibraryAdministration.BusinessLayer
 {
+    using System.Collections.Generic;
     using DataAccessLayer;
     using DataMapper;
     using DomainModel;
@@ -54,6 +55,33 @@ namespace LibraryAdministration.BusinessLayer
             }
 
             return Repository.CheckEmployeeStatus(readerId, employeeId);
+        }
+
+        /// <summary>
+        /// Gets all readers that have phone numbers.
+        /// </summary>
+        /// <returns>Employee list</returns>
+        public List<Reader> GetAllEmployeesThatHavePhoneNumbers()
+        {
+            return Repository.GetAllEmployeesThatHavePhoneNumbers();
+        }
+
+        /// <summary>
+        /// Gets all readers that have emails.
+        /// </summary>
+        /// <returns>Employee list</returns>
+        public List<Reader> GetAllEmployeesThatHaveEmails()
+        {
+            return Repository.GetAllEmployeesThatHaveEmails();
+        }
+
+        /// <summary>
+        /// Gets the readers that have email and phone numbers set.
+        /// </summary>
+        /// <returns>Employee list</returns>
+        public List<Reader> GetEmployeesThatHaveEmailAndPhoneNumbersSet()
+        {
+            return Repository.GetEmployeesThatHaveEmailAndPhoneNumbersSet();
         }
     }
 }

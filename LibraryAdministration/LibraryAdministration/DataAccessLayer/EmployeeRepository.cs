@@ -4,8 +4,11 @@
 // </copyright>
 //-----------------------------------------------------------------------
 
+using System.Linq;
+
 namespace LibraryAdministration.DataAccessLayer
 {
+    using System.Collections.Generic;
     using DataMapper;
     using DomainModel;
     using Interfaces.DataAccess;
@@ -13,7 +16,7 @@ namespace LibraryAdministration.DataAccessLayer
     /// <summary>
     /// Employee Repository class
     /// </summary>
-    /// <seealso cref="LibraryAdministration.DataAccessLayer.BaseRepository{LibraryAdministration.DomainModel.Employee}" />
+    /// <seealso cref="Employee" />
     /// <seealso cref="LibraryAdministration.Interfaces.DataAccess.IEmployeeRepository" />
     public class EmployeeRepository : BaseRepository<Employee>, IEmployeeRepository
     {
@@ -24,6 +27,33 @@ namespace LibraryAdministration.DataAccessLayer
         public EmployeeRepository(LibraryContext context)
             : base(context)
         {
+        }
+
+        /// <summary>
+        /// Gets all employees that have phone numbers.
+        /// </summary>
+        /// <returns>Employee list</returns>
+        public List<Employee> GetAllEmployeesThatHavePhoneNumbers()
+        {
+            return Context.Employees.Where(x => x.Info.PhoneNumber != string.Empty).ToList();
+        }
+
+        /// <summary>
+        /// Gets all employees that have emails.
+        /// </summary>
+        /// <returns>Employee list</returns>
+        public List<Employee> GetAllEmployeesThatHaveEmails()
+        {
+            return Context.Employees.Where(x => x.Info.Email != string.Empty).ToList();
+        }
+
+        /// <summary>
+        /// Gets the employees that have email and phone numbers set.
+        /// </summary>
+        /// <returns>Employee list</returns>
+        public List<Employee> GetEmployeesThatHaveEmailAndPhoneNumbersSet()
+        {
+            return Context.Employees.Where(x => x.Info.PhoneNumber != string.Empty && x.Info.Email != string.Empty).ToList();
         }
     }
 }
