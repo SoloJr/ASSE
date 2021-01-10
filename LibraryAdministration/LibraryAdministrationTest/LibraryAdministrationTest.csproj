@@ -99,7 +99,7 @@
     <Compile Include="ServiceTests\PublisherServiceTest.cs" />
     <Compile Include="ServiceTests\ReaderBookServiceTest.cs" />
     <Compile Include="ServiceTests\ReaderServiceTest.cs" />
-    <Compile Include="StartupTests\NinjectBindings.cs" />
+    <Compile Include="StartupTests\NinjectBindingsTests.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
