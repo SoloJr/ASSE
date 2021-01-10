@@ -19,5 +19,8 @@ namespace LibraryAdministration.Interfaces.DataAccess
 
         bool CheckSameBookRented(int bookId, int readerId);
 
+        bool CheckLoanExtension(int id, int days);
+
+        ReaderBook ExtendLoan(int id, int days);
     }
 }

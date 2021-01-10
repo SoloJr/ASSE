@@ -12,10 +12,19 @@ namespace LibraryAdministration.Validators
     {
         public ReaderBookValidator()
         {
-            RuleFor(x => x.DueDate).Must(x => x > DateTime.MinValue);
+            RuleFor(x => x ).Must(CheckLoanDate);
             RuleFor(x => x.LoanDate).Must(x => x > DateTime.MinValue);
             RuleFor(x => x.BookPublisherId).NotEmpty();
             RuleFor(x => x.ReaderId).NotEmpty();
+        }
+
+        private bool CheckLoanDate(ReaderBook rb)
+        {
+            var loanDate = new DateTime(rb.LoanDate.Year, rb.LoanDate.Month, rb.LoanDate.Day);
+            var dueDateNew = rb.DueDate.AddDays(14);
+            var dueDate = new DateTime(dueDateNew.Year, dueDateNew.Month, dueDateNew.Day);
+
+            return loanDate == dueDate;
         }
     }
 }

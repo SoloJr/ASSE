@@ -22,6 +22,8 @@ namespace LibraryAdministration.DomainModel
 
         public DateTime? LoanReturnDate { get; set; }
 
+        public int? ExtensionDays { get; set; }
+
         public int BookPublisherId { get; set; }
 
         [ForeignKey("BookPublisherId")]

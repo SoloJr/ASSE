@@ -20,6 +20,10 @@ namespace LibraryAdministration.Interfaces.Business
 
         bool CheckSameBookRented(int bookId, int readerId);
 
+        bool CheckLoanExtension(int id, int days);
+
+        ReaderBook ExtendLoan(int id, int days);
+
         RentDetails GetRentDetails();
     }
 }

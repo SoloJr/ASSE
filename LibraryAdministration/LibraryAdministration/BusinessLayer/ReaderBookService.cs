@@ -82,6 +82,41 @@ namespace LibraryAdministration.BusinessLayer
             return _repository.CheckSameBookRented(bookId, readerId);
         }
 
+        public ReaderBook ExtendLoan(int id, int days)
+        {
+            if (id <= 0)
+            {
+                throw new LibraryArgumentException(nameof(id));
+            }
+
+            if (days <= 0)
+            {
+                throw new LibraryArgumentException(nameof(days));
+            }
+
+            if (this.CheckLoanExtension(id, days))
+            {
+                throw new Exception("Can't extend this loan"); 
+            }
+
+            return _repository.ExtendLoan(id, days);
+        }
+
+        public bool CheckLoanExtension(int id, int days)
+        {
+            if (id <= 0)
+            {
+                throw new LibraryArgumentException(nameof(id));
+            }
+
+            if (days <= 0)
+            {
+                throw new LibraryArgumentException(nameof(days));
+            }
+
+            return _repository.CheckLoanExtension(id, days);
+        }
+
         public RentDetails GetRentDetails()
         {
             var repo = (ReaderBookRepository)_repository;

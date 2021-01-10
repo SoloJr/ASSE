@@ -107,6 +107,7 @@
     <Compile Include="DomainModel\Reader.cs" />
     <Compile Include="DomainModel\ReaderBook.cs" />
     <Compile Include="Helper\LibraryArgumentException.cs" />
+    <Compile Include="Helper\LoanExtensionException.cs" />
     <Compile Include="Helper\RentDetails.cs" />
     <Compile Include="Interfaces\Business\IAuthorService.cs" />
     <Compile Include="Interfaces\Business\IBookPublisherService.cs" />
@@ -191,6 +192,10 @@
     <Compile Include="Migrations\202101091650109_RemovedRequiredInPersonalInfo.cs" />
     <Compile Include="Migrations\202101091650109_RemovedRequiredInPersonalInfo.designer.cs">
       <DependentUpon>202101091650109_RemovedRequiredInPersonalInfo.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202101101840065_AddedExtensionDays.cs" />
+    <Compile Include="Migrations\202101101840065_AddedExtensionDays.designer.cs">
+      <DependentUpon>202101101840065_AddedExtensionDays.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Startup\Bindings.cs" />
@@ -286,6 +291,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\202101091650109_RemovedRequiredInPersonalInfo.resx">
       <DependentUpon>202101091650109_RemovedRequiredInPersonalInfo.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202101101840065_AddedExtensionDays.resx">
+      <DependentUpon>202101101840065_AddedExtensionDays.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>

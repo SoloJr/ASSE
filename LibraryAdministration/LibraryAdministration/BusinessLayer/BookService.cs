@@ -25,7 +25,7 @@ namespace LibraryAdministration.BusinessLayer
 
         public IEnumerable<Domain> GetAllDomainsOfBook(int bookId)
         {
-            if (bookId < 0)
+            if (bookId <= 0)
             {
                 throw new LibraryArgumentException(nameof(bookId));
             }

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Configuration;
+using System.Data.Entity.Core;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -128,6 +129,33 @@ namespace LibraryAdministration.DataAccessLayer
             var ddlDate = DateTime.Now.AddDays(-(Details.DELTA));
 
             return data.Count == 0 || data.All(rb => rb.LoanDate <= ddlDate);
+        }
+
+        public bool CheckLoanExtension(int id, int days)
+        {
+            var loan = _context.ReaderBooks.FirstOrDefault(x => x.Id == id) ??
+                       throw new ObjectNotFoundException("Loan not found");
+
+            if (loan.ExtensionDays + days > Details.LIM)
+            {
+                throw new LoanExtensionException();
+            }
+
+            return true;
+        }
+
+        public ReaderBook ExtendLoan(int id, int days)
+        {
+            var loan = _context.ReaderBooks.First(x => x.Id == id)
+                ?? throw new ObjectNotFoundException("Loan not found");
+
+            loan.ExtensionDays = days;
+
+            loan.DueDate = loan.DueDate.AddDays(days);
+
+            this.Update(loan);
+
+            return loan;
         }
     }
 }
