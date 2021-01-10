@@ -1,27 +1,47 @@
-﻿using FluentValidation;
-using LibraryAdministration.DomainModel;
-using System.Collections.Generic;
-using System.Configuration;
-using System.Linq;
+﻿//----------------------------------------------------------------------
+// <copyright file="BookValidator.cs" company="Transilvania University of Brasov">
+//     Mircea Solovastru
+// </copyright>
+//-----------------------------------------------------------------------
 
 namespace LibraryAdministration.Validators
 {
+    using System.Collections.Generic;
+    using System.Configuration;
+    using System.Linq;
+    using DomainModel;
+    using FluentValidation;
+
+    /// <summary>
+    /// BookValidator class
+    /// </summary>
+    /// <seealso cref="FluentValidation.AbstractValidator{LibraryAdministration.DomainModel.Book}" />
     public class BookValidator : AbstractValidator<Book>
     {
-        private readonly string _dom = ConfigurationManager.AppSettings["DOM"];
+        /// <summary>
+        /// The DOM
+        /// </summary>
+        private readonly string domain = ConfigurationManager.AppSettings["DOM"];
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="BookValidator"/> class.
+        /// </summary>
         public BookValidator()
         {
-            var dom = int.Parse(_dom);
+            var dom = int.Parse(this.domain);
             RuleFor(book => book.Name).NotEmpty().MinimumLength(3).MaximumLength(100);
             RuleFor(book => book.Language).NotEmpty().MinimumLength(3).MaximumLength(20);
             RuleFor(book => book.Year).NotEmpty();
             RuleFor(book => book.Domains).Must(x => x.Count <= dom)
                 .WithMessage($"The book cannot be in more than {dom} domains");
-            //RuleFor(book => book.Domains).Must(RuleForNumberOfDomains).WithMessage("Too many domains");
-            RuleFor(book => book.Authors).Must(RuleForAuthors).WithMessage("Specify authors");
+            RuleFor(book => book.Authors).Must(this.RuleForAuthors).WithMessage("Specify authors");
         }
 
+        /// <summary>
+        /// Rules for authors.
+        /// </summary>
+        /// <param name="authors">The authors.</param>
+        /// <returns>boolean value</returns>
         private bool RuleForAuthors(ICollection<Author> authors)
         {
             if (authors == null)
@@ -29,17 +49,17 @@ namespace LibraryAdministration.Validators
                 return false;
             }
 
-            if (authors.Count == 0)
-            {
-                return false;
-            }
-
-            return true;
+            return authors.Count != 0;
         }
 
+        /// <summary>
+        /// Rules for number of domains.
+        /// </summary>
+        /// <param name="domains">The domains.</param>
+        /// <returns>boolean value</returns>
         private bool RuleForNumberOfDomains(ICollection<Domain> domains)
         {
-            var dom = int.Parse(_dom);
+            var dom = int.Parse(this.domain);
             var count = domains.Count(d => d.EntireDomainId == null);
 
             if (count > dom)
@@ -49,12 +69,5 @@ namespace LibraryAdministration.Validators
 
             return count <= dom;
         }
-
-        //private bool RuleForMultipleDomainsOfSameKind(ICollection<Domain> domains)
-        //{
-        //    var orderedDomains = domains.ToList().OrderBy(x => x.ParentId).ToList();
-
-
-        //}
     }
 }

@@ -1,9 +1,23 @@
-﻿using LibraryAdministration.DomainModel;
+﻿//----------------------------------------------------------------------
+// <copyright file="ValidatorExtension.cs" company="Transilvania University of Brasov">
+//     Mircea Solovastru
+// </copyright>
+//-----------------------------------------------------------------------
 
 namespace LibraryAdministration.Validators
 {
+    using DomainModel;
+
+    /// <summary>
+    /// Extensions for validators
+    /// </summary>
     public static class ValidatorExtension
     {
+        /// <summary>
+        /// Checks the personal information null or empty.
+        /// </summary>
+        /// <param name="pi">The pi.</param>
+        /// <returns>boolean value</returns>
         public static bool CheckPersonalInfoNullOrEmpty(PersonalInfo pi)
         {
             if (pi == null)
@@ -16,7 +30,7 @@ namespace LibraryAdministration.Validators
                 return false;
             }
 
-            return pi.Email != "" || pi.PhoneNumber != "";
+            return pi.Email != string.Empty || pi.PhoneNumber != string.Empty;
         }
     }
 }

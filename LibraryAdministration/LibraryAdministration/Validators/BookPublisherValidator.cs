@@ -1,11 +1,24 @@
-﻿using FluentValidation;
-using LibraryAdministration.DomainModel;
-using System;
+﻿//----------------------------------------------------------------------
+// <copyright file="BookPublisherValidator.cs" company="Transilvania University of Brasov">
+//     Mircea Solovastru
+// </copyright>
+//-----------------------------------------------------------------------
 
 namespace LibraryAdministration.Validators
 {
+    using System;
+    using DomainModel;
+    using FluentValidation;
+
+    /// <summary>
+    /// BookPublisherValidator class
+    /// </summary>
+    /// <seealso cref="FluentValidation.AbstractValidator{LibraryAdministration.DomainModel.BookPublisher}" />
     public class BookPublisherValidator : AbstractValidator<BookPublisher>
     {
+        /// <summary>
+        /// Initializes a new instance of the <see cref="BookPublisherValidator"/> class.
+        /// </summary>
         public BookPublisherValidator()
         {
             RuleFor(x => x.BookId).NotEmpty();
