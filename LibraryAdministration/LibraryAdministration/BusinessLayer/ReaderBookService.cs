@@ -117,6 +117,16 @@ namespace LibraryAdministration.BusinessLayer
             return _repository.CheckLoanExtension(id, days);
         }
 
+        public bool CheckMultipleBooksDomainMatch(List<int> bookPublisherIds)
+        {
+            if (bookPublisherIds == null || bookPublisherIds.Count <= 0)
+            {
+                throw new LibraryArgumentException(nameof(bookPublisherIds));
+            }
+
+            return _repository.CheckMultipleBooksDomainMatch(bookPublisherIds);
+        }
+
         public RentDetails GetRentDetails()
         {
             var repo = (ReaderBookRepository)_repository;

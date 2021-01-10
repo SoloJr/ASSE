@@ -1406,5 +1406,635 @@ namespace LibraryAdministrationTest.ServiceTests
             _service = new ReaderBookService(mockContext.Object, false);
             Assert.ThrowsException<ObjectNotFoundException>(() => _service.CheckLoanExtension(100, 7));
         }
+
+        [TestMethod]
+        public void TestCheckMultipleBooksDomainMatchReaderLowerThanTrashold()
+        {
+            #region mock data
+
+            var domains = new List<Domain>
+            {
+                new Domain
+                {
+                    Id = 1,
+                    Name = "One",
+                    ParentId = null,
+                    EntireDomainId = null
+                },
+                new Domain
+                {
+                    Id = 2,
+                    Name = "Two",
+                    ParentId = 1,
+                    EntireDomainId = null
+                }
+            }.AsQueryable();
+
+            var books = new List<Book>
+            {
+                new Book
+                {
+                    Domains = new List<Domain>
+                    {
+                        domains.ElementAt(0)
+                    },
+                    Id = 1
+                },
+                new Book
+                {
+                    Domains = new List<Domain>
+                    {
+                        domains.ElementAt(0)
+                    },
+                    Id = 2
+                }
+            }.AsQueryable();
+
+            var bookPublishers = new List<BookPublisher>
+            {
+                new BookPublisher
+                {
+                    Id = 1,
+                    Book = books.ElementAt(0),
+                    BookId = 2
+                },
+                new BookPublisher()
+                {
+                    Id = 2,
+                    Book = books.ElementAt(1),
+                    BookId = 2
+                }
+            }.AsQueryable();
+
+            var data = new List<ReaderBook>
+            {
+                new ReaderBook
+                {
+                    Id = 1,
+                    ReaderId = 1,
+                    BookPublisherId = 1,
+                    DueDate = new DateTime(2021, 1, 11),
+                    ExtensionDays = 0,
+                    LoanDate = new DateTime(2020, 12, 30),
+                }
+            }.AsQueryable();
+
+            var mockSetReaderBookMock = new Mock<DbSet<ReaderBook>>();
+            mockSetReaderBookMock.As<IQueryable<ReaderBook>>().Setup(m => m.Provider).Returns(data.Provider);
+            mockSetReaderBookMock.As<IQueryable<ReaderBook>>().Setup(m => m.Expression).Returns(data.Expression);
+            mockSetReaderBookMock.As<IQueryable<ReaderBook>>().Setup(m => m.ElementType).Returns(data.ElementType);
+            mockSetReaderBookMock.As<IQueryable<ReaderBook>>().Setup(m => m.GetEnumerator()).Returns(data.GetEnumerator());
+
+            var mockSetBookMock = new Mock<DbSet<Book>>();
+            mockSetBookMock.As<IQueryable<Book>>().Setup(m => m.Provider).Returns(books.Provider);
+            mockSetBookMock.As<IQueryable<Book>>().Setup(m => m.Expression).Returns(books.Expression);
+            mockSetBookMock.As<IQueryable<Book>>().Setup(m => m.ElementType).Returns(books.ElementType);
+            mockSetBookMock.As<IQueryable<Book>>().Setup(m => m.GetEnumerator()).Returns(books.GetEnumerator());
+
+            var mockSetBookPublisherMock = new Mock<DbSet<BookPublisher>>();
+            mockSetBookPublisherMock.As<IQueryable<BookPublisher>>().Setup(m => m.Provider).Returns(bookPublishers.Provider);
+            mockSetBookPublisherMock.As<IQueryable<BookPublisher>>().Setup(m => m.Expression).Returns(bookPublishers.Expression);
+            mockSetBookPublisherMock.As<IQueryable<BookPublisher>>().Setup(m => m.ElementType).Returns(bookPublishers.ElementType);
+            mockSetBookPublisherMock.As<IQueryable<BookPublisher>>().Setup(m => m.GetEnumerator()).Returns(bookPublishers.GetEnumerator());
+
+            var mockSetDomainMock = new Mock<DbSet<Domain>>();
+            mockSetDomainMock.As<IQueryable<Domain>>().Setup(m => m.Provider).Returns(domains.Provider);
+            mockSetDomainMock.As<IQueryable<Domain>>().Setup(m => m.Expression).Returns(domains.Expression);
+            mockSetDomainMock.As<IQueryable<Domain>>().Setup(m => m.ElementType).Returns(domains.ElementType);
+            mockSetDomainMock.As<IQueryable<Domain>>().Setup(m => m.GetEnumerator()).Returns(domains.GetEnumerator());
+
+            var mockContext = new Mock<LibraryContext>();
+            mockContext.Setup(x => x.Domains).Returns(mockSetDomainMock.Object);
+            mockContext.Setup(x => x.Books).Returns(mockSetBookMock.Object);
+            mockContext.Setup(x => x.BookPublisher).Returns(mockSetBookPublisherMock.Object);
+            mockContext.Setup(x => x.ReaderBooks).Returns(mockSetReaderBookMock.Object);
+
+            #endregion
+
+            _service = new ReaderBookService(mockContext.Object, false);
+            var result = _service.CheckMultipleBooksDomainMatch(bookPublishers.Select(x => x.Id).ToList());
+
+            Assert.IsTrue(result);
+        }
+
+        [TestMethod]
+        public void TestCheckMultipleBooksDomainMatchEmployeeLowerThanTrashold()
+        {
+            #region mock data
+
+            var domains = new List<Domain>
+            {
+                new Domain
+                {
+                    Id = 1,
+                    Name = "One",
+                    ParentId = null,
+                    EntireDomainId = null
+                },
+                new Domain
+                {
+                    Id = 2,
+                    Name = "Two",
+                    ParentId = 1,
+                    EntireDomainId = null
+                }
+            }.AsQueryable();
+
+            var books = new List<Book>
+            {
+                new Book
+                {
+                    Domains = new List<Domain>
+                    {
+                        domains.ElementAt(0)
+                    },
+                    Id = 1
+                },
+                new Book
+                {
+                    Domains = new List<Domain>
+                    {
+                        domains.ElementAt(0)
+                    },
+                    Id = 2
+                }
+            }.AsQueryable();
+
+            var bookPublishers = new List<BookPublisher>
+            {
+                new BookPublisher
+                {
+                    Id = 1,
+                    Book = books.ElementAt(0),
+                    BookId = 2
+                },
+                new BookPublisher()
+                {
+                    Id = 2,
+                    Book = books.ElementAt(1),
+                    BookId = 2
+                }
+            }.AsQueryable();
+
+            var data = new List<ReaderBook>
+            {
+                new ReaderBook
+                {
+                    Id = 1,
+                    ReaderId = 1,
+                    BookPublisherId = 1,
+                    DueDate = new DateTime(2021, 1, 11),
+                    ExtensionDays = 0,
+                    LoanDate = new DateTime(2020, 12, 30),
+                }
+            }.AsQueryable();
+
+            var mockSetReaderBookMock = new Mock<DbSet<ReaderBook>>();
+            mockSetReaderBookMock.As<IQueryable<ReaderBook>>().Setup(m => m.Provider).Returns(data.Provider);
+            mockSetReaderBookMock.As<IQueryable<ReaderBook>>().Setup(m => m.Expression).Returns(data.Expression);
+            mockSetReaderBookMock.As<IQueryable<ReaderBook>>().Setup(m => m.ElementType).Returns(data.ElementType);
+            mockSetReaderBookMock.As<IQueryable<ReaderBook>>().Setup(m => m.GetEnumerator()).Returns(data.GetEnumerator());
+
+            var mockSetBookMock = new Mock<DbSet<Book>>();
+            mockSetBookMock.As<IQueryable<Book>>().Setup(m => m.Provider).Returns(books.Provider);
+            mockSetBookMock.As<IQueryable<Book>>().Setup(m => m.Expression).Returns(books.Expression);
+            mockSetBookMock.As<IQueryable<Book>>().Setup(m => m.ElementType).Returns(books.ElementType);
+            mockSetBookMock.As<IQueryable<Book>>().Setup(m => m.GetEnumerator()).Returns(books.GetEnumerator());
+
+            var mockSetBookPublisherMock = new Mock<DbSet<BookPublisher>>();
+            mockSetBookPublisherMock.As<IQueryable<BookPublisher>>().Setup(m => m.Provider).Returns(bookPublishers.Provider);
+            mockSetBookPublisherMock.As<IQueryable<BookPublisher>>().Setup(m => m.Expression).Returns(bookPublishers.Expression);
+            mockSetBookPublisherMock.As<IQueryable<BookPublisher>>().Setup(m => m.ElementType).Returns(bookPublishers.ElementType);
+            mockSetBookPublisherMock.As<IQueryable<BookPublisher>>().Setup(m => m.GetEnumerator()).Returns(bookPublishers.GetEnumerator());
+
+            var mockSetDomainMock = new Mock<DbSet<Domain>>();
+            mockSetDomainMock.As<IQueryable<Domain>>().Setup(m => m.Provider).Returns(domains.Provider);
+            mockSetDomainMock.As<IQueryable<Domain>>().Setup(m => m.Expression).Returns(domains.Expression);
+            mockSetDomainMock.As<IQueryable<Domain>>().Setup(m => m.ElementType).Returns(domains.ElementType);
+            mockSetDomainMock.As<IQueryable<Domain>>().Setup(m => m.GetEnumerator()).Returns(domains.GetEnumerator());
+
+            var mockContext = new Mock<LibraryContext>();
+            mockContext.Setup(x => x.Domains).Returns(mockSetDomainMock.Object);
+            mockContext.Setup(x => x.Books).Returns(mockSetBookMock.Object);
+            mockContext.Setup(x => x.BookPublisher).Returns(mockSetBookPublisherMock.Object);
+            mockContext.Setup(x => x.ReaderBooks).Returns(mockSetReaderBookMock.Object);
+
+            #endregion
+
+            _service = new ReaderBookService(mockContext.Object, true);
+            var result = _service.CheckMultipleBooksDomainMatch(bookPublishers.Select(x => x.Id).ToList());
+
+            Assert.IsTrue(result);
+        }
+
+        [TestMethod]
+        public void TestCheckMultipleBooksDomainMatchReaderFailsConstraintForDomain()
+        {
+            #region mock data
+
+            var domains = new List<Domain>
+            {
+                new Domain
+                {
+                    Id = 1,
+                    Name = "One",
+                    ParentId = null,
+                    EntireDomainId = null
+                },
+                new Domain
+                {
+                    Id = 2,
+                    Name = "Two",
+                    ParentId = 1,
+                    EntireDomainId = null
+                }
+            }.AsQueryable();
+
+            var books = new List<Book>
+            {
+                new Book
+                {
+                    Domains = new List<Domain>
+                    {
+                        domains.ElementAt(0)
+                    },
+                    Id = 1
+                },
+                new Book
+                {
+                    Domains = new List<Domain>
+                    {
+                        domains.ElementAt(0)
+                    },
+                    Id = 2
+                }
+            }.AsQueryable();
+
+            var bookPublishers = new List<BookPublisher>
+            {
+                new BookPublisher
+                {
+                    Id = 1,
+                    Book = books.ElementAt(0),
+                    BookId = 2
+                },
+                new BookPublisher()
+                {
+                    Id = 2,
+                    Book = books.ElementAt(1),
+                    BookId = 2
+                },
+                new BookPublisher()
+                {
+                    Id = 3,
+                    Book = books.ElementAt(1),
+                    BookId = 2
+                }
+            }.AsQueryable();
+
+            var mockSetBookMock = new Mock<DbSet<Book>>();
+            mockSetBookMock.As<IQueryable<Book>>().Setup(m => m.Provider).Returns(books.Provider);
+            mockSetBookMock.As<IQueryable<Book>>().Setup(m => m.Expression).Returns(books.Expression);
+            mockSetBookMock.As<IQueryable<Book>>().Setup(m => m.ElementType).Returns(books.ElementType);
+            mockSetBookMock.As<IQueryable<Book>>().Setup(m => m.GetEnumerator()).Returns(books.GetEnumerator());
+
+            var mockSetBookPublisherMock = new Mock<DbSet<BookPublisher>>();
+            mockSetBookPublisherMock.As<IQueryable<BookPublisher>>().Setup(m => m.Provider).Returns(bookPublishers.Provider);
+            mockSetBookPublisherMock.As<IQueryable<BookPublisher>>().Setup(m => m.Expression).Returns(bookPublishers.Expression);
+            mockSetBookPublisherMock.As<IQueryable<BookPublisher>>().Setup(m => m.ElementType).Returns(bookPublishers.ElementType);
+            mockSetBookPublisherMock.As<IQueryable<BookPublisher>>().Setup(m => m.GetEnumerator()).Returns(bookPublishers.GetEnumerator());
+
+            var mockSetDomainMock = new Mock<DbSet<Domain>>();
+            mockSetDomainMock.As<IQueryable<Domain>>().Setup(m => m.Provider).Returns(domains.Provider);
+            mockSetDomainMock.As<IQueryable<Domain>>().Setup(m => m.Expression).Returns(domains.Expression);
+            mockSetDomainMock.As<IQueryable<Domain>>().Setup(m => m.ElementType).Returns(domains.ElementType);
+            mockSetDomainMock.As<IQueryable<Domain>>().Setup(m => m.GetEnumerator()).Returns(domains.GetEnumerator());
+
+            var mockContext = new Mock<LibraryContext>();
+            mockContext.Setup(x => x.Domains).Returns(mockSetDomainMock.Object);
+            mockContext.Setup(x => x.Books).Returns(mockSetBookMock.Object);
+            mockContext.Setup(x => x.BookPublisher).Returns(mockSetBookPublisherMock.Object);
+
+            #endregion
+
+            _service = new ReaderBookService(mockContext.Object, false);
+            var result = _service.CheckMultipleBooksDomainMatch(bookPublishers.Select(x => x.Id).ToList());
+
+            Assert.IsFalse(result);
+        }
+
+        [TestMethod]
+        public void TestCheckMultipleBooksDomainMatchEmployeeFailsConstraintForDomain()
+        {
+            #region mock data
+
+            var domains = new List<Domain>
+            {
+                new Domain
+                {
+                    Id = 1,
+                    Name = "One",
+                    ParentId = null,
+                    EntireDomainId = null
+                },
+                new Domain
+                {
+                    Id = 2,
+                    Name = "Two",
+                    ParentId = 1,
+                    EntireDomainId = null
+                }
+            }.AsQueryable();
+
+            var books = new List<Book>
+            {
+                new Book
+                {
+                    Domains = new List<Domain>
+                    {
+                        domains.ElementAt(0)
+                    },
+                    Id = 1
+                },
+                new Book
+                {
+                    Domains = new List<Domain>
+                    {
+                        domains.ElementAt(0)
+                    },
+                    Id = 2
+                }
+            }.AsQueryable();
+
+            var bookPublishers = new List<BookPublisher>
+            {
+                new BookPublisher
+                {
+                    Id = 1,
+                    Book = books.ElementAt(0),
+                    BookId = 2
+                },
+                new BookPublisher()
+                {
+                    Id = 2,
+                    Book = books.ElementAt(1),
+                    BookId = 2
+                },
+                new BookPublisher()
+                {
+                    Id = 3,
+                    Book = books.ElementAt(1),
+                    BookId = 2
+                }
+            }.AsQueryable();
+
+            var mockSetBookMock = new Mock<DbSet<Book>>();
+            mockSetBookMock.As<IQueryable<Book>>().Setup(m => m.Provider).Returns(books.Provider);
+            mockSetBookMock.As<IQueryable<Book>>().Setup(m => m.Expression).Returns(books.Expression);
+            mockSetBookMock.As<IQueryable<Book>>().Setup(m => m.ElementType).Returns(books.ElementType);
+            mockSetBookMock.As<IQueryable<Book>>().Setup(m => m.GetEnumerator()).Returns(books.GetEnumerator());
+
+            var mockSetBookPublisherMock = new Mock<DbSet<BookPublisher>>();
+            mockSetBookPublisherMock.As<IQueryable<BookPublisher>>().Setup(m => m.Provider).Returns(bookPublishers.Provider);
+            mockSetBookPublisherMock.As<IQueryable<BookPublisher>>().Setup(m => m.Expression).Returns(bookPublishers.Expression);
+            mockSetBookPublisherMock.As<IQueryable<BookPublisher>>().Setup(m => m.ElementType).Returns(bookPublishers.ElementType);
+            mockSetBookPublisherMock.As<IQueryable<BookPublisher>>().Setup(m => m.GetEnumerator()).Returns(bookPublishers.GetEnumerator());
+
+            var mockSetDomainMock = new Mock<DbSet<Domain>>();
+            mockSetDomainMock.As<IQueryable<Domain>>().Setup(m => m.Provider).Returns(domains.Provider);
+            mockSetDomainMock.As<IQueryable<Domain>>().Setup(m => m.Expression).Returns(domains.Expression);
+            mockSetDomainMock.As<IQueryable<Domain>>().Setup(m => m.ElementType).Returns(domains.ElementType);
+            mockSetDomainMock.As<IQueryable<Domain>>().Setup(m => m.GetEnumerator()).Returns(domains.GetEnumerator());
+
+            var mockContext = new Mock<LibraryContext>();
+            mockContext.Setup(x => x.Domains).Returns(mockSetDomainMock.Object);
+            mockContext.Setup(x => x.Books).Returns(mockSetBookMock.Object);
+            mockContext.Setup(x => x.BookPublisher).Returns(mockSetBookPublisherMock.Object);
+
+            #endregion
+
+            _service = new ReaderBookService(mockContext.Object, true);
+            var result = _service.CheckMultipleBooksDomainMatch(bookPublishers.Select(x => x.Id).ToList());
+
+            Assert.IsFalse(result);
+        }
+
+        [TestMethod]
+        public void TestCheckMultipleBooksDomainMatchReaderSuccess()
+        {
+            #region mock data
+
+            var domains = new List<Domain>
+            {
+                new Domain
+                {
+                    Id = 1,
+                    Name = "One",
+                    ParentId = null,
+                    EntireDomainId = null
+                },
+                new Domain
+                {
+                    Id = 2,
+                    Name = "Two",
+                    ParentId = 1,
+                    EntireDomainId = null
+                }
+            }.AsQueryable();
+
+            var books = new List<Book>
+            {
+                new Book
+                {
+                    Domains = new List<Domain>
+                    {
+                        domains.ElementAt(0)
+                    },
+                    Id = 1
+                },
+                new Book
+                {
+                    Domains = new List<Domain>
+                    {
+                        domains.ElementAt(1)
+                    },
+                    Id = 2
+                }
+            }.AsQueryable();
+
+            var bookPublishers = new List<BookPublisher>
+            {
+                new BookPublisher
+                {
+                    Id = 1,
+                    Book = books.ElementAt(0),
+                    BookId = 1
+                },
+                new BookPublisher()
+                {
+                    Id = 2,
+                    Book = books.ElementAt(1),
+                    BookId = 2
+                },
+                new BookPublisher()
+                {
+                    Id = 3,
+                    Book = books.ElementAt(1),
+                    BookId = 2
+                }
+            }.AsQueryable();
+
+            var mockSetBookMock = new Mock<DbSet<Book>>();
+            mockSetBookMock.As<IQueryable<Book>>().Setup(m => m.Provider).Returns(books.Provider);
+            mockSetBookMock.As<IQueryable<Book>>().Setup(m => m.Expression).Returns(books.Expression);
+            mockSetBookMock.As<IQueryable<Book>>().Setup(m => m.ElementType).Returns(books.ElementType);
+            mockSetBookMock.As<IQueryable<Book>>().Setup(m => m.GetEnumerator()).Returns(books.GetEnumerator());
+
+            var mockSetBookPublisherMock = new Mock<DbSet<BookPublisher>>();
+            mockSetBookPublisherMock.As<IQueryable<BookPublisher>>().Setup(m => m.Provider).Returns(bookPublishers.Provider);
+            mockSetBookPublisherMock.As<IQueryable<BookPublisher>>().Setup(m => m.Expression).Returns(bookPublishers.Expression);
+            mockSetBookPublisherMock.As<IQueryable<BookPublisher>>().Setup(m => m.ElementType).Returns(bookPublishers.ElementType);
+            mockSetBookPublisherMock.As<IQueryable<BookPublisher>>().Setup(m => m.GetEnumerator()).Returns(bookPublishers.GetEnumerator());
+
+            var mockSetDomainMock = new Mock<DbSet<Domain>>();
+            mockSetDomainMock.As<IQueryable<Domain>>().Setup(m => m.Provider).Returns(domains.Provider);
+            mockSetDomainMock.As<IQueryable<Domain>>().Setup(m => m.Expression).Returns(domains.Expression);
+            mockSetDomainMock.As<IQueryable<Domain>>().Setup(m => m.ElementType).Returns(domains.ElementType);
+            mockSetDomainMock.As<IQueryable<Domain>>().Setup(m => m.GetEnumerator()).Returns(domains.GetEnumerator());
+
+            var mockContext = new Mock<LibraryContext>();
+            mockContext.Setup(x => x.Domains).Returns(mockSetDomainMock.Object);
+            mockContext.Setup(x => x.Books).Returns(mockSetBookMock.Object);
+            mockContext.Setup(x => x.BookPublisher).Returns(mockSetBookPublisherMock.Object);
+
+            #endregion
+
+            _service = new ReaderBookService(mockContext.Object, false);
+            var result = _service.CheckMultipleBooksDomainMatch(bookPublishers.Select(x => x.Id).ToList());
+
+            Assert.IsTrue(result);
+        }
+
+        [TestMethod]
+        public void TestCheckMultipleBooksDomainMatchEmployeeSuccess()
+        {
+            #region mock data
+
+            var domains = new List<Domain>
+            {
+                new Domain
+                {
+                    Id = 1,
+                    Name = "One",
+                    ParentId = null,
+                    EntireDomainId = null
+                },
+                new Domain
+                {
+                    Id = 2,
+                    Name = "Two",
+                    ParentId = 1,
+                    EntireDomainId = null
+                }
+            }.AsQueryable();
+
+            var books = new List<Book>
+            {
+                new Book
+                {
+                    Domains = new List<Domain>
+                    {
+                        domains.ElementAt(0)
+                    },
+                    Id = 1
+                },
+                new Book
+                {
+                    Domains = new List<Domain>
+                    {
+                        domains.ElementAt(1)
+                    },
+                    Id = 2
+                }
+            }.AsQueryable();
+
+            var bookPublishers = new List<BookPublisher>
+            {
+                new BookPublisher
+                {
+                    Id = 1,
+                    Book = books.ElementAt(0),
+                    BookId = 1
+                },
+                new BookPublisher()
+                {
+                    Id = 2,
+                    Book = books.ElementAt(1),
+                    BookId = 2
+                },
+                new BookPublisher()
+                {
+                    Id = 3,
+                    Book = books.ElementAt(1),
+                    BookId = 2
+                }
+            }.AsQueryable();
+
+            var mockSetBookMock = new Mock<DbSet<Book>>();
+            mockSetBookMock.As<IQueryable<Book>>().Setup(m => m.Provider).Returns(books.Provider);
+            mockSetBookMock.As<IQueryable<Book>>().Setup(m => m.Expression).Returns(books.Expression);
+            mockSetBookMock.As<IQueryable<Book>>().Setup(m => m.ElementType).Returns(books.ElementType);
+            mockSetBookMock.As<IQueryable<Book>>().Setup(m => m.GetEnumerator()).Returns(books.GetEnumerator());
+
+            var mockSetBookPublisherMock = new Mock<DbSet<BookPublisher>>();
+            mockSetBookPublisherMock.As<IQueryable<BookPublisher>>().Setup(m => m.Provider).Returns(bookPublishers.Provider);
+            mockSetBookPublisherMock.As<IQueryable<BookPublisher>>().Setup(m => m.Expression).Returns(bookPublishers.Expression);
+            mockSetBookPublisherMock.As<IQueryable<BookPublisher>>().Setup(m => m.ElementType).Returns(bookPublishers.ElementType);
+            mockSetBookPublisherMock.As<IQueryable<BookPublisher>>().Setup(m => m.GetEnumerator()).Returns(bookPublishers.GetEnumerator());
+
+            var mockSetDomainMock = new Mock<DbSet<Domain>>();
+            mockSetDomainMock.As<IQueryable<Domain>>().Setup(m => m.Provider).Returns(domains.Provider);
+            mockSetDomainMock.As<IQueryable<Domain>>().Setup(m => m.Expression).Returns(domains.Expression);
+            mockSetDomainMock.As<IQueryable<Domain>>().Setup(m => m.ElementType).Returns(domains.ElementType);
+            mockSetDomainMock.As<IQueryable<Domain>>().Setup(m => m.GetEnumerator()).Returns(domains.GetEnumerator());
+
+            var mockContext = new Mock<LibraryContext>();
+            mockContext.Setup(x => x.Domains).Returns(mockSetDomainMock.Object);
+            mockContext.Setup(x => x.Books).Returns(mockSetBookMock.Object);
+            mockContext.Setup(x => x.BookPublisher).Returns(mockSetBookPublisherMock.Object);
+
+            #endregion
+
+            _service = new ReaderBookService(mockContext.Object, true);
+            var result = _service.CheckMultipleBooksDomainMatch(bookPublishers.Select(x => x.Id).ToList());
+
+            Assert.IsTrue(result);
+        }
+
+        [TestMethod]
+        public void TestCheckMultipleBooksDomainMatchFailsNullParam()
+        {
+            var mockSet = new Mock<DbSet<ReaderBook>>();
+
+            var mockContext = new Mock<LibraryContext>();
+            mockContext.Setup(x => x.ReaderBooks).Returns(mockSet.Object);
+
+            _service = new ReaderBookService(mockContext.Object);
+            Assert.ThrowsException<LibraryArgumentException>(() => _service.CheckMultipleBooksDomainMatch(null));
+        }
+
+        [TestMethod]
+        public void TestCheckMultipleBooksDomainMatchFailsWrongParam()
+        {
+            var wrongParameter = new List<int>();
+
+            var mockSet = new Mock<DbSet<ReaderBook>>();
+
+            var mockContext = new Mock<LibraryContext>();
+            mockContext.Setup(x => x.ReaderBooks).Returns(mockSet.Object);
+
+            _service = new ReaderBookService(mockContext.Object);
+            Assert.ThrowsException<LibraryArgumentException>(() => _service.CheckMultipleBooksDomainMatch(wrongParameter));
+        }
     }
 }

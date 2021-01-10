@@ -157,5 +157,27 @@ namespace LibraryAdministration.DataAccessLayer
 
             return loan;
         }
+
+        public bool CheckMultipleBooksDomainMatch(List<int> bookPublisherIds)
+        {
+            if (bookPublisherIds.Count <= Details.C)
+            {
+                return true;
+            }
+
+            var list = bookPublisherIds
+                .Select(id => _context.BookPublisher.FirstOrDefault(x => x.Id == id) ?? throw new ObjectNotFoundException()).ToList();
+
+            var books = list.Select(id => _context.Books.FirstOrDefault(x => x.Id == id.BookId)).Distinct().ToList();
+
+            var domainIds = new HashSet<int>();
+
+            foreach (var domain in books.SelectMany(book => book.Domains))
+            {
+                domainIds.Add(domain.Id);
+            }
+
+            return domainIds.Count >= 2;
+        }
     }
 }

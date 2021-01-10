@@ -22,5 +22,7 @@ namespace LibraryAdministration.Interfaces.DataAccess
         bool CheckLoanExtension(int id, int days);
 
         ReaderBook ExtendLoan(int id, int days);
+
+        bool CheckMultipleBooksDomainMatch(List<int> bookPublisherIds);
     }
 }

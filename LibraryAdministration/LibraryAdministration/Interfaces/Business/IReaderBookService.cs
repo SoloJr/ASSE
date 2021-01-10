@@ -25,5 +25,7 @@ namespace LibraryAdministration.Interfaces.Business
         ReaderBook ExtendLoan(int id, int days);
 
         RentDetails GetRentDetails();
+
+        bool CheckMultipleBooksDomainMatch(List<int> bookPublisherIds);
     }
 }
