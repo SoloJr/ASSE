@@ -46,7 +46,8 @@ namespace LibraryAdministrationTest.DomainModelTests
                 DueDate = DateTime.Now.AddDays(14),
                 BookPublisherId = book.Id,
                 ReaderId = reader.Id,
-                Id = 1
+                Id = 1,
+                ExtensionDays = 0
             };
 
             var result = _readerBookValidator.Validate(readerBook);
@@ -92,7 +93,8 @@ namespace LibraryAdministrationTest.DomainModelTests
                 ReaderId = reader.Id,
                 Id = 1,
                 BookPublisher = book,
-                Reader = reader
+                Reader = reader,
+                ExtensionDays = 0
             };
 
             var result = _readerBookValidator.Validate(readerBook);
@@ -131,6 +133,7 @@ namespace LibraryAdministrationTest.DomainModelTests
             var readerBook = new ReaderBook
             {
                 LoanDate = DateTime.Now,
+                DueDate = DateTime.Now.AddDays(14),
                 BookPublisherId = book.Id,
                 ReaderId = reader.Id,
                 Id = 1
@@ -286,9 +289,10 @@ namespace LibraryAdministrationTest.DomainModelTests
 
             var readerBook = new ReaderBook
             {
-                DueDate = DateTime.Now,
-                LoanDate = DateTime.Now.AddDays(14),
+                DueDate = DateTime.Now.AddDays(14),
+                LoanDate = DateTime.Now,
                 BookPublisherId = int.MinValue,
+                ExtensionDays = 0,
                 ReaderId = 1,
                 Id = 1
             };
@@ -298,6 +302,88 @@ namespace LibraryAdministrationTest.DomainModelTests
             Assert.IsNotNull(result);
             Assert.IsTrue(result.IsValid);
             Assert.IsTrue(result.Errors.Count == 0);
+        }
+
+        [TestMethod]
+        public void TestCreateReaderBookFailsDueDateNotFourteenDays()
+        {
+            var reader = new Reader
+            {
+                Info = new PersonalInfo
+                {
+                    PhoneNumber = "0731233233",
+                    Email = "mircea.solo1995@gmail.com"
+                },
+                Address = "0",
+                FirstName = "Mircea",
+                LastName = "Solovastru",
+                Id = 1
+            };
+
+            var book = new Book
+            {
+                Name = "Arta Subtila a Nepasarii",
+                Language = "Romana",
+                Year = 2017,
+                Id = 1
+            };
+
+            var readerBook = new ReaderBook
+            {
+                LoanDate = DateTime.Now,
+                DueDate = DateTime.Now.AddDays(4),
+                ExtensionDays = 0,
+                BookPublisherId = book.Id,
+                ReaderId = reader.Id,
+                Id = 1
+            };
+
+            var result = _readerBookValidator.Validate(readerBook);
+
+            Assert.IsNotNull(result);
+            Assert.IsFalse(result.IsValid);
+            Assert.IsFalse(result.Errors.Count == 0);
+        }
+
+        [TestMethod]
+        public void TestCreateReaderBookFailsExtensionDaysNotZero()
+        {
+            var reader = new Reader
+            {
+                Info = new PersonalInfo
+                {
+                    PhoneNumber = "0731233233",
+                    Email = "mircea.solo1995@gmail.com"
+                },
+                Address = "0",
+                FirstName = "Mircea",
+                LastName = "Solovastru",
+                Id = 1
+            };
+
+            var book = new Book
+            {
+                Name = "Arta Subtila a Nepasarii",
+                Language = "Romana",
+                Year = 2017,
+                Id = 1
+            };
+
+            var readerBook = new ReaderBook
+            {
+                LoanDate = DateTime.Now,
+                DueDate = DateTime.Now.AddDays(14),
+                ExtensionDays = 120,
+                BookPublisherId = book.Id,
+                ReaderId = reader.Id,
+                Id = 1
+            };
+
+            var result = _readerBookValidator.Validate(readerBook);
+
+            Assert.IsNotNull(result);
+            Assert.IsFalse(result.IsValid);
+            Assert.IsFalse(result.Errors.Count == 0);
         }
     }
 }
