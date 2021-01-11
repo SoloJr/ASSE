@@ -6,6 +6,7 @@
 
 namespace LibraryAdministration.Interfaces.DataAccess
 {
+    using System;
     using System.Collections.Generic;
     using DomainModel;
 
@@ -74,5 +75,14 @@ namespace LibraryAdministration.Interfaces.DataAccess
         /// <param name="bookPublisherIds">The book publisher ids.</param>
         /// <returns>boolean value</returns>
         bool CheckMultipleBooksDomainMatch(List<int> bookPublisherIds);
+
+        /// <summary>
+        /// Gets all books rented in between dates.
+        /// </summary>
+        /// <param name="readerId">The reader identifier.</param>
+        /// <param name="start">The start.</param>
+        /// <param name="end">The end.</param>
+        /// <returns>books rented</returns>
+        List<BookPublisher> GetAllBooksRentedInBetweenDates(int readerId, DateTime start, DateTime end);
     }
 }

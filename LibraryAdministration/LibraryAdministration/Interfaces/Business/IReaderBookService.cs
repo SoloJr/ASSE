@@ -6,6 +6,7 @@
 
 namespace LibraryAdministration.Interfaces.Business
 {
+    using System;
     using System.Collections.Generic;
     using DomainModel;
     using Helper;
@@ -13,7 +14,7 @@ namespace LibraryAdministration.Interfaces.Business
     /// <summary>
     /// IReaderBookService interface
     /// </summary>
-    /// <seealso cref="LibraryAdministration.Interfaces.Business.IService{LibraryAdministration.DomainModel.ReaderBook}" />
+    /// <seealso cref="ReaderBook" />
     public interface IReaderBookService : IService<ReaderBook>
     {
         /// <summary>
@@ -81,5 +82,14 @@ namespace LibraryAdministration.Interfaces.Business
         /// <param name="bookPublisherIds">The book publisher ids.</param>
         /// <returns>the boolean value</returns>
         bool CheckMultipleBooksDomainMatch(List<int> bookPublisherIds);
+
+        /// <summary>
+        /// Gets all books rented in between dates.
+        /// </summary>
+        /// <param name="readerId">The reader identifier.</param>
+        /// <param name="start">The start.</param>
+        /// <param name="end">The end.</param>
+        /// <returns>books rented</returns>
+        List<BookPublisher> GetAllBooksRentedInBetweenDates(int readerId, DateTime start, DateTime end);
     }
 }

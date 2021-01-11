@@ -59,15 +59,6 @@ namespace LibraryAdministrationTest.StartupTests
         }
 
         /// <summary>
-        /// Tests the injector get fails.
-        /// </summary>
-        [TestMethod]
-        public void TestInjectorGetFails()
-        {
-            Assert.ThrowsException<ArgumentNullException>(() => Injector.Kernel);
-        }
-
-        /// <summary>
         /// Tests the type injection service.
         /// </summary>
         [TestMethod]

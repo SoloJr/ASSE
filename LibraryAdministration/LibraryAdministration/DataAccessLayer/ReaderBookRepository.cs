@@ -197,6 +197,23 @@ namespace LibraryAdministration.DataAccessLayer
         }
 
         /// <summary>
+        /// Gets all books rented in between dates.
+        /// </summary>
+        /// <param name="readerId">The reader identifier.</param>
+        /// <param name="start">The start.</param>
+        /// <param name="end">The end.</param>
+        /// <returns>books rented</returns>
+        public List<BookPublisher> GetAllBooksRentedInBetweenDates(int readerId, DateTime start, DateTime end)
+        {
+            return Context.ReaderBooks.Where(x => 
+                x.ReaderId == readerId &&
+                x.LoanDate >= start &&
+                x.DueDate < end
+            ).Select(x => x.BookPublisher).ToList();
+        }
+
+
+        /// <summary>
         /// Initializes the rent details.
         /// </summary>
         /// <param name="isSameAccount">if set to <c>true</c> [is same account].</param>

@@ -216,5 +216,47 @@ namespace LibraryAdministration.BusinessLayer
             var repo = (ReaderBookRepository)Repository;
             return repo.Details;
         }
+
+        /// <summary>
+        /// Gets all books rented in between dates.
+        /// </summary>
+        /// <param name="readerId">The reader identifier.</param>
+        /// <param name="start">The start.</param>
+        /// <param name="end">The end.</param>
+        /// <returns>books rented</returns>
+        /// <exception cref="LibraryAdministration.Helper.LibraryArgumentException">
+        /// readerId
+        /// or
+        /// start
+        /// or
+        /// end
+        /// </exception>
+        /// <exception cref="ArgumentException">Start should be lower than end</exception>
+        public List<BookPublisher> GetAllBooksRentedInBetweenDates(int readerId, DateTime start, DateTime end)
+        {
+            var checkDateTime = new DateTime(2000, 1, 1);
+
+            if (readerId <= 0)
+            {
+                throw new LibraryArgumentException(nameof(readerId));
+            }
+
+            if (start <= checkDateTime)
+            {
+                throw new LibraryArgumentException(nameof(start));
+            }
+
+            if (end <= checkDateTime)
+            {
+                throw new LibraryArgumentException(nameof(end));
+            }
+
+            if (start > end)
+            {
+                throw new ArgumentException("Start should be lower than end");
+            }
+
+            return Repository.GetAllBooksRentedInBetweenDates(readerId, start, end);
+        }
     }
 }

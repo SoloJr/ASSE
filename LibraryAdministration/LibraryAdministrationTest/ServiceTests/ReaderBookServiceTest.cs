@@ -2396,5 +2396,323 @@ namespace LibraryAdministrationTest.ServiceTests
             this.service = new ReaderBookService(mockContext.Object);
             Assert.ThrowsException<LibraryArgumentException>(() => this.service.ExtendLoan(-1, 7));
         }
+
+        /// <summary>
+        /// Tests the get all books rented in between dates success.
+        /// </summary>
+        [TestMethod]
+        public void TestGetAllBooksRentedInBetweenDatesSuccess()
+        {
+            var start = new DateTime(2021, 1, 1);
+            var end = new DateTime(2021, 2, 1);
+            var bookPublisherData = new List<BookPublisher>
+            {
+                new BookPublisher
+                {
+                    Id = 1,
+                    BookId = 1,
+                    PublisherId = 1
+                },
+                new BookPublisher
+                {
+                    Id = 2,
+                    BookId = 1,
+                    PublisherId = 2
+                },
+                new BookPublisher
+                {
+                    Id = 3,
+                    BookId = 2,
+                    PublisherId = 2
+                }
+            }.AsQueryable();
+
+            var data = new List<ReaderBook>
+            {
+                new ReaderBook
+                {
+                    Id = 1,
+                    ReaderId = 1,
+                    BookPublisherId = 1,
+                    BookPublisher = bookPublisherData.ElementAt(0),
+                    DueDate = new DateTime(2021, 1, 11),
+                    ExtensionDays = 0,
+                    LoanDate = new DateTime(2021, 1, 5)
+                },
+                new ReaderBook
+                {
+                    Id = 1,
+                    ReaderId = 1,
+                    BookPublisherId = 1,
+                    BookPublisher = bookPublisherData.ElementAt(1),
+                    DueDate = new DateTime(2021, 1, 11),
+                    ExtensionDays = 0,
+                    LoanDate = new DateTime(2020, 1, 5)
+                },
+                new ReaderBook
+                {
+                    Id = 1,
+                    ReaderId = 1,
+                    BookPublisherId = 1,
+                    BookPublisher = bookPublisherData.ElementAt(1),
+                    DueDate = new DateTime(2021, 1, 11),
+                    ExtensionDays = 0,
+                    LoanDate = new DateTime(2021, 1, 9)
+                }
+            }.AsQueryable();
+
+            var mockSet = new Mock<DbSet<ReaderBook>>();
+            mockSet.As<IQueryable<ReaderBook>>().Setup(m => m.Provider).Returns(data.Provider);
+            mockSet.As<IQueryable<ReaderBook>>().Setup(m => m.Expression).Returns(data.Expression);
+            mockSet.As<IQueryable<ReaderBook>>().Setup(m => m.ElementType).Returns(data.ElementType);
+            mockSet.As<IQueryable<ReaderBook>>().Setup(m => m.GetEnumerator()).Returns(data.GetEnumerator());
+
+            var mockSetBookPublisher = new Mock<DbSet<BookPublisher>>();
+            mockSetBookPublisher.As<IQueryable<BookPublisher>>().Setup(m => m.Provider).Returns(bookPublisherData.Provider);
+            mockSetBookPublisher.As<IQueryable<BookPublisher>>().Setup(m => m.Expression).Returns(bookPublisherData.Expression);
+            mockSetBookPublisher.As<IQueryable<BookPublisher>>().Setup(m => m.ElementType).Returns(bookPublisherData.ElementType);
+            mockSetBookPublisher.As<IQueryable<BookPublisher>>().Setup(m => m.GetEnumerator()).Returns(bookPublisherData.GetEnumerator());
+
+            var mockContext = new Mock<LibraryContext>();
+            mockContext.Setup(x => x.ReaderBooks).Returns(mockSet.Object);
+            mockContext.Setup(x => x.Set<ReaderBook>()).Returns(mockSet.Object);
+            mockContext.Setup(x => x.BookPublisher).Returns(mockSetBookPublisher.Object);
+            mockContext.Setup(x => x.Set<BookPublisher>()).Returns(mockSetBookPublisher.Object);
+
+            this.service = new ReaderBookService(mockContext.Object, false);
+            var result = this.service.GetAllBooksRentedInBetweenDates(1, start, end);
+
+            Assert.IsNotNull(result);
+            Assert.IsTrue(result.Count == 2);
+        }
+
+        /// <summary>
+        /// Tests the get all books rented in between dates success no data.
+        /// </summary>
+        [TestMethod]
+        public void TestGetAllBooksRentedInBetweenDatesSuccessNoData()
+        {
+            var start = new DateTime(2021, 1, 25);
+            var end = new DateTime(2021, 2, 1);
+            var bookPublisherData = new List<BookPublisher>
+            {
+                new BookPublisher
+                {
+                    Id = 1,
+                    BookId = 1,
+                    PublisherId = 1
+                },
+                new BookPublisher
+                {
+                    Id = 2,
+                    BookId = 1,
+                    PublisherId = 2
+                },
+                new BookPublisher
+                {
+                    Id = 3,
+                    BookId = 2,
+                    PublisherId = 2
+                }
+            }.AsQueryable();
+
+            var data = new List<ReaderBook>
+            {
+                new ReaderBook
+                {
+                    Id = 1,
+                    ReaderId = 1,
+                    BookPublisherId = 1,
+                    BookPublisher = bookPublisherData.ElementAt(0),
+                    DueDate = new DateTime(2021, 1, 11),
+                    ExtensionDays = 0,
+                    LoanDate = new DateTime(2021, 1, 5)
+                },
+                new ReaderBook
+                {
+                    Id = 1,
+                    ReaderId = 1,
+                    BookPublisherId = 1,
+                    BookPublisher = bookPublisherData.ElementAt(1),
+                    DueDate = new DateTime(2021, 1, 11),
+                    ExtensionDays = 0,
+                    LoanDate = new DateTime(2020, 1, 5)
+                },
+                new ReaderBook
+                {
+                    Id = 1,
+                    ReaderId = 1,
+                    BookPublisherId = 1,
+                    BookPublisher = bookPublisherData.ElementAt(1),
+                    DueDate = new DateTime(2021, 1, 11),
+                    ExtensionDays = 0,
+                    LoanDate = new DateTime(2021, 1, 9)
+                }
+            }.AsQueryable();
+
+            var mockSet = new Mock<DbSet<ReaderBook>>();
+            mockSet.As<IQueryable<ReaderBook>>().Setup(m => m.Provider).Returns(data.Provider);
+            mockSet.As<IQueryable<ReaderBook>>().Setup(m => m.Expression).Returns(data.Expression);
+            mockSet.As<IQueryable<ReaderBook>>().Setup(m => m.ElementType).Returns(data.ElementType);
+            mockSet.As<IQueryable<ReaderBook>>().Setup(m => m.GetEnumerator()).Returns(data.GetEnumerator());
+
+            var mockSetBookPublisher = new Mock<DbSet<BookPublisher>>();
+            mockSetBookPublisher.As<IQueryable<BookPublisher>>().Setup(m => m.Provider).Returns(bookPublisherData.Provider);
+            mockSetBookPublisher.As<IQueryable<BookPublisher>>().Setup(m => m.Expression).Returns(bookPublisherData.Expression);
+            mockSetBookPublisher.As<IQueryable<BookPublisher>>().Setup(m => m.ElementType).Returns(bookPublisherData.ElementType);
+            mockSetBookPublisher.As<IQueryable<BookPublisher>>().Setup(m => m.GetEnumerator()).Returns(bookPublisherData.GetEnumerator());
+
+            var mockContext = new Mock<LibraryContext>();
+            mockContext.Setup(x => x.ReaderBooks).Returns(mockSet.Object);
+            mockContext.Setup(x => x.Set<ReaderBook>()).Returns(mockSet.Object);
+            mockContext.Setup(x => x.BookPublisher).Returns(mockSetBookPublisher.Object);
+            mockContext.Setup(x => x.Set<BookPublisher>()).Returns(mockSetBookPublisher.Object);
+
+            this.service = new ReaderBookService(mockContext.Object, false);
+            var result = this.service.GetAllBooksRentedInBetweenDates(1, start, end);
+
+            Assert.IsNotNull(result);
+            Assert.IsTrue(result.Count == 0);
+        }
+
+        /// <summary>
+        /// Tests the get all books rented in between dates fails wrong parameter date start.
+        /// </summary>
+        [TestMethod]
+        public void TestGetAllBooksRentedInBetweenDatesFailsWrongParamDateStart()
+        {
+            var start = DateTime.MinValue.AddDays(1);
+            var end = new DateTime(2021, 2, 1);
+
+            var data = new List<ReaderBook>
+            {
+                new ReaderBook
+                {
+                    Id = 1,
+                    ReaderId = 1,
+                    BookPublisherId = 1,
+                    DueDate = new DateTime(2021, 1, 11),
+                    ExtensionDays = 0,
+                    LoanDate = new DateTime(2020, 12, 30)
+                }
+            }.AsQueryable();
+
+            var mockSet = new Mock<DbSet<ReaderBook>>();
+            mockSet.As<IQueryable<ReaderBook>>().Setup(m => m.Provider).Returns(data.Provider);
+            mockSet.As<IQueryable<ReaderBook>>().Setup(m => m.Expression).Returns(data.Expression);
+            mockSet.As<IQueryable<ReaderBook>>().Setup(m => m.ElementType).Returns(data.ElementType);
+            mockSet.As<IQueryable<ReaderBook>>().Setup(m => m.GetEnumerator()).Returns(data.GetEnumerator());
+
+            var mockContext = new Mock<LibraryContext>();
+            mockContext.Setup(x => x.ReaderBooks).Returns(mockSet.Object);
+
+            this.service = new ReaderBookService(mockContext.Object, false);
+            Assert.ThrowsException<LibraryArgumentException>(() => this.service.GetAllBooksRentedInBetweenDates(data.ElementAt(0).ReaderId, start, end));
+        }
+
+        /// <summary>
+        /// Tests the get all books rented in between dates fails wrong parameter date end.
+        /// </summary>
+        [TestMethod]
+        public void TestGetAllBooksRentedInBetweenDatesFailsWrongParamDateEnd()
+        {
+            var start = new DateTime(2020, 2, 1);
+            var end = DateTime.MinValue.AddDays(1);
+
+            var data = new List<ReaderBook>
+            {
+                new ReaderBook
+                {
+                    Id = 1,
+                    ReaderId = 1,
+                    BookPublisherId = 1,
+                    DueDate = new DateTime(2021, 1, 11),
+                    ExtensionDays = 0,
+                    LoanDate = new DateTime(2020, 12, 30)
+                }
+            }.AsQueryable();
+
+            var mockSet = new Mock<DbSet<ReaderBook>>();
+            mockSet.As<IQueryable<ReaderBook>>().Setup(m => m.Provider).Returns(data.Provider);
+            mockSet.As<IQueryable<ReaderBook>>().Setup(m => m.Expression).Returns(data.Expression);
+            mockSet.As<IQueryable<ReaderBook>>().Setup(m => m.ElementType).Returns(data.ElementType);
+            mockSet.As<IQueryable<ReaderBook>>().Setup(m => m.GetEnumerator()).Returns(data.GetEnumerator());
+
+            var mockContext = new Mock<LibraryContext>();
+            mockContext.Setup(x => x.ReaderBooks).Returns(mockSet.Object);
+
+            this.service = new ReaderBookService(mockContext.Object, false);
+            Assert.ThrowsException<LibraryArgumentException>(() => this.service.GetAllBooksRentedInBetweenDates(data.ElementAt(0).ReaderId, start, end));
+        }
+
+        /// <summary>
+        /// Tests the get all books rented in between dates fails wrong parameter date start is greater.
+        /// </summary>
+        [TestMethod]
+        public void TestGetAllBooksRentedInBetweenDatesFailsWrongParamDateStartIsGreater()
+        {
+            var start = new DateTime(2020, 2, 1);
+            var end = new DateTime(2010, 2, 1);
+
+            var data = new List<ReaderBook>
+            {
+                new ReaderBook
+                {
+                    Id = 1,
+                    ReaderId = 1,
+                    BookPublisherId = 1,
+                    DueDate = new DateTime(2021, 1, 11),
+                    ExtensionDays = 0,
+                    LoanDate = new DateTime(2020, 12, 30)
+                }
+            }.AsQueryable();
+
+            var mockSet = new Mock<DbSet<ReaderBook>>();
+            mockSet.As<IQueryable<ReaderBook>>().Setup(m => m.Provider).Returns(data.Provider);
+            mockSet.As<IQueryable<ReaderBook>>().Setup(m => m.Expression).Returns(data.Expression);
+            mockSet.As<IQueryable<ReaderBook>>().Setup(m => m.ElementType).Returns(data.ElementType);
+            mockSet.As<IQueryable<ReaderBook>>().Setup(m => m.GetEnumerator()).Returns(data.GetEnumerator());
+
+            var mockContext = new Mock<LibraryContext>();
+            mockContext.Setup(x => x.ReaderBooks).Returns(mockSet.Object);
+
+            this.service = new ReaderBookService(mockContext.Object, false);
+            Assert.ThrowsException<ArgumentException>(() => this.service.GetAllBooksRentedInBetweenDates(data.ElementAt(0).ReaderId, start, end));
+        }
+
+        /// <summary>
+        /// Tests the get all books rented in between dates fails wrong parameter reader identifier.
+        /// </summary>
+        [TestMethod]
+        public void TestGetAllBooksRentedInBetweenDatesFailsWrongParamReaderId()
+        {
+            var start = new DateTime(2020, 2, 1);
+            var end = new DateTime(2021, 2, 1);
+
+            var data = new List<ReaderBook>
+            {
+                new ReaderBook
+                {
+                    Id = 1,
+                    ReaderId = 1,
+                    BookPublisherId = 1,
+                    DueDate = new DateTime(2021, 1, 11),
+                    ExtensionDays = 0,
+                    LoanDate = new DateTime(2020, 12, 30)
+                }
+            }.AsQueryable();
+
+            var mockSet = new Mock<DbSet<ReaderBook>>();
+            mockSet.As<IQueryable<ReaderBook>>().Setup(m => m.Provider).Returns(data.Provider);
+            mockSet.As<IQueryable<ReaderBook>>().Setup(m => m.Expression).Returns(data.Expression);
+            mockSet.As<IQueryable<ReaderBook>>().Setup(m => m.ElementType).Returns(data.ElementType);
+            mockSet.As<IQueryable<ReaderBook>>().Setup(m => m.GetEnumerator()).Returns(data.GetEnumerator());
+
+            var mockContext = new Mock<LibraryContext>();
+            mockContext.Setup(x => x.ReaderBooks).Returns(mockSet.Object);
+
+            this.service = new ReaderBookService(mockContext.Object, false);
+            Assert.ThrowsException<LibraryArgumentException>(() => this.service.GetAllBooksRentedInBetweenDates(-1, start, end));
+        }
     }
 }
