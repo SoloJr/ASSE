@@ -41,9 +41,11 @@ namespace LibraryAdministration.BusinessLayer
         {
             if (bookId <= 0)
             {
+                logger.Error($"{this.GetType()}: CheckBookDetailsForAvailability, param error: {bookId}");
                 throw new LibraryArgumentException(nameof(bookId));
             }
 
+            logger.Info($"{this.GetType()}: CheckBookDetailsForAvailability");
             return Repository.GetAllEditionsOfBook(bookId);
         }
 
@@ -57,9 +59,11 @@ namespace LibraryAdministration.BusinessLayer
         {
             if (bookPublisherId <= 0)
             {
+                logger.Error($"{this.GetType()}: CheckBookDetailsForAvailability, param error: {bookPublisherId}");
                 throw new LibraryArgumentException(nameof(bookPublisherId));
             }
 
+            logger.Info($"{this.GetType()}: CheckBookDetailsForAvailability");
             return Repository.CheckBookDetailsForAvailability(bookPublisherId);
         }
 
@@ -72,6 +76,7 @@ namespace LibraryAdministration.BusinessLayer
         /// </returns>
         public List<BookPublisher> GetBooksByType(BookType type)
         {
+            logger.Info($"{this.GetType()}: GetBooksByType");
             return Repository.GetBooksByType(type);
         }
     }

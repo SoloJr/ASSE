@@ -28,7 +28,7 @@ namespace LibraryAdministration.BusinessLayer
         /// <summary>
         /// The this.logger
         /// </summary>
-        private readonly ILogger logger;
+        protected readonly ILogger logger;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="BaseService{T, U}"/> class.

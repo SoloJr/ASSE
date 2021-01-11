@@ -41,6 +41,7 @@ namespace LibraryAdministration.BusinessLayer
         {
             if (domainId <= 0)
             {
+                logger.Error($"{this.GetType()}: GetAllParentDomains, param error: {domainId}");
                 throw new LibraryArgumentException(nameof(domainId));
             }
 
@@ -57,6 +58,7 @@ namespace LibraryAdministration.BusinessLayer
         {
             if (domains == null)
             {
+                logger.Error($"{this.GetType()}: CheckDomainConstraint, param error: {nameof(domains)}");
                 throw new LibraryArgumentException(nameof(domains));
             }
 

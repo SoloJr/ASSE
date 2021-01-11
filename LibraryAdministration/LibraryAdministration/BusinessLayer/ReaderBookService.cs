@@ -238,21 +238,25 @@ namespace LibraryAdministration.BusinessLayer
 
             if (readerId <= 0)
             {
+                logger.Error($"{this.GetType()}: GetAllBooksRentedInBetweenDates, param error: {readerId}");
                 throw new LibraryArgumentException(nameof(readerId));
             }
 
             if (start <= checkDateTime)
             {
+                logger.Error($"{this.GetType()}: GetAllBooksRentedInBetweenDates, param error: {start}");
                 throw new LibraryArgumentException(nameof(start));
             }
 
             if (end <= checkDateTime)
             {
+                logger.Error($"{this.GetType()}: GetAllBooksRentedInBetweenDates, param error: {end}");
                 throw new LibraryArgumentException(nameof(end));
             }
 
             if (start > end)
             {
+                logger.Error($"{this.GetType()}: CheckBookDetailsForAvailability, param error: {start}");
                 throw new ArgumentException("Start should be lower than end");
             }
 

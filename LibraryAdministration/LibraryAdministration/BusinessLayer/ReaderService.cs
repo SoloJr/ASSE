@@ -46,11 +46,13 @@ namespace LibraryAdministration.BusinessLayer
         {
             if (readerId <= 0)
             {
+                logger.Error($"{this.GetType()}: CheckEmployeeStatus, param error: {readerId}");
                 throw new LibraryArgumentException(nameof(readerId));
             }
 
             if (employeeId <= 0)
             {
+                logger.Error($"{this.GetType()}: CheckEmployeeStatus, param error: {employeeId}");
                 throw new LibraryArgumentException(nameof(employeeId));
             }
 

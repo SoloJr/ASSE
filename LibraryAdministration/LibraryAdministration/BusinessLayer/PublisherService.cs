@@ -41,6 +41,7 @@ namespace LibraryAdministration.BusinessLayer
         {
             if (bookId <= 0)
             {
+                logger.Error($"{this.GetType()}: GetAllBookPublishersOfABook, param error: {bookId}");
                 throw new LibraryArgumentException(nameof(bookId));
             }
 
