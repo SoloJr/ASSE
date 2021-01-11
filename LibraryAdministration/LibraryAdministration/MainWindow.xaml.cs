@@ -28,10 +28,6 @@ namespace LibraryAdministration
             var logger = loggerFactory.GetCurrentClassLogger();
             logger.Info("Entered in Main Window - new version - log4net with ninject");
 
-            var authorService = kernel.Get<IAuthorService>();
-
-            var result = authorService.GetAll();
-
             this.InitializeComponent();
         }
     }

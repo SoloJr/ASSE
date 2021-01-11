@@ -11,6 +11,9 @@ namespace LibraryAdministration.BusinessLayer
     using FluentValidation.Results;
     using Interfaces.Business;
     using Interfaces.DataAccess;
+    using Ninject;
+    using Ninject.Extensions.Logging;
+    using Startup;
 
     /// <summary>
     /// The base service
@@ -23,6 +26,11 @@ namespace LibraryAdministration.BusinessLayer
         where U : IRepository<T>
     {
         /// <summary>
+        /// The this.logger
+        /// </summary>
+        private readonly ILogger logger;
+
+        /// <summary>
         /// Initializes a new instance of the <see cref="BaseService{T, U}"/> class.
         /// </summary>
         /// <param name="repository">The repository.</param>
@@ -31,6 +39,8 @@ namespace LibraryAdministration.BusinessLayer
         {
             this.Repository = repository;
             this.Validator = validator;
+            var loggerFactory = Injector.Kernel.Get<ILoggerFactory>();
+            this.logger = loggerFactory.GetCurrentClassLogger();
         }
 
         /// <summary>
@@ -62,6 +72,7 @@ namespace LibraryAdministration.BusinessLayer
                 this.Repository.Insert(entity);
             }
 
+            this.logger.Info($"Service: Added an entity in database: {entity}");
             return result;
         }
 
@@ -78,6 +89,7 @@ namespace LibraryAdministration.BusinessLayer
                 this.Repository.Update(entity);
             }
 
+            this.logger.Info($"Service: Updated an entity in database: {entity}");
             return result;
         }
 
@@ -88,6 +100,7 @@ namespace LibraryAdministration.BusinessLayer
         public void Delete(T entity)
         {
             this.Repository.Delete(entity);
+            this.logger.Info($"Service: Updated an entity in database: {entity}");
         }
 
         /// <summary>
@@ -97,6 +110,7 @@ namespace LibraryAdministration.BusinessLayer
         /// <returns>The object</returns>
         public T GetById(object id)
         {
+            this.logger.Info($"Service: Got an entity by id: {id}");
             return this.Repository.GetById(id);
         }
 

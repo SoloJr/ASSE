@@ -212,7 +212,6 @@ namespace LibraryAdministration.DataAccessLayer
             ).Select(x => x.BookPublisher).ToList();
         }
 
-
         /// <summary>
         /// Initializes the rent details.
         /// </summary>

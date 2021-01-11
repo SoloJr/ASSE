@@ -11,6 +11,9 @@ namespace LibraryAdministration.DataAccessLayer
     using System.Linq;
     using DataMapper;
     using Interfaces.DataAccess;
+    using Ninject;
+    using Ninject.Extensions.Logging;
+    using Startup;
 
     /// <summary>
     /// BaseRepository class
@@ -21,12 +24,19 @@ namespace LibraryAdministration.DataAccessLayer
         where T : class
     {
         /// <summary>
+        /// The this.logger
+        /// </summary>
+        private readonly ILogger logger;
+
+        /// <summary>
         /// Initializes a new instance of the <see cref="BaseRepository{T}"/> class.
         /// </summary>
         /// <param name="context">The context.</param>
         protected BaseRepository(LibraryContext context)
         {
             this.Context = context;
+            var loggerFactory = Injector.Kernel.Get<ILoggerFactory>();
+            this.logger = loggerFactory.GetCurrentClassLogger();
         }
 
         /// <summary>
@@ -47,6 +57,8 @@ namespace LibraryAdministration.DataAccessLayer
             set.Add(entity);
 
             this.Context.SaveChanges();
+
+            this.logger.Info($"Repository: Added an entity in database: {entity}");
         }
 
         /// <summary>
@@ -60,6 +72,8 @@ namespace LibraryAdministration.DataAccessLayer
             this.Context.Entry(item).State = EntityState.Modified;
 
             this.Context.SaveChanges();
+
+            this.logger.Info($"Repository: Updated an entity in database: {item}");
         }
 
         /// <summary>
@@ -69,6 +83,7 @@ namespace LibraryAdministration.DataAccessLayer
         public virtual void Delete(object id)
         {
             this.Delete(this.GetById(id));
+            this.logger.Info($"Repository: Deleted an entity in database: {id}");
         }
 
         /// <summary>
@@ -87,6 +102,8 @@ namespace LibraryAdministration.DataAccessLayer
             set.Remove(entityToDelete);
 
             this.Context.SaveChanges();
+
+            this.logger.Info($"Repository: Deleted an entity in database: {entityToDelete}");
         }
 
         /// <summary>
@@ -98,6 +115,7 @@ namespace LibraryAdministration.DataAccessLayer
         /// </returns>
         public virtual T GetById(object id)
         {
+            this.logger.Info($"Repository: Got an entity by id from database: {id}");
             return this.Context.Set<T>().Find(id);
         }
 
