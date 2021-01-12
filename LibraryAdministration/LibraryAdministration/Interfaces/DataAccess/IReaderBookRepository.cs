@@ -42,8 +42,9 @@ namespace LibraryAdministration.Interfaces.DataAccess
         /// Checks the books rented today.
         /// </summary>
         /// <param name="readerId">The reader identifier.</param>
+        /// <param name="isEmployee">if set to <c>true</c> [is employee].</param>
         /// <returns>boolean value</returns>
-        bool CheckBooksRentedToday(int readerId);
+        bool CheckBooksRentedToday(int readerId, bool isEmployee = false);
 
         /// <summary>
         /// Checks the same book rented.

@@ -103,13 +103,21 @@ namespace LibraryAdministration.DataAccessLayer
         /// Checks the books rented today.
         /// </summary>
         /// <param name="readerId">The reader identifier.</param>
-        /// <returns>boolean value</returns>
-        public bool CheckBooksRentedToday(int readerId)
+        /// <param name="isEmployee">if set to <c>true</c> [is employee].</param>
+        /// <returns></returns>
+        public bool CheckBooksRentedToday(int readerId, bool isEmployee = false)
         {
             var date = DateTime.Today;
             var result = Context.ReaderBooks.Where(x => x.ReaderId == readerId && x.LoanDate >= date && x.LoanReturnDate == null).ToList();
 
-            return result.Count <= this.Details.NCZ;
+            if (isEmployee == true)
+            {
+                return result.Count <= this.Details.NCZ;
+            }
+            else
+            {
+                return result.Count <= this.Details.PERSIMP;
+            }
         }
 
         /// <summary>
